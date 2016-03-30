@@ -6,13 +6,39 @@ class Login extends CI_Controller {
 	/**
 	 * Setting Login
 	 */
+	function __construct(){
+		parent::__construct();
+	}
 	public function index()
 	{
 		$this->load->view('login');
 	}
 	
-	public function GetLogin()
+	public function auth()
 	{
-		redirect('dashboard');
+		$user = $this->input->post('username');
+		$pass = $this->input->post('password');
+
+		$query = $this->m_user->auth($user,$pass);
+
+		if(count($query) > 0){
+			$user = $this->m_user->get_user($query[0]->ID_KARYAWAN);
+			$session_data = array(
+				'id_karyawan' => $user[0]->ID_KARYAWAN,
+				'nama' => $user[0]->NAMA_KARYAWAN,
+				'password' => $user[0]->PASSWORD
+			);
+
+			$this->session->set_userdata($session_data);
+			redirect('dashboard');
+		}else{
+			$this->session->set_flashdata('pesan','Login gagal !');
+			redirect('login');
+		}
 	}
+
+	public function logout(){
+		$this->session->sess_destroy();
+		redirect('login');
+	}	
 }

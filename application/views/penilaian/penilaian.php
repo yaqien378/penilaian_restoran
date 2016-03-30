@@ -3,12 +3,8 @@
 		<div class="portlet box blue">
 			<div class="portlet-title">
 				<div class="caption">
-					<i class="fa fa-asterisk"></i>Data Kehadiran
+					<i class="fa fa-asterisk"></i>Penilaian
 				</div>
-				<!-- <div class="actions">
-					<a class="btn btn-default btn-sm" onClick="tambah()" data-toggle="modal" href="#modal" >
-					<i class="fa fa-plus"></i> Tambah Data </a>
-				</div> -->
 			</div>
 			<div class="portlet-body">
 				<?php 
@@ -21,7 +17,7 @@
 						";
 					}
 				?>
-				<form action="<?php echo base_url(); ?>master/kehadiran_act/simpan" method="post" class="form-horizontal">
+				<form action="<?php echo base_url(); ?>penilaian/penilaian_act/simpan" method="post" class="form-horizontal">
 				<br>
 				<div class="row">
 					<div class="col-md-6">
@@ -53,6 +49,44 @@
 				</div>
 				<div id="data-kehadiran">
 				
+				<br>
+				<table class='table table-striped table-bordered table-hover' id='sample_3'>
+					<thead>
+						<tr>
+							<th style='width:5%;text-align:center;' >
+								No.
+							</th>
+							<th style='width:25%;text-align:center;'>
+								 Nama Karyawan
+							</th>
+							<th style='width:15%;text-align:center;'>
+								 Proses Penilaian
+							</th>
+							<th style='width:15%;text-align:center;'>
+								 Nilai
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class='odd gradeX'>
+							<td style='text-align:center;'>
+								1
+							</td>
+							<td>
+								nama
+							</td>
+							<td style='text-align:center;'>
+								<div class='btn-group btn-group-sm btn-group-solid '>
+									<a href="<?php echo base_url(); ?>penilaian/proses_penilaian" class='btn green' id="beri">Beri Nilai</a>
+								</div>
+							</td>
+							<td style='text-align:center;'>
+								100
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
 				</div><!-- end #data-kehadiran -->
 				<br>
 				</form>

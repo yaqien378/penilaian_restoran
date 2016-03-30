@@ -3,7 +3,7 @@
 		<div class="portlet box blue">
 			<div class="portlet-title">
 				<div class="caption">
-					<i class="fa fa-asterisk"></i>Data Kriteria
+					<i class="fa fa-asterisk"></i>Data Outlet
 				</div>
 				<div class="actions">
 					<a class="btn btn-default btn-sm" onClick="tambah()" data-toggle="modal" href="#modal" >
@@ -24,17 +24,11 @@
 				<table class="table table-striped table-bordered table-hover" id="sample_3">
 				<thead>
 				<tr>
-					<th style="width:5%;text-align:center;" >
+					<th style="width:10%;text-align:center;" >
 						No.
 					</th>
-					<th style="width:25%;text-align:center;">
-						 Nama Kriteria
-					</th>
-					<th style="width:25%;text-align:center;">
-						 Nilai Range
-					</th>
-					<th style="width:20%;text-align:center;">
-						 Bobot
+					<th style="width:75%;text-align:center;">
+						 Nama Outlet
 					</th>
 					<th style="width:15%;text-align:center;">
 						 Action
@@ -44,24 +38,18 @@
 				<tbody>
 				<?php 
 				$no = 1;
-				foreach ($kriteria as $kriteria) : ?>
-				<tr class="odd gradeX" id="r<?php echo $kriteria->ID_KRITERIA; ?>">
+				foreach ($outlet as $outlet) : ?>
+				<tr class="odd gradeX" id="r<?php echo $outlet->ID_OUTLET; ?>">
 					<td style="text-align:center;">
 						<?php echo $no++; ?>
 					</td>
 					<td>
-						<?php echo ucfirst(strtolower($kriteria->NAMA_KRITERIA)); ?>
-					</td>
-					<td style="text-align:center;">
-						<?php echo ucfirst(strtolower($kriteria->NILAI_RANGE_KRITERIA)); ?>
-					</td>
-					<td style="text-align:center;">
-						<?php echo ucfirst(strtolower($kriteria->BOBOT)); ?>
+						<?php echo ucfirst(strtolower($outlet->NAMA_OUTLET)); ?>
 					</td>
 					<td style="text-align:center;"> 
 						<div class="btn-group btn-group-sm btn-group-solid ">
-							<a data-toggle="modal" href="#modal" class="btn blue" onclick="edit('<?php echo ucfirst(strtolower($kriteria->ID_KRITERIA)); ?>')"><i class="fa fa-pencil"></i></a>
-							<button type="button" class="btn red" onclick="hapus('<?php echo $kriteria->ID_KRITERIA; ?>')"><i class="fa fa-trash"></i></button>
+							<a data-toggle="modal" href="#modal" class="btn blue" onclick="edit('<?php echo ucfirst(strtolower($outlet->ID_OUTLET)); ?>')"><i class="fa fa-pencil"></i></a>
+							<button type="button" class="btn red" onclick="hapus('<?php echo $outlet->ID_OUTLET; ?>')"><i class="fa fa-trash"></i></button>
 						</div>
 					</td>
 				</tr>
@@ -88,7 +76,7 @@
 	function edit(id)
 	{	
 		$.ajax({
-			url:'<?php echo base_url(); ?>master/kriteria_act/edit',
+			url:'<?php echo base_url(); ?>master/outlet_act/edit',
 			type:'post',
 			data: {'id':id},
 			success:function(r){
@@ -102,7 +90,7 @@
 		 if (konfirmasi)
 		 {
 		 	$.ajax({
-		 		url: '<?php echo base_url(); ?>master/kriteria_act/hapus',
+		 		url: '<?php echo base_url(); ?>master/outlet_act/hapus',
 		 		type : 'post',
 		 		data : {'id':id},
 		 		success : function (){
@@ -113,7 +101,7 @@
 	}
 	function tambah(){
 		$.ajax({
-			url:'<?php echo base_url(); ?>master/kriteria_act/tambah',
+			url:'<?php echo base_url(); ?>master/outlet_act/tambah',
 			type:'post',
 			success:function(r){
 				$("#modal-form").html(r);

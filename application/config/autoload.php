@@ -60,7 +60,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
 
-$autoload['libraries'] = array();
+$autoload['libraries'] = array('session','database');
 
 
 /*
@@ -76,7 +76,7 @@ $autoload['libraries'] = array();
 |	$autoload['drivers'] = array('cache');
 */
 
-$autoload['drivers'] = array();
+$autoload['drivers'] = array('cache');
 
 
 /*
@@ -88,7 +88,8 @@ $autoload['drivers'] = array();
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url','file');
+$autoload['helper'] = array('url','file','array','html','download',
+	'date','directory','form','security','string');
 
 
 /*
@@ -137,4 +138,7 @@ $autoload['language'] = array();
 |	$autoload['model'] = array('first_model' => 'first');
 */
 
-$autoload['model'] = array();
+$autoload['model'] = array(
+	'm_user','m_security','m_karyawan','m_kehadiran','m_jabatan','m_outlet','m_periode',
+	'm_range_kriteria','m_kriteria','m_kategori_pelatihan','m_pelatihan'
+);

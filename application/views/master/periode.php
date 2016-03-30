@@ -3,7 +3,7 @@
 		<div class="portlet box blue">
 			<div class="portlet-title">
 				<div class="caption">
-					<i class="fa fa-asterisk"></i>Data Kriteria
+					<i class="fa fa-asterisk"></i>Data Periode Penilaian
 				</div>
 				<div class="actions">
 					<a class="btn btn-default btn-sm" onClick="tambah()" data-toggle="modal" href="#modal" >
@@ -27,14 +27,17 @@
 					<th style="width:5%;text-align:center;" >
 						No.
 					</th>
-					<th style="width:25%;text-align:center;">
-						 Nama Kriteria
+					<th style="width:20%;text-align:center;">
+						 Nama Periode
 					</th>
-					<th style="width:25%;text-align:center;">
-						 Nilai Range
+					<th style="width:15%;text-align:center;">
+						 Awal
+					</th>
+					<th style="width:15%;text-align:center;">
+						 Akhir
 					</th>
 					<th style="width:20%;text-align:center;">
-						 Bobot
+						 Keterangan
 					</th>
 					<th style="width:15%;text-align:center;">
 						 Action
@@ -44,24 +47,27 @@
 				<tbody>
 				<?php 
 				$no = 1;
-				foreach ($kriteria as $kriteria) : ?>
-				<tr class="odd gradeX" id="r<?php echo $kriteria->ID_KRITERIA; ?>">
+				foreach ($periode as $periode) : ?>
+				<tr class="odd gradeX" id="r<?php echo $periode->ID_PERIODE2; ?>">
 					<td style="text-align:center;">
 						<?php echo $no++; ?>
 					</td>
 					<td>
-						<?php echo ucfirst(strtolower($kriteria->NAMA_KRITERIA)); ?>
+						<?php echo ucfirst(strtolower($periode->NAMA_PERIODE)); ?>
 					</td>
-					<td style="text-align:center;">
-						<?php echo ucfirst(strtolower($kriteria->NILAI_RANGE_KRITERIA)); ?>
+					<td>
+						<?php echo ucfirst(strtolower($periode->AWAL)); ?>
 					</td>
-					<td style="text-align:center;">
-						<?php echo ucfirst(strtolower($kriteria->BOBOT)); ?>
+					<td>
+						<?php echo ucfirst(strtolower($periode->AKHIR)); ?>
+					</td>
+					<td>
+						<?php echo ucfirst(strtolower($periode->KETERANGAN)); ?>
 					</td>
 					<td style="text-align:center;"> 
 						<div class="btn-group btn-group-sm btn-group-solid ">
-							<a data-toggle="modal" href="#modal" class="btn blue" onclick="edit('<?php echo ucfirst(strtolower($kriteria->ID_KRITERIA)); ?>')"><i class="fa fa-pencil"></i></a>
-							<button type="button" class="btn red" onclick="hapus('<?php echo $kriteria->ID_KRITERIA; ?>')"><i class="fa fa-trash"></i></button>
+							<a data-toggle="modal" href="#modal" class="btn blue" onclick="edit('<?php echo ucfirst(strtolower($periode->ID_PERIODE2)); ?>')"><i class="fa fa-pencil"></i></a>
+							<button type="button" class="btn red" onclick="hapus('<?php echo $periode->ID_PERIODE2; ?>')"><i class="fa fa-trash"></i></button>
 						</div>
 					</td>
 				</tr>
@@ -88,7 +94,7 @@
 	function edit(id)
 	{	
 		$.ajax({
-			url:'<?php echo base_url(); ?>master/kriteria_act/edit',
+			url:'<?php echo base_url(); ?>master/periode_act/edit',
 			type:'post',
 			data: {'id':id},
 			success:function(r){
@@ -102,7 +108,7 @@
 		 if (konfirmasi)
 		 {
 		 	$.ajax({
-		 		url: '<?php echo base_url(); ?>master/kriteria_act/hapus',
+		 		url: '<?php echo base_url(); ?>master/periode_act/hapus',
 		 		type : 'post',
 		 		data : {'id':id},
 		 		success : function (){
@@ -113,7 +119,7 @@
 	}
 	function tambah(){
 		$.ajax({
-			url:'<?php echo base_url(); ?>master/kriteria_act/tambah',
+			url:'<?php echo base_url(); ?>master/periode_act/tambah',
 			type:'post',
 			success:function(r){
 				$("#modal-form").html(r);
