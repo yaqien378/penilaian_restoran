@@ -27,10 +27,13 @@
 					<th style="width:5%;text-align:center;" >
 						No.
 					</th>
-					<th style="width:25%;text-align:center;">
+					<th style="width:20%;text-align:center;">
+						 Kriteria
+					</th>
+					<th style="width:15%;text-align:center;">
 						 Nilai Range
 					</th>
-					<th style="width:40%;text-align:center;">
+					<th style="width:30%;text-align:center;">
 						 Deskripsi
 					</th>
 					<th style="width:15%;text-align:center;">
@@ -45,6 +48,9 @@
 				<tr class="odd gradeX" id="r<?php echo $range->ID_RANGE_KRITERIA; ?>">
 					<td style="text-align:center;">
 						<?php echo $no++; ?>
+					</td>
+					<td style="text-align:center;">
+						<?php echo ucfirst(strtolower($range->NAMA_KRITERIA)); ?>
 					</td>
 					<td style="text-align:center;">
 						<?php echo ucfirst(strtolower($range->NILAI_RANGE_KRITERIA)); ?>

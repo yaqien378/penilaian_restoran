@@ -77,6 +77,7 @@
 	function set()
 	{
 		$("#outlet").val('');
+		$("#data-kehadiran").html('');
 	}
 
 	function edit(id)

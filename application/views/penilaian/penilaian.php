@@ -47,46 +47,8 @@
 						</div>
 					</div>
 				</div>
-				<div id="data-kehadiran">
+				<div id="data-karyawan">
 				
-				<br>
-				<table class='table table-striped table-bordered table-hover' id='sample_3'>
-					<thead>
-						<tr>
-							<th style='width:5%;text-align:center;' >
-								No.
-							</th>
-							<th style='width:25%;text-align:center;'>
-								 Nama Karyawan
-							</th>
-							<th style='width:15%;text-align:center;'>
-								 Proses Penilaian
-							</th>
-							<th style='width:15%;text-align:center;'>
-								 Nilai
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr class='odd gradeX'>
-							<td style='text-align:center;'>
-								1
-							</td>
-							<td>
-								nama
-							</td>
-							<td style='text-align:center;'>
-								<div class='btn-group btn-group-sm btn-group-solid '>
-									<a href="<?php echo base_url(); ?>penilaian/proses_penilaian" class='btn green' id="beri">Beri Nilai</a>
-								</div>
-							</td>
-							<td style='text-align:center;'>
-								100
-							</td>
-						</tr>
-					</tbody>
-				</table>
-
 				</div><!-- end #data-kehadiran -->
 				<br>
 				</form>
@@ -111,6 +73,7 @@
 	function set()
 	{
 		$("#outlet").val('');
+		$("#data-karyawan").html('');
 	}
 
 	function edit(id)
@@ -130,16 +93,13 @@
 		{
 			if (outlet != '')
 			{
-				// alert("ini ok");
 
 				$.ajax({
-					url:'<?php echo base_url(); ?>master/kehadiran_act/cek',
+					url:'<?php echo base_url(); ?>penilaian/penilaian_act/cek',
 					type:'post',
 					data : {'outlet': outlet,'periode':periode},
 					success:function(r){
-						// alert("ok");
-						$("#data-kehadiran").html(r);
-
+						$("#data-karyawan").html(r);
 					},
 					error:function(r){
 						alert(r);
@@ -149,7 +109,7 @@
 				});
 			}else{
 				$("#outlet").focus();
-				$("#data-kehadiran").html('');
+				$("#data-karyawan").html('');
 			}
 		}else{
 			$("#outlet").val('');

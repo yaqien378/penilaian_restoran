@@ -1,3 +1,4 @@
+
 	<div class="col-md-12 col-sm-12">
 		<!-- BEGIN EXAMPLE TABLE PORTLET-->
 		<div class="portlet box blue">
@@ -7,315 +8,269 @@
 				</div>
 			</div>
 			<div class="portlet-body">
-				<form action="<?php echo base_url(); ?>penilaian/penilaian_act/simpan" method="post" class="form-horizontal">
 				<br>
 
 				<div class="row">
-					<div class="col-md-offset-5 col-md-7">		
+					<div class="col-md-12">		
 						<table class='table table-bordered'>
 							<thead>
 								<tr>
 									<th style='width:40%;text-align:center;' >
-										Karyawan
+										<b>Karyawan</b>
 									</th>
 									<th style='width:30%;text-align:center;'>
-										 Jabatan
+										 <b>Jabatan</b>
 									</th>
 									<th style='width:30%;text-align:center;'>
-										 Outlet
+										 <b>Outlet</b>
 									</th>
 								</tr>
 							</thead>
 							<tbody>
+								<?php
+									$id_karyawan = ''; 
+									foreach ($karyawan as $karyawan):
+									$id_karyawan = $karyawan->ID_KARYAWAN;
+								?>
 								<tr class='odd gradeX'>
 									<td style='text-align:center;'>
-										nama Karyawan
+										<?= ucfirst(strtolower($karyawan->NAMA_KARYAWAN)) ?>
 									</td>
 									<td style='text-align:center;'>
-										jabata karyawan
+										<?= ucfirst(strtolower($karyawan->NAMA_JABATAN)) ?>
 									</td>
 									<td style='text-align:center;'>
-										Outlet 1
+										<?= ucfirst(strtolower($karyawan->NAMA_OUTLET)) ?>
 									</td>
 								</tr>
+							<?php endforeach; ?>
 							</tbody>
 						</table>
 					</div>
 				</div>
 
-
+				<form class="form-horizontal" role='form' method="post" action="<?php echo base_url(); ?>penilaian/penilaian_act/simpan"  >
+				<input type="hidden" name="id_penilaian" id="id_penilaian" value="<?= $id ?>" readonly="true">
+				<input type="hidden" name="id_karyawan" id="id_karyawan" value="<?= $id_karyawan ?>" readonly="true">
+				<input type="hidden" name="periode" id="periode" value="<?= $periode ?>" readonly="true">
+				<?php
+					$no = 1;
+				?>
+				<?php foreach ($kriteria as $kriteria):?>
+				<!-- kriteria -->
 				<div class="row">
 					<div class="col-md-6">		
 						<table class='table table-bordered'>
 							<thead>
 								<tr>
 									<th style='width:5%;text-align:center;' >
-										No.
+										<b>No.</b>
 									</th>
 									<th style='width:70%;text-align:center;'>
-										 Kriteria
+										 <b>Kriteria</b>
 									</th>
 									<th style='width:25%;text-align:center;'>
-										 Bobot
+										 <b>Bobot</b>
 									</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr class='odd gradeX'>
 									<td style='text-align:center;'>
-										1
+										<?= $no++; ?>
 									</td>
 									<td style='text-align:center;'>
-										kriteria 1
+										<?= ucfirst(strtolower($kriteria->NAMA_KRITERIA))  ?>
 									</td>
 									<td style='text-align:center;'>
-										25%
+										<?= $kriteria->BOBOT; ?>%
+										<input type="hidden" name="id_kriteria[<?= $kriteria->ID_KRITERIA ?>]" id="id_kriteria[<?= $kriteria->ID_KRITERIA ?>]" readonly="true" value="<?= $kriteria->ID_KRITERIA ?>">
 									</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
+				<!-- end kriteria -->
 
-
+				<!-- range penilaian -->
 				<div class="row">
 					<div class="col-md-12">		
 						<table class='table table-bordered'>
 							<thead>
 								<tr>
 									<th style='width:25%;text-align:center;' >
-										Nilai
+										<h2>Nilai</h2>
 									</th>
 									<th style='width:5%;text-align:center;'>
-										 100<br>
-											 <input type="radio" name="nilai" id="nilai_100" value="100">
+										 <b>100</b><br>
+										<!-- <div class="form-group"> -->
+											<div class='radio-list'>
+												<label class='radio-inline'>
+												 <input type="radio" name="nilai[<?= $kriteria->ID_KRITERIA ?>]" id="nilai_100" value="100" Onchange="nilai_kriteria('<?= $kriteria->ID_KRITERIA ?>','nilai_100')">
+											</div>
+										<!-- </div> -->
 									</th>
 									<th style='width:5%;text-align:center;'>
-										 95<br>
-											 <input type="radio" name="nilai" id="nilai_95" value="95">
+										 <b>95</b><br>
+										<!-- <div class="form-group"> -->
+											<div class='radio-list'>
+												<label class='radio-inline'>
+												 <input type="radio" name="nilai[<?= $kriteria->ID_KRITERIA ?>]" id="nilai_95" value="95" Onchange="nilai_kriteria('<?= $kriteria->ID_KRITERIA ?>','nilai_95')">
+											</div>
+										<!-- </div> -->
 									</th>
 									<th style='width:5%;text-align:center;'>
-										 90<br>
-										 <input type="radio" name="nilai" id="nilai_90" value="90">
+										 <b>90</b><br>
+										<!-- <div class="form-group"> -->
+											<div class='radio-list'>
+												<label class='radio-inline'>
+												 <input type="radio" name="nilai[<?= $kriteria->ID_KRITERIA ?>]" id="nilai_90" value="90" Onchange="nilai_kriteria('<?= $kriteria->ID_KRITERIA ?>','nilai_90')">
+											</div>
+										<!-- </div> -->
 									</th>
 									<th style='width:5%;text-align:center;'>
-										 85<br>
-											 <input type="radio" name="nilai" id="nilai_85" value="85">
+										 <b>85</b><br>
+										<!-- <div class="form-group"> -->
+											<div class='radio-list'>
+											 	<label class='radio-inline'>
+												<input type="radio" name="nilai[<?= $kriteria->ID_KRITERIA ?>]" id="nilai_85" value="85" Onchange="nilai_kriteria('<?= $kriteria->ID_KRITERIA ?>','nilai_85')">
+											</div>
+										<!-- </div> -->
 									</th>
 									<th style='width:5%;text-align:center;'>
-										 80<br>
-											 <input type="radio" name="nilai" id="nilai_80" value="80">
+										 <b>80</b><br>
+										 <!-- <div class="form-group"> -->
+											<div class='radio-list'>
+										 	<label class='radio-inline'>
+											 <input type="radio" name="nilai[<?= $kriteria->ID_KRITERIA ?>]" id="nilai_80" value="80" Onchange="nilai_kriteria('<?= $kriteria->ID_KRITERIA ?>','nilai_80')">
+											</div>
+										<!-- </div> -->
 									</th>
 									<th style='width:5%;text-align:center;'>
-										 75<br>
-											 <input type="radio" name="nilai" id="nilai_75" value="75">
+										 <b>75</b><br>
+										<!-- <div class="form-group"> -->
+											<div class='radio-list'>
+											 	<label class='radio-inline'>
+												 <input type="radio" name="nilai[<?= $kriteria->ID_KRITERIA ?>]" id="nilai_75" value="75" Onchange="nilai_kriteria('<?= $kriteria->ID_KRITERIA ?>','nilai_75')">
+											</div>
+										<!-- </div> -->
+
 									</th>
 									<th style='width:5%;text-align:center;'>
-										 70<br>
-											 <input type="radio" name="nilai" id="nilai_70" value="70">
+										 <b>70</b><br>
+										<!-- <div class="form-group"> -->
+											<div class='radio-list'>
+											 	<label class='radio-inline'>
+												 <input type="radio" name="nilai[<?= $kriteria->ID_KRITERIA ?>]" id="nilai_70" value="70" Onchange="nilai_kriteria('<?= $kriteria->ID_KRITERIA ?>','nilai_70')">
+											</div>
+										<!-- </div> -->
 									</th>
 									<th style='width:5%;text-align:center;'>
-										 65<br>
-											 <input type="radio" name="nilai" id="nilai_65" value="65">
+										 <b>65</b><br>
+										<!-- <div class="form-group"> -->
+											<div class='radio-list'>
+											 	<label class='radio-inline'>
+												 <input type="radio" name="nilai[<?= $kriteria->ID_KRITERIA ?>]" id="nilai_65" value="65" Onchange="nilai_kriteria('<?= $kriteria->ID_KRITERIA ?>','nilai_65')">
+											</div>
+										<!-- </div> -->
 									</th>
 									<th style='width:5%;text-align:center;'>
-										 60<br>
-											 <input type="radio" name="nilai" id="nilai_60" value="60">
+										 <b>60</b><br>
+										<!-- <div class="form-group"> -->
+											<div class='radio-list'>
+											 	<label class='radio-inline'>
+												 <input type="radio" name="nilai[<?= $kriteria->ID_KRITERIA ?>]" id="nilai_60" value="60" Onchange="nilai_kriteria('<?= $kriteria->ID_KRITERIA ?>','nilai_60')">
+											</div>
+										<!-- </div> -->
 									</th>
 									<th style='width:5%;text-align:center;'>
-										 55<br>
-											 <input type="radio" name="nilai" id="nilai_55" value="55">
+										 <b>55</b><br>
+										<!-- <div class="form-group"> -->
+											<div class='radio-list'>
+											 	<label class='radio-inline'>
+												 <input type="radio" name="nilai[<?= $kriteria->ID_KRITERIA ?>]" id="nilai_55" value="55" Onchange="nilai_kriteria('<?= $kriteria->ID_KRITERIA ?>','nilai_55')">
+											</div>
+										<!-- </div> -->
 									</th>
 									<th style='width:5%;text-align:center;'>
-										 50<br>
-											 <input type="radio" name="nilai" id="nilai_50" value="50">
+										 <b>50</b><br>
+										<!-- <div class="form-group"> -->
+											<div class='radio-list'>
+											 	<label class='radio-inline'>
+												 <input type="radio" name="nilai[<?= $kriteria->ID_KRITERIA ?>]" id="nilai_50" value="50" Onchange="nilai_kriteria('<?= $kriteria->ID_KRITERIA ?>','nilai_50')">
+											</div>
+										<!-- </div> -->
 									</th>
 									<th style='width:5%;text-align:center;'>
-										 45<br>
-											 <input type="radio" name="nilai" id="nilai_45" value="45">
+										 <b>45</b><br>
+										<!-- <div class="form-group"> -->
+											<div class='radio-list'>
+											 	<label class='radio-inline'>
+												 <input type="radio" name="nilai[<?= $kriteria->ID_KRITERIA ?>]" id="nilai_45" value="45" Onchange="nilai_kriteria('<?= $kriteria->ID_KRITERIA ?>','nilai_45')">
+											</div>
+										<!-- </div> -->
 									</th>
 									<th style='width:5%;text-align:center;'>
-										 40<br>
-											 <input type="radio" name="nilai" id="nilai_40" value="40">
+										 <b>40</b><br>
+										<!-- <div class="form-group"> -->
+											<div class='radio-list'>
+											 	<label class='radio-inline'>
+												 <input type="radio" name="nilai[<?= $kriteria->ID_KRITERIA ?>]" id="nilai_40" value="40" Onchange="nilai_kriteria('<?= $kriteria->ID_KRITERIA ?>','nilai_40')">
+											</div>
+										<!-- </div> -->
 									</th>
 									<th style='width:5%;text-align:center;'>
-										 35<br>
-											 <input type="radio" name="nilai" id="nilai_35" value="35">
+										 <b>35</b><br>
+										<!-- <div class="form-group"> -->
+											<div class='radio-list'>
+											 	<label class='radio-inline'>
+												 <input type="radio" name="nilai[<?= $kriteria->ID_KRITERIA ?>]" id="nilai_35" value="35" Onchange="nilai_kriteria('<?= $kriteria->ID_KRITERIA ?>','nilai_35')">
+											</div>
+										<!-- </div> -->
 									</th>
 									<th style='width:5%;text-align:center;'>
-										 30<br>
-											 <input type="radio" name="nilai" id="nilai_30" value="30">
+										 <b>30</b><br>
+										<!-- <div class="form-group"> -->
+											<div class='radio-list'>
+											 	<label class='radio-inline'>
+												 <input type="radio" name="nilai[<?= $kriteria->ID_KRITERIA ?>]" id="nilai_30" value="30" Onchange="nilai_kriteria('<?= $kriteria->ID_KRITERIA ?>','nilai_30')">
+											</div>
+										<!-- </div> -->
 									</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
 									<td style='text-align:center;' rowspan="2">
-										nilai
+										<h1 style="font-size:60px;" id="view_nilai_<?= $kriteria->ID_KRITERIA ?>">0</h1>
 									</td>
+									<?php 
+										$range = $this->m_range_kriteria->get_by_kriteria($kriteria->ID_KRITERIA);
+										foreach ($range as $range):?>
 									<td style='text-align:center;' colspan="3">
-										deskripsi kriteria
+										<?= ucfirst(strtolower($range->DESKRIPSI_KRITERIA)) ?>
 									</td>
-									<td style='text-align:center;' colspan="3">
-										deskripsi kriteria
-									</td>
-									<td style='text-align:center;' colspan="3">
-										deskripsi kriteria
-									</td>
-									<td style='text-align:center;' colspan="3">
-										deskripsi kriteria
-									</td>
-									<td style='text-align:center;' colspan="3">
-										deskripsi kriteria
-									</td>
+									<?php endforeach; ?>
 								</tr>
 								<tr>
 									
 									<td style='text-align:center;' colspan="15">
-										Dasar PEnilaian
+										<b>Dasar Penilaian</b>
+										<textarea class="col-md-12 col-xs-12"  name="dasar_penilaian[<?= $kriteria->ID_KRITERIA ?>]" id="dasar_penilaian<?= $kriteria->ID_KRITERIA ?>" cols="30" rows="3"></textarea>
 									</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
+				<!-- end range penilaian -->
+				<?php endforeach; ?>
 
-				<div class="row">
-					<div class="col-md-6">		
-						<table class='table table-bordered'>
-							<thead>
-								<tr>
-									<th style='width:5%;text-align:center;' >
-										No.
-									</th>
-									<th style='width:70%;text-align:center;'>
-										 Kriteria
-									</th>
-									<th style='width:25%;text-align:center;'>
-										 Bobot
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr class='odd gradeX'>
-									<td style='text-align:center;'>
-										2
-									</td>
-									<td style='text-align:center;'>
-										kriteria 2
-									</td>
-									<td style='text-align:center;'>
-										25%
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-12">		
-						<table class='table table-bordered'>
-							<thead>
-								<tr>
-									<th style='width:25%;text-align:center;' >
-										Nilai
-									</th>
-									<th style='width:5%;text-align:center;'>
-										 100<br>
-											 <input type="radio" name="nilai1" id="nilai_100" value="100">
-									</th>
-									<th style='width:5%;text-align:center;'>
-										 95<br>
-											 <input type="radio" name="nilai1" id="nilai_95" value="95">
-									</th>
-									<th style='width:5%;text-align:center;'>
-										 90<br>
-										 <input type="radio" name="nilai1" id="nilai_90" value="90">
-									</th>
-									<th style='width:5%;text-align:center;'>
-										 85<br>
-											 <input type="radio" name="nilai1" id="nilai_85" value="85">
-									</th>
-									<th style='width:5%;text-align:center;'>
-										 80<br>
-											 <input type="radio" name="nilai1" id="nilai_80" value="80">
-									</th>
-									<th style='width:5%;text-align:center;'>
-										 75<br>
-											 <input type="radio" name="nilai1" id="nilai_75" value="75">
-									</th>
-									<th style='width:5%;text-align:center;'>
-										 70<br>
-											 <input type="radio" name="nilai1" id="nilai_70" value="70">
-									</th>
-									<th style='width:5%;text-align:center;'>
-										 65<br>
-											 <input type="radio" name="nilai1" id="nilai_65" value="65">
-									</th>
-									<th style='width:5%;text-align:center;'>
-										 60<br>
-											 <input type="radio" name="nilai1" id="nilai_60" value="60">
-									</th>
-									<th style='width:5%;text-align:center;'>
-										 55<br>
-											 <input type="radio" name="nilai1" id="nilai_55" value="55">
-									</th>
-									<th style='width:5%;text-align:center;'>
-										 50<br>
-											 <input type="radio" name="nilai1" id="nilai_50" value="50">
-									</th>
-									<th style='width:5%;text-align:center;'>
-										 45<br>
-											 <input type="radio" name="nilai1" id="nilai_45" value="45">
-									</th>
-									<th style='width:5%;text-align:center;'>
-										 40<br>
-											 <input type="radio" name="nilai1" id="nilai_40" value="40">
-									</th>
-									<th style='width:5%;text-align:center;'>
-										 35<br>
-											 <input type="radio" name="nilai1" id="nilai_35" value="35">
-									</th>
-									<th style='width:5%;text-align:center;'>
-										 30<br>
-											 <input type="radio" name="nilai1" id="nilai_30" value="30">
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td style='text-align:center;' rowspan="2">
-										nilai
-									</td>
-									<td style='text-align:center;' colspan="3">
-										deskripsi kriteria
-									</td>
-									<td style='text-align:center;' colspan="3">
-										deskripsi kriteria
-									</td>
-									<td style='text-align:center;' colspan="3">
-										deskripsi kriteria
-									</td>
-									<td style='text-align:center;' colspan="3">
-										deskripsi kriteria
-									</td>
-									<td style='text-align:center;' colspan="3">
-										deskripsi kriteria
-									</td>
-								</tr>
-								<tr>
-									<td style='text-align:center;' colspan="15">
-										Dasar Penilaian
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
 				<div class="row">
 					<div class="col-md-12">
 						<div class="pull-right">
+							<a href="<?php echo base_url(); ?>penilaian/penilaian_view " class="btn btn-default">Kembali</a>
 							<button type="submit" class="btn blue">Proses Penilaian</button>
 						</div>
 					</div>
@@ -347,13 +302,10 @@
 		$("#outlet").val('');
 	}
 
-	function edit(id)
+	function nilai_kriteria(id,name_id)
 	{	
-		$("#terlambat_"+id).removeAttr('readonly');
-		$("#absen_"+id).removeAttr('readonly');
-		$("#sakit_"+id).removeAttr('readonly');
-		$("#edit_"+id).attr('disabled','true');
-
+		var nilai = $("#"+name_id).val();
+		$('#view_nilai_'+id).text(nilai);
 	}
 
 	function cek(){

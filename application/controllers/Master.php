@@ -710,7 +710,7 @@ class Master extends CI_Controller {
 				<div class='row'>
 					<div class='col-md-3 pull-right'>
 						<div class='pull-right'>
-							<button type='reset' class='btn default'>Batal</button>
+							<a href='".base_url()."master/kehadiran' class='btn default'>Batal</a>
 							<button type='submit' class='btn blue'>Simpan</button>
 						</div>
 					</div>
@@ -924,9 +924,10 @@ class Master extends CI_Controller {
 			$awal = $this->input->post('awal');
 			$akhir = $this->input->post('akhir');
 			$nilai = $awal." - ".$akhir;
+			$kriteria = $this->input->post('kriteria');
 			$deskripsi = strtoupper($this->input->post('deskripsi'));
 
-			$query = $this->m_range_kriteria->create($id,$nilai,$deskripsi);
+			$query = $this->m_range_kriteria->create($id,$kriteria,$nilai,$deskripsi);
 
 			if($query > 0){
 				$this->session->set_flashdata('jenis','alert-success');
@@ -942,9 +943,10 @@ class Master extends CI_Controller {
 			$awal = $this->input->post('awal');
 			$akhir = $this->input->post('akhir');
 			$nilai = $awal." - ".$akhir;
+			$kriteria = $this->input->post('kriteria');
 			$deskripsi = strtoupper($this->input->post('deskripsi'));
 
-			$query = $this->m_range_kriteria->update($id,$nilai,$deskripsi);
+			$query = $this->m_range_kriteria->update($id,$kriteria,$nilai,$deskripsi);
 
 			if($query > 0){
 				$this->session->set_flashdata('jenis','alert-success');
@@ -961,6 +963,7 @@ class Master extends CI_Controller {
 
 		}else if($act == 'tambah'){
 			$id = $this->m_security->gen_id('range_kriteria','ID_RANGE_KRITERIA');
+			$kriteria = $this->m_kriteria->get_all();
 			echo "
 			<div class='modal-content'>
 				<div class='modal-header'>
@@ -969,6 +972,19 @@ class Master extends CI_Controller {
 				</div>
 			 <form class='form-horizontal' role='form' method='post' action='".base_url()."master/range_kriteria_act/simpan'>
 				<div class='modal-body'>
+					<div class='form-group'>
+						<label class='col-md-3 control-label'>Kriteria</label>
+						<div class='col-md-9'>
+							<select class='form-control' id='kriteria' name='kriteria' required>
+								<option value=''>-- Pilih Kriteria --</option>";
+								foreach ($kriteria as $kriteria) {
+									echo "<option value='".$kriteria->ID_KRITERIA."'>".ucfirst(strtolower($kriteria->NAMA_KRITERIA))."</option>";
+								}
+							
+							echo "	
+							</select>
+						</div>
+					</div>
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Nilai Range</label>
 						<div class='col-md-4'>
@@ -995,6 +1011,7 @@ class Master extends CI_Controller {
 
 		}else if($act == 'edit'){
 			$id = $this->input->post('id');
+			$kriteria = $this->m_kriteria->get_all();
 			$query = $this->m_range_kriteria->get_id($id);
 			foreach ($query as $row) {
 				$nilai = $row->NILAI_RANGE_KRITERIA;
@@ -1007,6 +1024,19 @@ class Master extends CI_Controller {
 				</div>
 			 <form class='form-horizontal' role='form' method='post' action='".base_url()."master/range_kriteria_act/ubah'>
 				<div class='modal-body'>
+					<div class='form-group'>
+						<label class='col-md-3 control-label'>Kriteria</label>
+						<div class='col-md-9'>
+							<select class='form-control' id='kriteria' name='kriteria' required>
+								<option value='".$row->ID_KRITERIA."'>".ucfirst(strtolower($row->NAMA_KRITERIA))."</option>";
+								foreach ($kriteria as $kriteria) {
+									echo "<option value='".$kriteria->ID_KRITERIA."'>".ucfirst(strtolower($kriteria->NAMA_KRITERIA))."</option>";
+								}
+							
+							echo "	
+							</select>
+						</div>
+					</div>
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Nilai Range</label>
 						<div class='col-md-4'>
@@ -1061,34 +1091,59 @@ class Master extends CI_Controller {
 		if($act == 'simpan'){
 			$id = $this->input->post('id');
 			$nama = strtoupper($this->input->post('nama'));
-			$range = $this->input->post('range');
 			$bobot = $this->input->post('bobot');
 
-			$query = $this->m_kriteria->create($id,$range,$nama,$bobot);
+			$cek_bobot = $this->m_kriteria->get_bobot_total()->row();
+			$cek_bobot = $cek_bobot->BOBOT_TOTAL;
+			
+			$hasil_cek = $cek_bobot + $bobot;
 
-			if($query > 0){
-				$this->session->set_flashdata('jenis','alert-success');
-				$this->session->set_flashdata('pesan','<strong>Berhasil!</strong> Data berhasil di tambahkan.');
-			}else{
+			if ($hasil_cek > 100) {
 				$this->session->set_flashdata('jenis','alert-danger');
-				$this->session->set_flashdata('pesan','<strong>Gagal!</strong> Data gagal di tambahkan.');
+				$this->session->set_flashdata('pesan','<strong>kesalahan!</strong> Bobot Melebihi 100%.');
+			}else if ( $bobot < 1) {
+				$this->session->set_flashdata('jenis','alert-danger');
+				$this->session->set_flashdata('pesan','<strong>kesalahan!</strong> Bobot harus lebih dari 0%.');
+			}else{
+				$query = $this->m_kriteria->create($id,$nama,$bobot);
+				if($query > 0){
+					$this->session->set_flashdata('jenis','alert-success');
+					$this->session->set_flashdata('pesan','<strong>Berhasil!</strong> Data berhasil di tambahkan.');
+				}else{
+					$this->session->set_flashdata('jenis','alert-danger');
+					$this->session->set_flashdata('pesan','<strong>Gagal!</strong> Data gagal di tambahkan.');
+				}
+				
 			}
-			redirect('master/kriteria');
 
+			redirect('master/kriteria');
 		}else if($act == 'ubah'){
 			$id = $this->input->post('id');
 			$nama = strtoupper($this->input->post('nama'));
-			$range = $this->input->post('range');
 			$bobot = $this->input->post('bobot');
+			$bobot_awal = $this->input->post('bobot_awal');
 
-			$query = $this->m_kriteria->update($id,$range,$nama,$bobot);
+			$cek_bobot = $this->m_kriteria->get_bobot_total()->row();
+			$cek_bobot = $cek_bobot->BOBOT_TOTAL;
+			
+			$hasil_cek = $cek_bobot + $bobot - $bobot_awal;
 
-			if($query > 0){
-				$this->session->set_flashdata('jenis','alert-success');
-				$this->session->set_flashdata('pesan','<strong>Berhasil!</strong> Data berhasil di ubah.');
-			}else{
+			if ($hasil_cek > 100) {
 				$this->session->set_flashdata('jenis','alert-danger');
-				$this->session->set_flashdata('pesan','<strong>Gagal!</strong> Data gagal di ubah.');
+				$this->session->set_flashdata('pesan','<strong>kesalahan!</strong> Bobot Melebihi 100%.');
+			}else if ( $bobot < 1) {
+				$this->session->set_flashdata('jenis','alert-danger');
+				$this->session->set_flashdata('pesan','<strong>kesalahan!</strong> Bobot harus lebih dari 0%.');
+			}else{
+				$query = $this->m_kriteria->update($id,$nama,$bobot);
+				if($query > 0){
+					$this->session->set_flashdata('jenis','alert-success');
+					$this->session->set_flashdata('pesan','<strong>Berhasil!</strong> Data berhasil di ubah.');
+				}else{
+					$this->session->set_flashdata('jenis','alert-danger');
+					$this->session->set_flashdata('pesan','<strong>Gagal!</strong> Data gagal di ubah.');
+				}
+				
 			}
 			redirect('master/kriteria');
 
@@ -1098,7 +1153,9 @@ class Master extends CI_Controller {
 
 		}else if($act == 'tambah'){
 			$id = $this->m_security->gen_id('kriteria','ID_KRITERIA');
-			$range = $this->m_range_kriteria->get_all();
+			$cek_bobot = $this->m_kriteria->get_bobot_total()->row();
+			$cek_bobot = $cek_bobot->BOBOT_TOTAL;
+			$max = 100 - $cek_bobot;
 			echo "
 			<div class='modal-content'>
 				<div class='modal-header'>
@@ -1115,21 +1172,10 @@ class Master extends CI_Controller {
 						</div>
 					</div>
 					<div class='form-group'>
-						<label class='col-md-3 control-label'>Range Kriteria</label>
-						<div class='col-md-9'>
-							<select class='form-control' name='range' id='range'>
-								<option value=''>-- Pilih Range --</option>";
-									foreach ($range as $range) {
-										echo "<option value='".$range->ID_RANGE_KRITERIA."'>".$range->NILAI_RANGE_KRITERIA."</option>";
-									}
-							echo 
-							"</select>
-						</div>
-					</div>
-					<div class='form-group'>
 						<label class='col-md-3 control-label'>Bobot (%)</label>
 						<div class='col-md-9'>
 							<input type='number' class='form-control' id='bobot' name='bobot' placeholder='Bobot Kriteria'>
+							<span>Bobot harus bernilai di antara 1 - ".$max."</span>
 						</div>
 					</div>
 				</div>
@@ -1143,8 +1189,11 @@ class Master extends CI_Controller {
 		}else if($act == 'edit'){
 			$id = $this->input->post('id');
 			$query = $this->m_kriteria->get_id($id);
+			$cek_bobot = $this->m_kriteria->get_bobot_total()->row();
+			$cek_bobot = $cek_bobot->BOBOT_TOTAL;
+			$max = 100 - $cek_bobot;
 			foreach ($query as $row) {
-				$range = $this->m_range_kriteria->get_all();
+				$max = $max + $row->BOBOT;
 				echo "
 				<div class='modal-content'>
 					<div class='modal-header'>
@@ -1157,25 +1206,15 @@ class Master extends CI_Controller {
 							<label class='col-md-3 control-label'>Nama Kriteria</label>
 							<div class='col-md-9'>
 								<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
+								<input type='hidden' class='form-control' placeholder='bobot_awal' id='bobot_awal' name='bobot_awal' value='".$row->BOBOT."' readonly>
 								<input type='text' class='form-control' id='nama' name='nama' placeholder='Nama Kriteria' value='".$row->NAMA_KRITERIA."'>
-							</div>
-						</div>
-						<div class='form-group'>
-							<label class='col-md-3 control-label'>Range Kriteria</label>
-							<div class='col-md-9'>
-								<select class='form-control' name='range' id='range'>
-									<option value='".$row->ID_RANGE_KRITERIA."'>".$row->NILAI_RANGE_KRITERIA."</option>";
-										foreach ($range as $range) {
-											echo "<option value='".$range->ID_RANGE_KRITERIA."'>".$range->NILAI_RANGE_KRITERIA."</option>";
-										}
-								echo 
-								"</select>
 							</div>
 						</div>
 						<div class='form-group'>
 							<label class='col-md-3 control-label'>Bobot (%)</label>
 							<div class='col-md-9'>
 								<input type='number' class='form-control' id='bobot' name='bobot' placeholder='Bobot Kriteria' value='".$row->BOBOT."'>
+								<span>Bobot harus bernilai di antara 1 - ".$max."</span>
 							</div>
 						</div>
 					</div>

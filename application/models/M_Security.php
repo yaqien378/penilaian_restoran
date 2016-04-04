@@ -19,8 +19,8 @@ class M_Security extends CI_Model {
 	public function gen_id($tabel,$kolom)
 	{
 		$this->db->select_max($kolom,'id');
-		$data = $this->db->get($tabel)->result();
 
+		$data = $this->db->get($tabel)->result();
 		return ($data[0]->id + 1);
 	}
 }

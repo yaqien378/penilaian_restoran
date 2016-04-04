@@ -82,19 +82,6 @@
 <script src="<?php echo base_url();?>assets/admin/pages/scripts/table-managed.js"></script>
 <!-- END TAMBAHAN -->
 
-<script>
-	jQuery(document).ready(function() {    
-	   Metronic.init(); // init metronic core componets
-	   Layout.init(); // init layout
-	   Demo.init(); // init demo features
-	   QuickSidebar.init(); // init quick sidebar
-	    Index.init(); // init index page
-	 Tasks.initDashboardWidget(); // init tash dashboard widget  
-	 	// TableManaged.init();
-	 	
-	});
-</script>
-
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -358,6 +345,17 @@
 <script src="<?php echo base_url();?>assets/global/plugins/excanvas.min.js"></script> 
 <![endif]-->
 
+<script>
+	jQuery(document).ready(function() {    
+	   Metronic.init(); // init metronic core componets
+	   Layout.init(); // init layout
+	   Demo.init(); // init demo features
+	   QuickSidebar.init(); // init quick sidebar
+	   Index.init(); // init index page
+	   Tasks.initDashboardWidget(); // init tash dashboard widget  
+	   // TableManaged.init();
+	});
+</script>
 
 <!-- END JAVASCRIPTS -->
 </body>

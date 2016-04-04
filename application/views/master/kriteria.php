@@ -27,13 +27,10 @@
 					<th style="width:5%;text-align:center;" >
 						No.
 					</th>
-					<th style="width:25%;text-align:center;">
+					<th style="width:35%;text-align:center;">
 						 Nama Kriteria
 					</th>
-					<th style="width:25%;text-align:center;">
-						 Nilai Range
-					</th>
-					<th style="width:20%;text-align:center;">
+					<th style="width:30%;text-align:center;">
 						 Bobot
 					</th>
 					<th style="width:15%;text-align:center;">
@@ -53,10 +50,7 @@
 						<?php echo ucfirst(strtolower($kriteria->NAMA_KRITERIA)); ?>
 					</td>
 					<td style="text-align:center;">
-						<?php echo ucfirst(strtolower($kriteria->NILAI_RANGE_KRITERIA)); ?>
-					</td>
-					<td style="text-align:center;">
-						<?php echo ucfirst(strtolower($kriteria->BOBOT)); ?>
+						<?php echo ucfirst(strtolower($kriteria->BOBOT)); ?> %
 					</td>
 					<td style="text-align:center;"> 
 						<div class="btn-group btn-group-sm btn-group-solid ">
