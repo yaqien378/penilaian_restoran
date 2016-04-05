@@ -1,15 +1,4 @@
 <!DOCTYPE html>
-<!-- 
-Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.4
-Version: 4.0.1
-Author: KeenThemes
-Website: http://www.keenthemes.com/
-Contact: support@keenthemes.com
-Follow: www.twitter.com/keenthemes
-Like: www.facebook.com/keenthemes
-Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
-License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
--->
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
@@ -61,32 +50,42 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- BEGIN LOGIN -->
 <div class="content">
 	<!-- BEGIN LOGIN FORM -->
-	<form class="login-form" action="<?php echo base_url(); ?>index.php/login/getlogin" method="post">
-		<h3 class="form-title">Login to your account</h3>
+	<form class="login-form" action="<?php echo base_url(); ?>index.php/login/auth" method="post">
+		<h3 class="form-title">Login Karyawan</h3>
 		<div class="alert alert-danger display-hide">
 			<button class="close" data-close="alert"></button>
 			<span>
 			Enter any username and password. </span>
 		</div>
+		<?php 
+			$pesan = $this->session->flashdata('pesan');
+			if (!empty($pesan)) {
+				echo "
+					<div class='alert alert-danger'>
+						<button class='close' data-close='alert'></button>
+						<span>
+						".$pesan."</span>
+					</div>
+				";
+			}
+		?>
 		<div class="form-group">
-			<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
 			<label class="control-label visible-ie8 visible-ie9">Username</label>
 			<div class="input-icon">
 				<i class="fa fa-user"></i>
-				<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username"/>
+				<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username" id="username">
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="control-label visible-ie8 visible-ie9">Password</label>
 			<div class="input-icon">
 				<i class="fa fa-lock"></i>
-				<input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password"/>
+				<input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" id="password">
 			</div>
 		</div>
 		<div class="form-actions">
-			<label class="checkbox">
-			<input type="checkbox" name="remember" value="1"/> Remember me </label>
-			<button type="submit" class="btn green-haze pull-right">
+			<label ></label>
+			<button type="submit" class="btn green-haze pull-right" name="login" id="login">
 			Login <i class="m-icon-swapright m-icon-white"></i>
 			</button>
 		</div>
@@ -97,7 +96,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- END LOGIN -->
 <!-- BEGIN COPYRIGHT -->
 <div class="copyright">
-	 <?php echo date('Y'); ?> &copy; Nama Pembuat.
+	 <?php echo date('Y'); ?> &copy; Munir Agung Wisudawanto.
 </div>
 <!-- END COPYRIGHT -->
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->

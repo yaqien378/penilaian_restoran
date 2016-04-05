@@ -3,12 +3,8 @@
 		<div class="portlet box blue">
 			<div class="portlet-title">
 				<div class="caption">
-					<i class="fa fa-asterisk"></i>Data Kehadiran
+					<i class="fa fa-asterisk"></i>Penilaian
 				</div>
-				<!-- <div class="actions">
-					<a class="btn btn-default btn-sm" onClick="tambah()" data-toggle="modal" href="#modal" >
-					<i class="fa fa-plus"></i> Tambah Data </a>
-				</div> -->
 			</div>
 			<div class="portlet-body">
 				<?php 
@@ -21,7 +17,7 @@
 						";
 					}
 				?>
-				<form action="<?php echo base_url(); ?>master/kehadiran_act/simpan" method="post" class="form-horizontal">
+				<form action="<?php echo base_url(); ?>penilaian/penilaian_act/simpan" method="post" class="form-horizontal">
 				<br>
 				<div class="row">
 					<div class="col-md-6">
@@ -51,7 +47,7 @@
 						</div>
 					</div>
 				</div>
-				<div id="data-kehadiran">
+				<div id="data-karyawan">
 				
 				</div><!-- end #data-kehadiran -->
 				<br>
@@ -77,7 +73,7 @@
 	function set()
 	{
 		$("#outlet").val('');
-		$("#data-kehadiran").html('');
+		$("#data-karyawan").html('');
 	}
 
 	function edit(id)
@@ -97,16 +93,13 @@
 		{
 			if (outlet != '')
 			{
-				// alert("ini ok");
 
 				$.ajax({
-					url:'<?php echo base_url(); ?>master/kehadiran_act/cek',
+					url:'<?php echo base_url(); ?>penilaian/penilaian_act/cek',
 					type:'post',
 					data : {'outlet': outlet,'periode':periode},
 					success:function(r){
-						// alert("ok");
-						$("#data-kehadiran").html(r);
-
+						$("#data-karyawan").html(r);
 					},
 					error:function(r){
 						alert(r);
@@ -116,7 +109,7 @@
 				});
 			}else{
 				$("#outlet").focus();
-				$("#data-kehadiran").html('');
+				$("#data-karyawan").html('');
 			}
 		}else{
 			$("#outlet").val('');

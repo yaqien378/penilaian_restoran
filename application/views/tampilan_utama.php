@@ -82,19 +82,6 @@
 <script src="<?php echo base_url();?>assets/admin/pages/scripts/table-managed.js"></script>
 <!-- END TAMBAHAN -->
 
-<script>
-	jQuery(document).ready(function() {    
-	   Metronic.init(); // init metronic core componets
-	   Layout.init(); // init layout
-	   Demo.init(); // init demo features
-	   QuickSidebar.init(); // init quick sidebar
-	    Index.init(); // init index page
-	 Tasks.initDashboardWidget(); // init tash dashboard widget  
-	 	// TableManaged.init();
-	 	
-	});
-</script>
-
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -134,313 +121,12 @@
 				<ul class="nav navbar-nav pull-right">
 					<li class="separator hide">
 					</li>
-					<!-- BEGIN NOTIFICATION DROPDOWN -->
-					<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-					<li class="dropdown dropdown-extended dropdown-notification dropdown-dark" id="header_notification_bar">
-						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-						<i class="icon-bell"></i>
-						<span class="badge badge-success">
-						7 </span>
-						</a>
-						<ul class="dropdown-menu">
-							<li class="external">
-								<h3><span class="bold">12 pending</span> notifications</h3>
-								<a href="extra_profile.html">view all</a>
-							</li>
-							<li>
-								<ul class="dropdown-menu-list scroller" style="height: 250px;" data-handle-color="#637283">
-									<li>
-										<a href="javascript:;">
-										<span class="time">just now</span>
-										<span class="details">
-										<span class="label label-sm label-icon label-success">
-										<i class="fa fa-plus"></i>
-										</span>
-										New user registered. </span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:;">
-										<span class="time">3 mins</span>
-										<span class="details">
-										<span class="label label-sm label-icon label-danger">
-										<i class="fa fa-bolt"></i>
-										</span>
-										Server #12 overloaded. </span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:;">
-										<span class="time">10 mins</span>
-										<span class="details">
-										<span class="label label-sm label-icon label-warning">
-										<i class="fa fa-bell-o"></i>
-										</span>
-										Server #2 not responding. </span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:;">
-										<span class="time">14 hrs</span>
-										<span class="details">
-										<span class="label label-sm label-icon label-info">
-										<i class="fa fa-bullhorn"></i>
-										</span>
-										Application error. </span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:;">
-										<span class="time">2 days</span>
-										<span class="details">
-										<span class="label label-sm label-icon label-danger">
-										<i class="fa fa-bolt"></i>
-										</span>
-										Database overloaded 68%. </span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:;">
-										<span class="time">3 days</span>
-										<span class="details">
-										<span class="label label-sm label-icon label-danger">
-										<i class="fa fa-bolt"></i>
-										</span>
-										A user IP blocked. </span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:;">
-										<span class="time">4 days</span>
-										<span class="details">
-										<span class="label label-sm label-icon label-warning">
-										<i class="fa fa-bell-o"></i>
-										</span>
-										Storage Server #4 not responding dfdfdfd. </span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:;">
-										<span class="time">5 days</span>
-										<span class="details">
-										<span class="label label-sm label-icon label-info">
-										<i class="fa fa-bullhorn"></i>
-										</span>
-										System Error. </span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:;">
-										<span class="time">9 days</span>
-										<span class="details">
-										<span class="label label-sm label-icon label-danger">
-										<i class="fa fa-bolt"></i>
-										</span>
-										Storage server failed. </span>
-										</a>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</li>
-					<!-- END NOTIFICATION DROPDOWN -->
-					<li class="separator hide">
-					</li>
-					<!-- BEGIN INBOX DROPDOWN -->
-					<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-					<li class="dropdown dropdown-extended dropdown-inbox dropdown-dark" id="header_inbox_bar">
-						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-						<i class="icon-envelope-open"></i>
-						<span class="badge badge-danger">
-						4 </span>
-						</a>
-						<ul class="dropdown-menu">
-							<li class="external">
-								<h3>You have <span class="bold">7 New</span> Messages</h3>
-								<a href="inbox.html">view all</a>
-							</li>
-							<li>
-								<ul class="dropdown-menu-list scroller" style="height: 275px;" data-handle-color="#637283">
-									<li>
-										<a href="inbox.html?a=view">
-										<span class="photo">
-										<img src="<?php echo base_url();?>assets/admin/layout3/img/avatar2.jpg" class="img-circle" alt="">
-										</span>
-										<span class="subject">
-										<span class="from">
-										Lisa Wong </span>
-										<span class="time">Just Now </span>
-										</span>
-										<span class="message">
-										Vivamus sed auctor nibh congue nibh. auctor nibh auctor nibh... </span>
-										</a>
-									</li>
-									<li>
-										<a href="inbox.html?a=view">
-										<span class="photo">
-										<img src="<?php echo base_url();?>assets/admin/layout3/img/avatar3.jpg" class="img-circle" alt="">
-										</span>
-										<span class="subject">
-										<span class="from">
-										Richard Doe </span>
-										<span class="time">16 mins </span>
-										</span>
-										<span class="message">
-										Vivamus sed congue nibh auctor nibh congue nibh. auctor nibh auctor nibh... </span>
-										</a>
-									</li>
-									<li>
-										<a href="inbox.html?a=view">
-										<span class="photo">
-										<img src="<?php echo base_url();?>assets/admin/layout3/img/avatar1.jpg" class="img-circle" alt="">
-										</span>
-										<span class="subject">
-										<span class="from">
-										Bob Nilson </span>
-										<span class="time">2 hrs </span>
-										</span>
-										<span class="message">
-										Vivamus sed nibh auctor nibh congue nibh. auctor nibh auctor nibh... </span>
-										</a>
-									</li>
-									<li>
-										<a href="inbox.html?a=view">
-										<span class="photo">
-										<img src="<?php echo base_url();?>assets/admin/layout3/img/avatar2.jpg" class="img-circle" alt="">
-										</span>
-										<span class="subject">
-										<span class="from">
-										Lisa Wong </span>
-										<span class="time">40 mins </span>
-										</span>
-										<span class="message">
-										Vivamus sed auctor 40% nibh congue nibh... </span>
-										</a>
-									</li>
-									<li>
-										<a href="inbox.html?a=view">
-										<span class="photo">
-										<img src="<?php echo base_url();?>assets/admin/layout3/img/avatar3.jpg" class="img-circle" alt="">
-										</span>
-										<span class="subject">
-										<span class="from">
-										Richard Doe </span>
-										<span class="time">46 mins </span>
-										</span>
-										<span class="message">
-										Vivamus sed congue nibh auctor nibh congue nibh. auctor nibh auctor nibh... </span>
-										</a>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</li>
-					<!-- END INBOX DROPDOWN -->
-					<li class="separator hide">
-					</li>
-					<!-- BEGIN TODO DROPDOWN -->
-					<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-					<li class="dropdown dropdown-extended dropdown-tasks dropdown-dark" id="header_task_bar">
-						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-						<i class="icon-calendar"></i>
-						<span class="badge badge-primary">
-						3 </span>
-						</a>
-						<ul class="dropdown-menu extended tasks">
-							<li class="external">
-								<h3>You have <span class="bold">12 pending</span> tasks</h3>
-								<a href="page_todo.html">view all</a>
-							</li>
-							<li>
-								<ul class="dropdown-menu-list scroller" style="height: 275px;" data-handle-color="#637283">
-									<li>
-										<a href="javascript:;">
-										<span class="task">
-										<span class="desc">New release v1.2 </span>
-										<span class="percent">30%</span>
-										</span>
-										<span class="progress">
-										<span style="width: 40%;" class="progress-bar progress-bar-success" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"><span class="sr-only">40% Complete</span></span>
-										</span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:;">
-										<span class="task">
-										<span class="desc">Application deployment</span>
-										<span class="percent">65%</span>
-										</span>
-										<span class="progress">
-										<span style="width: 65%;" class="progress-bar progress-bar-danger" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"><span class="sr-only">65% Complete</span></span>
-										</span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:;">
-										<span class="task">
-										<span class="desc">Mobile app release</span>
-										<span class="percent">98%</span>
-										</span>
-										<span class="progress">
-										<span style="width: 98%;" class="progress-bar progress-bar-success" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100"><span class="sr-only">98% Complete</span></span>
-										</span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:;">
-										<span class="task">
-										<span class="desc">Database migration</span>
-										<span class="percent">10%</span>
-										</span>
-										<span class="progress">
-										<span style="width: 10%;" class="progress-bar progress-bar-warning" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"><span class="sr-only">10% Complete</span></span>
-										</span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:;">
-										<span class="task">
-										<span class="desc">Web server upgrade</span>
-										<span class="percent">58%</span>
-										</span>
-										<span class="progress">
-										<span style="width: 58%;" class="progress-bar progress-bar-info" aria-valuenow="58" aria-valuemin="0" aria-valuemax="100"><span class="sr-only">58% Complete</span></span>
-										</span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:;">
-										<span class="task">
-										<span class="desc">Mobile development</span>
-										<span class="percent">85%</span>
-										</span>
-										<span class="progress">
-										<span style="width: 85%;" class="progress-bar progress-bar-success" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><span class="sr-only">85% Complete</span></span>
-										</span>
-										</a>
-									</li>
-									<li>
-										<a href="javascript:;">
-										<span class="task">
-										<span class="desc">New UI release</span>
-										<span class="percent">38%</span>
-										</span>
-										<span class="progress progress-striped">
-										<span style="width: 38%;" class="progress-bar progress-bar-important" aria-valuenow="18" aria-valuemin="0" aria-valuemax="100"><span class="sr-only">38% Complete</span></span>
-										</span>
-										</a>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</li>
-					<!-- END TODO DROPDOWN -->
 					<!-- BEGIN USER LOGIN DROPDOWN -->
 					<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
 					<li class="dropdown dropdown-user dropdown-dark">
 						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
 						<span class="username username-hide-on-mobile">
-						Nick </span>
+						<?php echo $this->session->userdata('nama'); ?> </span>
 						<!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->
 						<img alt="" class="img-circle" src="<?php echo base_url();?>assets/admin/layout4/img/avatar9.jpg"/>
 						</a>
@@ -472,7 +158,7 @@
 								<i class="icon-lock"></i> Lock Screen </a>
 							</li>
 							<li>
-								<a href="login.html">
+								<a href="<?php echo base_url(); ?>login/logout">
 								<i class="icon-key"></i> Log Out </a>
 							</li>
 						</ul>
@@ -513,37 +199,72 @@
 				</li>
 				<li>
 					<a href="javascript:;">
-					<i class="icon-folder"></i>
-					<span class="title">Master</span>
+					<i class="fa fa-bank"></i>
+					<span class="title">Maintenance Master</span>
 					<span class="arrow "></span>
 					</a>
 					<ul class="sub-menu">
 						<li>
-							<a href="<?php echo base_url(); ?>departemen">
+							<a href="<?php echo base_url(); ?>master/outlet">
 							<i class="icon-home"></i>
-							Departemen</a>
+							Master Outlet</a>
 						</li>
 						<li>
-							<a href="<?php echo base_url(); ?>golongan">
+							<a href="<?php echo base_url(); ?>master/jabatan">
 							<i class="fa fa-bookmark-o"></i>
-							Golongan</a>
+							Master Jabatan</a>
 						</li>
 						<li>
-							<a href="<?php echo base_url(); ?>karyawan">
+							<a href="<?php echo base_url(); ?>master/karyawan">
 							<i class="icon-users"></i>
-							Karyawan</a>
+							Master Karyawan</a>
 						</li>
 						<li>
-							<a href="<?php echo base_url(); ?>kehadiran">
+							<a href="<?php echo base_url(); ?>master/kehadiran">
 							<i class="fa fa-calendar-o"></i>
-							Kehadiran</a>
-						</li>
-						<li>
-							<a href="<?php echo base_url(); ?>kriteria">
-							<i class="icon-pencil"></i>
-							Kriteria</a>
+							Master Kehadiran</a>
 						</li>
 					</ul>
+				</li>
+				<li>
+					<a href="javascript:;">
+					<i class="fa fa-database"></i>
+					<span class="title">Maintenance Data</span>
+					<span class="arrow "></span>
+					</a>
+					<ul class="sub-menu">
+						<li>
+							<a href="<?php echo base_url(); ?>master/periode">
+							<i class="fa fa-calendar"></i>
+							Master Periode Penilaian</a>
+						</li>
+						<li>
+							<a href="<?php echo base_url(); ?>master/kriteria">
+							<i class="fa fa-bookmark-o"></i>
+							Master Kriteria</a>
+						</li>
+						<li>
+							<a href="<?php echo base_url(); ?>master/range_kriteria">
+							<i class="fa fa-thumb-tack"></i>
+							Master Range Kriteria</a>
+						</li>
+						<li>
+							<a href="<?php echo base_url(); ?>master/kategori_pelatihan">
+							<i class="fa fa-filter"></i>
+							Master Kategori Pelatihan</a>
+						</li>
+						<li>
+							<a href="<?php echo base_url(); ?>master/pelatihan">
+							<i class="fa fa-wheelchair"></i>
+							Master Pelatihan</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="<?php echo base_url(); ?>penilaian/penilaian_view">
+					<i class="fa fa-random"></i>
+					<span class="title">Penilaian</span>
+					</a>
 				</li>
 				<li>
 					<a href="javascript:;">
@@ -553,14 +274,14 @@
 					</a>
 					<ul class="sub-menu">
 						<li>
-							<a href="<?php echo base_url(); ?>penilaian">
+							<a href="<?php echo base_url(); ?>laporan/perkaryawan">
 							<i class="fa fa-file-pdf-o"></i>
-							keseluruhan</a>
+							Rapor Penilaian per Karyawan</a>
 						</li>
 						<li>
-							<a href="<?php echo base_url(); ?>penilaian/perkaryawan">
+							<a href="<?php echo base_url(); ?>laporan/keseluruhan">
 							<i class="fa fa-file-pdf-o"></i>
-							karyawan</a>
+							Laporan Penilaian Keseluruhan</a>
 						</li>
 					</ul>
 				</li>
@@ -624,6 +345,17 @@
 <script src="<?php echo base_url();?>assets/global/plugins/excanvas.min.js"></script> 
 <![endif]-->
 
+<script>
+	jQuery(document).ready(function() {    
+	   Metronic.init(); // init metronic core componets
+	   Layout.init(); // init layout
+	   Demo.init(); // init demo features
+	   QuickSidebar.init(); // init quick sidebar
+	   Index.init(); // init index page
+	   Tasks.initDashboardWidget(); // init tash dashboard widget  
+	   // TableManaged.init();
+	});
+</script>
 
 <!-- END JAVASCRIPTS -->
 </body>

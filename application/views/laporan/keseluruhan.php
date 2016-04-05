@@ -3,7 +3,7 @@
 		<div class="portlet box blue">
 			<div class="portlet-title">
 				<div class="caption">
-					<i class="fa fa-asterisk"></i>Rapor Penilaian Per Karyawan
+					<i class="fa fa-asterisk"></i>Rapor Penilaian Keseluruhan
 				</div>
 			</div>
 			<div class="portlet-body">
@@ -26,13 +26,13 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="periode" class="control-label col-md-4">Tempat Kerja </label>
+						<label for="periode" class="control-label col-md-4">Outlet</label>
 						<div class="col-md-4">
-							<select name="karyawan" id="karyawan" class="form-control" onchange="cek()">
-								<option value="">-- Pilih Karyawan --</option>
+							<select name="outlet" id="outlet" class="form-control" onchange="cek()">
+								<option value="">-- Pilih Outlet --</option>
 								<?php 
-									foreach ($karyawan as $karyawan) {
-										echo "<option value='".$karyawan->ID_KARYAWAN."'>".ucfirst(strtolower($karyawan->NAMA_KARYAWAN))."</option>";
+									foreach ($outlet as $outlet) {
+										echo "<option value='".$outlet->ID_OUTLET."'>".ucfirst(strtolower($outlet->NAMA_OUTLET))."</option>";
 									}
 								?>
 							</select>
