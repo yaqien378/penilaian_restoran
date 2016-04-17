@@ -55,11 +55,11 @@
 					<td>
 						<?php echo ucfirst(strtolower($periode->NAMA_PERIODE)); ?>
 					</td>
-					<td>
-						<?php echo ucfirst(strtolower($periode->AWAL)); ?>
+					<td style="text-align:center;">
+						<?php echo date("d-m-Y",strtotime($periode->AWAL)); ?>
 					</td>
-					<td>
-						<?php echo ucfirst(strtolower($periode->AKHIR)); ?>
+					<td style="text-align:center;">
+						<?php echo date("d-m-Y",strtotime($periode->AKHIR)); ?>
 					</td>
 					<td>
 						<?php echo ucfirst(strtolower($periode->KETERANGAN)); ?>
@@ -126,4 +126,48 @@
 			}
 		});
 	}
+
+	function bulan_awal(){
+		$('#thn_awal').focus();
+	}
+
+	function tahun_awal(){
+		var thn_awal = $('#thn_awal').val();
+		var thn_akhir = $('#thn_akhir').val();
+		if (thn_akhir=='')
+		{
+			var bln_akhir = $('#bln_awal').val();
+			var thn_akhir = parseInt($('#thn_awal').val())+1;
+
+			if(bln_awal)
+			{
+				$('#bln_akhir').val(bln_akhir);
+				$('#thn_akhir').val(thn_akhir);
+			}else{
+				$('#thn_awal').val('');
+				$('#bln_awal').focus();
+			}
+		}else{
+			if (thn_akhir < thn_awal)
+			{
+				$('#bln_awal').val('');
+				$('#thn_awal').val('');
+				$('#bln_akhir').val('');
+				$('#thn_akhir').val('');
+			}	
+		}
+	}
+
+	function tahun_akhir(){
+		var thn_awal = $('#thn_awal').val();
+		var thn_akhir = $('#thn_akhir').val();
+		if (thn_akhir < thn_awal)
+		{
+			$('#bln_awal').val('');
+			$('#thn_awal').val('');
+			$('#bln_akhir').val('');
+			$('#thn_akhir').val('');
+		}
+	}
+
 	</script>

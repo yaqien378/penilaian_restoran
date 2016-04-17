@@ -73,7 +73,7 @@
 			<label class="control-label visible-ie8 visible-ie9">Username</label>
 			<div class="input-icon">
 				<i class="fa fa-user"></i>
-				<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username" id="username">
+				<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="NIK" name="username" id="username" autofocus>
 			</div>
 		</div>
 		<div class="form-group">

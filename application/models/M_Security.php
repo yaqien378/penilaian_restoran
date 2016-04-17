@@ -15,6 +15,14 @@ class M_Security extends CI_Model {
 			redirect('login');
 		}
 	}
+
+	public function access($anti_levels=array())
+	{
+		$id = $this->session->userdata('level');
+		if (in_array($id, $anti_levels)) {
+			redirect('dashboard');
+		}
+	}
 	
 	public function gen_id($tabel,$kolom)
 	{
@@ -22,5 +30,6 @@ class M_Security extends CI_Model {
 
 		$data = $this->db->get($tabel)->result();
 		return ($data[0]->id + 1);
-	}
+	}	
+
 }

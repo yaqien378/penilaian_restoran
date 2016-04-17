@@ -3,8 +3,6 @@
 class M_Periode extends CI_Model {
 
 	public function create($id,$nama,$awal,$akhir,$keterangan){
-		$awal = $awal.'-01-01';
-		$akhir = $akhir.'-12-31';
 		return $this->db->insert(
 			'periode_kehadiran_dan_penilaian',
 			array(
@@ -31,10 +29,7 @@ class M_Periode extends CI_Model {
 
 
 	}
-	public function update($id,$nama,$awal,$akhir,$keterangan){
-		$awal = $awal.'-01-01';
-		$akhir = $akhir.'-12-31';
-		
+	public function update($id,$nama,$awal,$akhir,$keterangan){		
 		$this->db->where('ID_PERIODE2',$id);
 		return $this->db->update(
 			'periode_kehadiran_dan_penilaian',

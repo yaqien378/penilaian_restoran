@@ -26,7 +26,8 @@ class Login extends CI_Controller {
 			$session_data = array(
 				'id_karyawan' => $user[0]->ID_KARYAWAN,
 				'nama' => $user[0]->NAMA_KARYAWAN,
-				'password' => $user[0]->PASSWORD
+				'level' => $user[0]->LEVEL,
+				'outlet' => $user[0]->ID_OUTLET,
 			);
 
 			$this->session->set_userdata($session_data);

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
@@ -126,16 +127,16 @@
 					<li class="dropdown dropdown-user dropdown-dark">
 						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
 						<span class="username username-hide-on-mobile">
-						<?php echo $this->session->userdata('nama'); ?> </span>
+						<?= ucfirst(strtolower($this->session->userdata('nama'))) ?> </span>
 						<!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->
 						<img alt="" class="img-circle" src="<?php echo base_url();?>assets/admin/layout4/img/avatar9.jpg"/>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-default">
 							<li>
-								<a href="extra_profile.html">
+								<a href="#">
 								<i class="icon-user"></i> My Profile </a>
 							</li>
-							<li>
+							<!-- <li>
 								<a href="page_calendar.html">
 								<i class="icon-calendar"></i> My Calendar </a>
 							</li>
@@ -156,7 +157,7 @@
 							<li>
 								<a href="extra_lock.html">
 								<i class="icon-lock"></i> Lock Screen </a>
-							</li>
+							</li> -->
 							<li>
 								<a href="<?php echo base_url(); ?>login/logout">
 								<i class="icon-key"></i> Log Out </a>
@@ -190,13 +191,19 @@
 			<!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
 			<!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
 			<!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+			<?php 
+				$level = $this->session->userdata('level');
+			?>
 			<ul class="page-sidebar-menu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+				<?php if ($level == '1' || $level == '2' ||$level == '3' ||$level == '4' ||$level == '5'): ?>
 				<li class="start active ">
 					<a href="<?php echo base_url(); ?>dashboard">
 					<i class="fa fa-dashboard"></i>
 					<span class="title">Dashboard</span>
 					</a>
 				</li>
+				<?php endif; ?>
+				<?php if ($level == '1' || $level == '2'): ?>
 				<li>
 					<a href="javascript:;">
 					<i class="fa fa-bank"></i>
@@ -204,28 +211,38 @@
 					<span class="arrow "></span>
 					</a>
 					<ul class="sub-menu">
+						<?php if ($level == '1'): ?>
 						<li>
 							<a href="<?php echo base_url(); ?>master/outlet">
 							<i class="icon-home"></i>
 							Master Outlet</a>
 						</li>
+						<?php endif; ?>
+						<?php if ($level == '1'): ?>
 						<li>
 							<a href="<?php echo base_url(); ?>master/jabatan">
 							<i class="fa fa-bookmark-o"></i>
 							Master Jabatan</a>
 						</li>
+						<?php endif; ?>
+						<?php if ($level == '1' || $level == '2'): ?>
 						<li>
 							<a href="<?php echo base_url(); ?>master/karyawan">
 							<i class="icon-users"></i>
 							Master Karyawan</a>
 						</li>
+						<?php endif; ?>
+						<?php if ($level == '2'): ?>
 						<li>
 							<a href="<?php echo base_url(); ?>master/kehadiran">
 							<i class="fa fa-calendar-o"></i>
 							Master Kehadiran</a>
 						</li>
+						<?php endif; ?>
 					</ul>
 				</li>
+				<?php endif; ?>
+				<?php if ($level == '1'): ?>
 				<li>
 					<a href="javascript:;">
 					<i class="fa fa-database"></i>
@@ -260,12 +277,33 @@
 						</li>
 					</ul>
 				</li>
+				<?php endif; ?>
+				<?php if ($level == '1' || $level == '2' ||$level == '3' ||$level == '4' ||$level == '5'): ?>
 				<li>
-					<a href="<?php echo base_url(); ?>penilaian/penilaian_view">
+					<a href="javascript:;">
 					<i class="fa fa-random"></i>
 					<span class="title">Penilaian</span>
+					<span class="arrow "></span>
 					</a>
+					<ul class="sub-menu">
+						<?php if ($level == '1' || $level == '2' ||$level == '3' ||$level == '4'): ?>
+						<li>
+							<a href="<?php echo base_url(); ?>penilaian/penilaian_view">
+							<i class="fa fa-child"></i>
+							Penilaian Karyawan</a>
+						</li>
+						<?php endif; ?>
+						<?php if ($level == '2' ||$level == '3' ||$level == '4' ||$level == '5'): ?>
+						<li>
+							<a href="<?php echo base_url(); ?>penilaian/riwayat_penilaian">
+							<i class="fa fa-hdd-o"></i>
+							History Penilaian</a>
+						</li>
+						<?php endif; ?>
+					</ul>
 				</li>
+				<?php endif; ?>
+				<?php if ($level == '1' || $level == '2' ||$level == '3' ||$level == '4' ||$level == '5'): ?>
 				<li>
 					<a href="javascript:;">
 					<i class="fa fa-clipboard"></i>
@@ -285,6 +323,7 @@
 						</li>
 					</ul>
 				</li>
+				<?php endif; ?>
 
 			</ul>
 			<!-- END SIDEBAR MENU -->

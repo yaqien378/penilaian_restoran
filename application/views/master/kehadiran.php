@@ -5,10 +5,6 @@
 				<div class="caption">
 					<i class="fa fa-asterisk"></i>Data Kehadiran
 				</div>
-				<!-- <div class="actions">
-					<a class="btn btn-default btn-sm" onClick="tambah()" data-toggle="modal" href="#modal" >
-					<i class="fa fa-plus"></i> Tambah Data </a>
-				</div> -->
 			</div>
 			<div class="portlet-body">
 				<?php 

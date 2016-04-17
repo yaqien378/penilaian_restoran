@@ -1,3 +1,4 @@
+
 	<div class="col-md-12 col-sm-12">
 		<!-- BEGIN EXAMPLE TABLE PORTLET-->
 		<div class="portlet box blue">
@@ -102,7 +103,7 @@
 						$("#data-karyawan").html(r);
 					},
 					error:function(r){
-						alert(r);
+						alert("error "+r);
 
 					}
 
