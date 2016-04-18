@@ -55,13 +55,13 @@
 					<td>
 						<?php echo ucfirst(strtolower($jabatan->NAMA_JABATAN)); ?>
 					</td>
-					<td>
+					<td style="text-align:center;">
 						<?php echo ucfirst(strtolower($jabatan->GOLONGAN)); ?>
 					</td>
-					<td>
+					<td style="text-align:center;">
 						<?php echo ucfirst(strtolower($jabatan->AKSES)); ?>
 					</td>
-					<td>
+					<td style="text-align:center;"> 
 						<?php echo ucfirst(strtolower($jabatan->LEVEL)); ?>
 					</td>
 					<td style="text-align:center;"> 

@@ -8,7 +8,9 @@ class Master extends CI_Controller {
 	 */
 	public function outlet()
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+		$anti_level = array('5','4','3');
+		$this->m_security->access($anti_level);
 
 		$isi['content']		='master/outlet';
 		$isi['judul_menu']	='Maintenance Master';
@@ -22,7 +24,10 @@ class Master extends CI_Controller {
 
 	public function outlet_act($act)
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+		$anti_level = array('5','4','3');
+		$this->m_security->access($anti_level);
+
 
 		if($act == 'simpan'){
 			$id = $this->input->post('id');
@@ -72,7 +77,7 @@ class Master extends CI_Controller {
 						<label class='col-md-3 control-label'>Nama Jabatan</label>
 						<div class='col-md-9'>
 							<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
-							<input type='text' class='form-control' placeholder='Nama Jabatan' id='nama' name='nama'>
+							<input type='text' class='form-control' placeholder='Nama Jabatan' id='nama' name='nama' required>
 						</div>
 					</div>
 				</div>
@@ -99,7 +104,7 @@ class Master extends CI_Controller {
 						<label class='col-md-3 control-label'>Nama Jabatan</label>
 						<div class='col-md-9'>
 							<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
-							<input type='text' class='form-control' placeholder='Nama Jabatan' id='nama' name='nama' value='".$row->NAMA_OUTLET."'>
+							<input type='text' class='form-control' placeholder='Nama Jabatan' id='nama' name='nama' value='".$row->NAMA_OUTLET."' required>
 						</div>
 					</div>
 				</div>
@@ -120,7 +125,9 @@ class Master extends CI_Controller {
 	 */
 	public function jabatan()
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+		$anti_level = array('5','4','3');
+		$this->m_security->access($anti_level);
 
 		$isi['content']		='master/jabatan';
 		$isi['judul_menu']	='Maintenance Master';
@@ -134,16 +141,20 @@ class Master extends CI_Controller {
 
 	public function jabatan_act($act)
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+		$anti_level = array('5','4','3');
+		$this->m_security->access($anti_level);
+
 
 		if($act == 'simpan'){
 			$id = $this->input->post('id');
+			$atasan = $this->input->post('atasan');
 			$nama = strtoupper($this->input->post('nama'));
 			$golongan = strtoupper($this->input->post('golongan'));
 			$akses = strtoupper($this->input->post('akses'));
 			$level = strtoupper($this->input->post('level'));
 
-			$query = $this->m_jabatan->create($id,$nama,$golongan,$akses,$level);
+			$query = $this->m_jabatan->create($id,$atasan,$nama,$golongan,$akses,$level);
 
 			if($query > 0){
 				$this->session->set_flashdata('jenis','alert-success');
@@ -156,12 +167,13 @@ class Master extends CI_Controller {
 
 		}else if($act == 'ubah'){
 			$id = $this->input->post('id');
+			$atasan = $this->input->post('atasan');
 			$nama = strtoupper($this->input->post('nama'));
 			$golongan = strtoupper($this->input->post('golongan'));
 			$akses = strtoupper($this->input->post('akses'));
 			$level = strtoupper($this->input->post('level'));
 
-			$query = $this->m_jabatan->update($id,$nama,$golongan,$akses,$level);
+			$query = $this->m_jabatan->update($id,$atasan,$nama,$golongan,$akses,$level);
 
 			if($query > 0){
 				$this->session->set_flashdata('jenis','alert-success');
@@ -177,7 +189,8 @@ class Master extends CI_Controller {
 			$this->m_jabatan->delete($id);
 
 		}else if($act == 'tambah'){
-			$id = $this->m_security->gen_id('jabatan','ID_JABATAN');
+			$id 	= $this->m_security->gen_id('jabatan','ID_JABATAN');
+			$atasan = $this->m_jabatan->get_all();
 			echo "
 			<div class='modal-content'>
 				<div class='modal-header'>
@@ -190,33 +203,50 @@ class Master extends CI_Controller {
 						<label class='col-md-3 control-label'>Nama Jabatan</label>
 						<div class='col-md-9'>
 							<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
-							<input type='text' class='form-control' placeholder='Nama Jabatan' id='nama' name='nama'>
+							<input type='text' class='form-control' placeholder='Nama Jabatan' id='nama' name='nama' required>
 						</div>
 					</div>
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Golongan</label>
 						<div class='col-md-9'>
-							<input type='text' class='form-control' placeholder='Golongan' id='golongan' name='golongan'>
+							<input type='text' class='form-control' placeholder='Golongan' id='golongan' name='golongan' required>
 						</div>
 					</div>
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Akses</label>
 						<div class='col-md-9'>
-							<select name='akses' id='akses' class='form-control'>
+							<select name='akses' id='akses' class='form-control' required>
 								<option value=''>-- Pilih Status --</option>
-								<option value='administrator'>Administrator</option>
-								<option value='user'>User</option>
+								<option value='OWNER'>Owner</option>
+								<option value='RESTORAN MANAGER'>Restoran manager</option>
+								<option value='ASSISTEN RESTORAN MANAGER'>assisten restoran manager</option>
+								<option value='SHIFT LEADER'>Shift leader</option>
+								<option value='CREW'>Crew</option>
 							</select>
 						</div>
 					</div>
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Level</label>
 						<div class='col-md-9'>
-							<select name='level' id='level' class='form-control'>
+							<select name='level' id='level' class='form-control' required>
 								<option value=''>-- Pilih Jenis --</option>
 								<option value='1'>1</option>
 								<option value='2'>2</option>
 								<option value='3'>3</option>
+								<option value='4'>4</option>
+								<option value='5'>5</option>
+							</select>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-md-3 control-label'>Atasan</label>
+						<div class='col-md-9'>
+							<select name='atasan' id='atasan' class='form-control' required>
+								<option value=''>-- Pilih Atasan --</option>";
+								foreach ($atasan as $atasan) {
+									echo "<option value='".$atasan->ID_JABATAN."'>".$atasan->NAMA_JABATAN."</option>";
+								}
+							echo "
 							</select>
 						</div>
 					</div>
@@ -231,6 +261,7 @@ class Master extends CI_Controller {
 		}else if($act == 'edit'){
 			$id = $this->input->post('id');
 			$query = $this->m_jabatan->get_id($id);
+			$atasan = $this->m_jabatan->get_all();
 			foreach ($query as $row) {
 			echo "
 			<div class='modal-content'>
@@ -244,19 +275,19 @@ class Master extends CI_Controller {
 						<label class='col-md-3 control-label'>Nama Jabatan</label>
 						<div class='col-md-9'>
 							<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
-							<input type='text' class='form-control' placeholder='Nama Jabatan' id='nama' name='nama' value='".ucfirst(strtolower($row->NAMA_JABATAN))."'>
+							<input type='text' class='form-control' placeholder='Nama Jabatan' id='nama' name='nama' value='".ucfirst(strtolower($row->NAMA_JABATAN))."' required>
 						</div>
 					</div>
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Golongan</label>
 						<div class='col-md-9'>
-							<input type='text' class='form-control' placeholder='Golongan' id='golongan' name='golongan' value='".ucfirst(strtolower($row->GOLONGAN))."'>
+							<input type='text' class='form-control' placeholder='Golongan' id='golongan' name='golongan' value='".ucfirst(strtolower($row->GOLONGAN))."' required>
 						</div>
 					</div>
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Akses</label>
 						<div class='col-md-9'>
-							<select name='akses' id='akses' class='form-control'>
+							<select name='akses' id='akses' class='form-control' required>
 								<option value='".strtolower($row->AKSES)."' selected>".ucfirst(strtolower($row->AKSES))."</option>
 								<option value='administrator'>Administrator</option>
 								<option value='user'>User</option>
@@ -266,11 +297,25 @@ class Master extends CI_Controller {
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Level</label>
 						<div class='col-md-9'>
-							<select name='level' id='level' class='form-control'>
+							<select name='level' id='level' class='form-control' required>
 								<option value='".strtolower($row->LEVEL)."' selected>".ucfirst(strtolower($row->LEVEL))."</option>
 								<option value='1'>1</option>
 								<option value='2'>2</option>
 								<option value='3'>3</option>
+								<option value='4'>4</option>
+								<option value='5'>5</option>
+							</select>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-md-3 control-label'>Atasan</label>
+						<div class='col-md-9'>
+							<select name='atasan' id='atasan' class='form-control' required>
+								<option value='".$row->ID_JABATAN_ATASAN."' selected>".ucfirst(strtolower($row->NAMA_JABATAN))."</option>";
+								foreach ($atasan as $atasan) {
+									echo "<option value='".$atasan->ID_JABATAN."'>".$atasan->NAMA_JABATAN."</option>";
+								}
+							echo "
 							</select>
 						</div>
 					</div>
@@ -292,21 +337,34 @@ class Master extends CI_Controller {
 	 */
 	public function karyawan()
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+		$anti_level = array('5','4','3');
+		$this->m_security->access($anti_level);
+
+		$level = $this->session->userdata('level');
 
 		$isi['content']		='master/karyawan';
 		$isi['judul_menu']	='Maintenance Master';
 		$isi['judul']		='Maintenance Master <small>Data Karyawan</small>';
 		$isi['breadcrumb1']	='Maintenance Master';
 		$isi['breadcrumb2']	='Karyawan';
-		$isi['karyawan'] = $this->m_karyawan->get_all();
+
+		if ($level == '1') {
+			$isi['karyawan'] = $this->m_karyawan->get_all();
+		}else{
+			$outlet = $this->session->userdata('outlet');
+			$isi['karyawan'] = $this->m_karyawan->get_by_outlet($outlet);
+		}
 
 		$this->load->view('tampilan_utama',$isi);
 	}
 
 	public function karyawan_act($act)
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+		$anti_level = array('5','4','3');
+		$this->m_security->access($anti_level);
+
 
 		if($act == 'simpan'){
 			$id = $this->input->post('id');
@@ -315,11 +373,10 @@ class Master extends CI_Controller {
 			$jabatan = strtoupper($this->input->post('jabatan'));
 			$outlet = strtoupper($this->input->post('outlet'));
 			$jk = strtoupper($this->input->post('jk'));
-			$user = $this->input->post('username');
 			$pass = $this->input->post('pass');
 			$con_pass = $this->input->post('con_pass');
 
-			$query = $this->m_karyawan->create($id,$nama,$status,$jabatan,$outlet,$jk,$user,$pass);
+			$query = $this->m_karyawan->create($id,$nama,$status,$jabatan,$outlet,$jk,$pass);
 
 			if($query > 0){
 				$this->session->set_flashdata('jenis','alert-success');
@@ -337,9 +394,8 @@ class Master extends CI_Controller {
 			$jabatan = strtoupper($this->input->post('jabatan'));
 			$outlet = strtoupper($this->input->post('outlet'));
 			$jk = strtoupper($this->input->post('jk'));
-			$user = $this->input->post('username');
 
-			$query = $this->m_karyawan->update($id,$nama,$status,$jabatan,$outlet,$jk,$user,$pass);
+			$query = $this->m_karyawan->update($id,$nama,$status,$jabatan,$outlet,$jk);
 
 			if($query > 0){
 				$this->session->set_flashdata('jenis','alert-success');
@@ -355,7 +411,7 @@ class Master extends CI_Controller {
 			$this->m_karyawan->delete($id);
 
 		}else if($act == 'tambah'){
-			$id = $this->m_security->gen_id('karyawan','ID_KARYAWAN');
+			// $id = $this->m_security->gen_id('karyawan','ID_KARYAWAN');
 			$jabatan = $this->m_jabatan->get_all();
 			$outlet = $this->m_outlet->get_all();
 			echo "
@@ -367,17 +423,23 @@ class Master extends CI_Controller {
 			 <form class='form-horizontal' role='form' method='post' action='".base_url()."master/karyawan_act/simpan'>
 				<div class='modal-body'>
 					<div class='form-group'>
+						<label class='col-md-3 control-label'>ID Karyawan</label>
+						<div class='col-md-9'>
+							<input type='text' class='form-control' placeholder='ID' id='id' name='id' required>
+						</div>
+					</div>
+					<div class='form-group'>
 						<label class='col-md-3 control-label'>Nama Karyawan</label>
 						<div class='col-md-9'>
-							<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."'>
-							<input type='text' class='form-control' placeholder='Nama Karyawan' id='nama' name='nama'>
+							<input type='text' class='form-control' placeholder='Nama Karyawan' id='nama' name='nama' required>
 						</div>
 					</div>
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Status Karyawan</label>
 						<div class='col-md-9'>
-							<select name='status' id='status' class='form-control'>
+							<select name='status' id='status' class='form-control' required>
 								<option value=''>-- Pilih Status --</option>
+								<option value='Owner'>Owner</option>
 								<option value='tetap'>Tetap</option>
 								<option value='kontrak'>Kontrak</option>
 							</select>
@@ -386,22 +448,10 @@ class Master extends CI_Controller {
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Jabatan</label>
 						<div class='col-md-9'>
-							<select name='jabatan' id='jabatan' class='form-control'>
+							<select name='jabatan' id='jabatan' class='form-control' required>
 								<option value=''>-- Pilih Jabatan --</option>";
 								foreach ($jabatan as $jabatan) {
 									echo "<option value='".$jabatan->ID_JABATAN."'>".ucfirst(strtolower($jabatan->NAMA_JABATAN))."</option>";
-								}
-							echo
-							"</select>
-						</div>
-					</div>
-					<div class='form-group'>
-						<label class='col-md-3 control-label'>Tempat Kerja</label>
-						<div class='col-md-9'>
-							<select name='outlet' id='outlet' class='form-control'>
-								<option value=''>-- Pilih Tempat kerja --</option>";
-								foreach ($outlet as $outlet) {
-									echo "<option value='".$outlet->ID_OUTLET."'>".ucfirst(strtolower($outlet->NAMA_OUTLET))."</option>";
 								}
 							echo
 							"</select>
@@ -419,21 +469,27 @@ class Master extends CI_Controller {
 						</div>
 					</div>
 					<div class='form-group'>
-						<label class='col-md-3 control-label'>Username</label>
-						<div class='col-md-9'>
-							<input type='text' class='form-control' placeholder='Username' id='username' name='username'>
-						</div>
-					</div>
-					<div class='form-group'>
 						<label class='col-md-3 control-label'>Password</label>
 						<div class='col-md-9'>
-							<input type='password' class='form-control' placeholder='Password' id='pass' name='pass'>
+							<input type='password' class='form-control' placeholder='Password' id='pass' name='pass' pattern='[a-zA-Z0-9].{8,}' title='Minimal 8 character' required>
 						</div>
 					</div>
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Confirm Password</label>
 						<div class='col-md-9'>
-							<input type='password' class='form-control' placeholder='Confirm Password' id='con_pass' name='con_pass'>
+							<input type='password' class='form-control' placeholder='Confirm Password' id='con_pass' min-length='8' name='con_pass' onBlur='match()' required>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-md-3 control-label'>Tempat Kerja</label>
+						<div class='col-md-9'>
+							<select name='outlet' id='outlet' class='form-control' required>
+								<option value=''>-- Pilih Tempat kerja --</option>";
+								foreach ($outlet as $outlet) {
+									echo "<option value='".$outlet->ID_OUTLET."'>".ucfirst(strtolower($outlet->NAMA_OUTLET))."</option>";
+								}
+							echo
+							"</select>
 						</div>
 					</div>
 				</div>
@@ -459,16 +515,21 @@ class Master extends CI_Controller {
 				 <form class='form-horizontal' role='form' method='post' action='".base_url()."master/karyawan_act/ubah'>
 					<div class='modal-body'>
 						<div class='form-group'>
+							<label class='col-md-3 control-label'>Id Karyawan</label>
+							<div class='col-md-9'>
+								<input type='text' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' required readonly>
+							</div>
+						</div>
+						<div class='form-group'>
 							<label class='col-md-3 control-label'>Nama Karyawan</label>
 							<div class='col-md-9'>
-								<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."'>
-								<input type='text' class='form-control' placeholder='Nama Karyawan' id='nama' name='nama' value='".ucfirst(strtolower($row->NAMA_KARYAWAN))."'>
+								<input type='text' class='form-control' placeholder='Nama Karyawan' id='nama' name='nama' value='".ucfirst(strtolower($row->NAMA_KARYAWAN))."' required>
 							</div>
 						</div>
 						<div class='form-group'>
 							<label class='col-md-3 control-label'>Status Karyawan</label>
 							<div class='col-md-9'>
-								<select name='status' id='status' class='form-control'>
+								<select name='status' id='status' class='form-control' required>
 									<option value='".ucfirst(strtolower($row->STATUS_KARYAWAN))."'>".ucfirst(strtolower($row->STATUS_KARYAWAN))."</option>
 									<option value='tetap'>Tetap</option>
 									<option value='kontrak'>Kontrak</option>
@@ -478,7 +539,7 @@ class Master extends CI_Controller {
 						<div class='form-group'>
 							<label class='col-md-3 control-label'>Jabatan</label>
 							<div class='col-md-9'>
-								<select name='jabatan' id='jabatan' class='form-control'>
+								<select name='jabatan' id='jabatan' class='form-control' required>
 									<option value='".ucfirst(strtolower($row->ID_JABATAN))."'>".ucfirst(strtolower($row->NAMA_JABATAN))."</option>";
 									foreach ($jabatan as $jabatan) {
 										echo "<option value='".$jabatan->ID_JABATAN."'>".ucfirst(strtolower($jabatan->NAMA_JABATAN))."</option>";
@@ -490,7 +551,7 @@ class Master extends CI_Controller {
 						<div class='form-group'>
 							<label class='col-md-3 control-label'>Tempat Kerja</label>
 							<div class='col-md-9'>
-								<select name='outlet' id='outlet' class='form-control'>
+								<select name='outlet' id='outlet' class='form-control' required>
 									<option value='".ucfirst(strtolower($row->ID_OUTLET))."'>".ucfirst(strtolower($row->NAMA_OUTLET))."</option>";
 									foreach ($outlet as $outlet) {
 										echo "<option value='".$outlet->ID_OUTLET."'>".ucfirst(strtolower($outlet->NAMA_OUTLET))."</option>";
@@ -509,12 +570,6 @@ class Master extends CI_Controller {
 									<label class='radio-inline'>
 									<input type='radio' name='jk' id='wanita' value='wanita' "; if($row->JENIS_KELAMIN == 'WANITA'){echo "checked";} echo ">Wanita</label>
 								</div>
-							</div>
-						</div>
-						<div class='form-group'>
-							<label class='col-md-3 control-label'>Username</label>
-							<div class='col-md-9'>
-								<input type='text' class='form-control' placeholder='Username' id='username' name='username' value='".ucfirst(strtolower($row->USERNAME2))."'>
 							</div>
 						</div>
 					</div>
@@ -536,7 +591,11 @@ class Master extends CI_Controller {
 	 */
 	public function kehadiran()
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+		$anti_level = array('5','4','3');
+		$this->m_security->access($anti_level);
+
+		$id = $this->session->userdata('id_karyawan');
 
 		$isi['content']		='master/kehadiran';
 		$isi['judul_menu']	='Maintenance Master';
@@ -544,14 +603,17 @@ class Master extends CI_Controller {
 		$isi['breadcrumb1']	='Maintenance Master';
 		$isi['breadcrumb2']	='Kehadiran';
 		$isi['periode'] = $this->m_periode->get_all();
-		$isi['outlet'] = $this->m_outlet->get_all();
+		$isi['outlet'] = $isi['outlet'] = $this->m_karyawan->get_id($id);;
 
 		$this->load->view('tampilan_utama',$isi);
 	}
 
 	public function kehadiran_act($act)
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+		$anti_level = array('5','4','3');
+		$this->m_security->access($anti_level);
+
 
 		if($act == 'simpan'){
 
@@ -568,10 +630,8 @@ class Master extends CI_Controller {
 				$kehadiran = $this->m_kehadiran->cek_kehadiran_id($id[$i]);
 				$kehadiran = $kehadiran->num_rows();
 				if ($kehadiran > 0) {
-					// echo "di perbarui";
 					$this->m_kehadiran->update($id[$i],$periode,$karyawan[$i],$terlambat[$i],$absen[$i],$sakit[$i]);
 				}else{
-					// echo "di simpan";
 					$this->m_kehadiran->create($id[$i],$periode,$karyawan[$i],$terlambat[$i],$absen[$i],$sakit[$i]);
 				}
 
@@ -582,29 +642,6 @@ class Master extends CI_Controller {
 
 			redirect('master/kehadiran');
 
-		}else if($act == 'ubah'){
-			$id = $this->input->post('id');
-			$nama = strtoupper($this->input->post('nama'));
-			$status = strtoupper($this->input->post('status'));
-			$jabatan = strtoupper($this->input->post('jabatan'));
-			$outlet = strtoupper($this->input->post('outlet'));
-			$jk = strtoupper($this->input->post('jk'));
-			$user = $this->input->post('username');
-
-			$query = $this->m_karyawan->update($id,$nama,$status,$jabatan,$outlet,$jk,$user,$pass);
-
-			if($query > 0){
-				$this->session->set_flashdata('jenis','alert-success');
-				$this->session->set_flashdata('pesan','<strong>Berhasil!</strong> Data berhasil di ubah.');
-			}else{
-				$this->session->set_flashdata('jenis','alert-danger');
-				$this->session->set_flashdata('pesan','<strong>Gagal!</strong> Data gagal di ubah.');
-			}
-			redirect('master/karyawan');
-
-		}else if($act == 'hapus'){
-			$id = $this->input->post('id');
-			$this->m_karyawan->delete($id);
 		}else if($act == 'cek'){
 			$periode = $this->input->post('periode');
 			$outlet = $this->input->post('outlet');
@@ -722,13 +759,15 @@ class Master extends CI_Controller {
 	}
 
 	
-
 	/**
 	 * Master periode
 	 */
 	public function periode()
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+		$anti_level = array('5','4','3');
+		$this->m_security->access($anti_level);
+
 
 		$isi['content']		='master/periode';
 		$isi['judul_menu']	='Maintenance Data';
@@ -742,14 +781,39 @@ class Master extends CI_Controller {
 
 	public function periode_act($act)
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+		$anti_level = array('5','4','3');
+		$this->m_security->access($anti_level);
+
 
 		if($act == 'simpan'){
 			$id = $this->input->post('id');
 			$nama = strtoupper($this->input->post('nama'));
-			$awal = $this->input->post('awal');
-			$akhir = $this->input->post('akhir');
+			$bln_awal = $this->input->post('bln_awal');
+			$thn_awal = $this->input->post('thn_awal');
+
+			$bln_akhir = $this->input->post('bln_akhir');
+			$thn_akhir = $this->input->post('thn_akhir');
 			$keterangan = strtoupper($this->input->post('keterangan'));
+			
+			//set tanggal akhir yyyy-mm-dd
+			if ($bln_akhir == '01' ||$bln_akhir == '03' ||$bln_akhir == '05' ||$bln_akhir == '07' ||$bln_akhir == '08' ||$bln_akhir == '10' ||$bln_akhir == '12')
+			{
+				$tgl_akhir = '31';
+			}else
+			if ($bln_akhir == '02')
+			{
+				if ($thn_akhir % 4 == 0) {
+					$tgl_akhir = '29';
+				}else{
+					$tgl_akhir = '28';
+				}
+			}else{
+				$tgl_akhir = '30';
+			}
+			$tgl_awal = '01';
+			$awal = $thn_awal."-".$bln_awal."-".$tgl_awal;
+			$akhir = $thn_akhir."-".$bln_akhir."-".$tgl_akhir;
 
 			$query = $this->m_periode->create($id,$nama,$awal,$akhir,$keterangan);
 
@@ -765,9 +829,32 @@ class Master extends CI_Controller {
 		}else if($act == 'ubah'){
 			$id = $this->input->post('id');
 			$nama = strtoupper($this->input->post('nama'));
-			$awal = $this->input->post('awal');
-			$akhir = $this->input->post('akhir');
+			$bln_awal = $this->input->post('bln_awal');
+			$thn_awal = $this->input->post('thn_awal');
+
+			$bln_akhir = $this->input->post('bln_akhir');
+			$thn_akhir = $this->input->post('thn_akhir');
 			$keterangan = strtoupper($this->input->post('keterangan'));
+			
+			//set tanggal akhir yyyy-mm-dd
+			if ($bln_akhir == '01' ||$bln_akhir == '03' ||$bln_akhir == '05' ||$bln_akhir == '07' ||$bln_akhir == '08' ||$bln_akhir == '10' ||$bln_akhir == '12')
+			{
+				$tgl_akhir = '31';
+			}else
+			if ($bln_akhir == '02')
+			{
+				if ($thn_akhir % 4 == 0) {
+					$tgl_akhir = '29';
+				}else{
+					$tgl_akhir = '28';
+				}
+			}else{
+				$tgl_akhir = '30';
+			}
+			$tgl_awal = '01';
+			$awal = $thn_awal."-".$bln_awal."-".$tgl_awal;
+			$akhir = $thn_akhir."-".$bln_akhir."-".$tgl_akhir;
+
 
 			$query = $this->m_periode->update($id,$nama,$awal,$akhir,$keterangan);
 
@@ -798,28 +885,72 @@ class Master extends CI_Controller {
 						<label class='col-md-3 control-label'>Nama Periode</label>
 						<div class='col-md-9'>
 							<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
-							<input type='text' class='form-control' placeholder='Nama Periode' id='nama' name='nama'>
+							<input type='text' class='form-control' placeholder='Nama Periode' id='nama' name='nama' required>
 						</div>
 					</div>
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Awal</label>
-						<div class='col-md-9'>
-							<select name='awal' id='awal' class='form-control'>
-								<option value=''>-- Pilih awal --</option>
-								<option value='2016'>2016</option>
-								<option value='2017'>2017</option>
-								<option value='2018'>2018</option>
+						<div class='col-md-5'>
+							<select name='bln_awal' id='bln_awal' class='form-control' onChange='bulan_awal()' required>
+								<option value=''>-- Pilih Bulan --</option>
+								<option value='01'>Januari</option>
+								<option value='02'>Februari</option>
+								<option value='03'>Maret</option>
+								<option value='04'>April</option>
+								<option value='05'>Mei</option>
+								<option value='06'>Juni</option>
+								<option value='07'>Juli</option>
+								<option value='08'>Agustus</option>
+								<option value='09'>September</option>
+								<option value='10'>Oktober</option>
+								<option value='11'>November</option>
+								<option value='12'>Desember</option>
+							</select>
+						</div>
+						<div class='col-md-4'>
+							<select name='thn_awal' id='thn_awal' class='form-control' onChange='tahun_awal()' required>
+								<option value=''>-- Pilih tahun --</option>";
+								$tahun_sekarang = date("Y");
+								$n = $tahun_sekarang - 5; //awal tahun yang di tampilkan 5 tahun sebelumnya
+								$tahun_tampil = 10;//menampilkan tahun sebayak 10 kali
+								for ($i=0; $i < $tahun_tampil ; $i++) { 
+									echo "<option value='".$n."'>".$n."</option>";
+									$n++;
+								}
+
+							echo "
 							</select>
 						</div>
 					</div>
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Akhir</label>
-						<div class='col-md-9'>
-							<select name='akhir' id='akhir' class='form-control'>
-								<option value=''>-- Pilih akhir --</option>
-								<option value='2016'>2016</option>
-								<option value='2017'>2017</option>
-								<option value='2018'>2018</option>
+						<div class='col-md-5'>
+							<select name='bln_akhir' id='bln_akhir' class='form-control' required>
+								<option value=''>-- Pilih Bulan --</option>
+								<option value='01'>Januari</option>
+								<option value='02'>Februari</option>
+								<option value='03'>Maret</option>
+								<option value='04'>April</option>
+								<option value='05'>Mei</option>
+								<option value='06'>Juni</option>
+								<option value='07'>Juli</option>
+								<option value='08'>Agustus</option>
+								<option value='09'>September</option>
+								<option value='10'>Oktober</option>
+								<option value='11'>November</option>
+								<option value='12'>Desember</option>
+							</select>
+						</div>
+						<div class='col-md-4'>
+							<select name='thn_akhir' id='thn_akhir' class='form-control' onChange='tahun_akhir()' required>
+								<option value=''>-- Pilih tahun --</option>";
+								$n = $tahun_sekarang - 5; //awal tahun yang di tampilkan 5 tahun sebelumnya
+								$tahun_tampil = 10;//menampilkan tahun sebayak 10 kali
+								for ($i=0; $i < $tahun_tampil ; $i++) { 
+									echo "<option value='".$n."'>".$n."</option>";
+									$n++;
+								}
+							echo"
 							</select>
 						</div>
 					</div>
@@ -853,35 +984,87 @@ class Master extends CI_Controller {
 						<label class='col-md-3 control-label'>Nama Periode</label>
 						<div class='col-md-9'>
 							<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
-							<input type='text' class='form-control' placeholder='Nama Periode' id='nama' name='nama' value='".$row->NAMA_PERIODE."'>
+							<input type='text' class='form-control' placeholder='Nama Periode' id='nama' name='nama' value='".ucfirst(strtolower($row->NAMA_PERIODE))."' required>
 						</div>
 					</div>
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Awal</label>
-						<div class='col-md-9'>
-							<select name='awal' id='awal' class='form-control'>
-								<option value='".$row->AWAL."'>".$row->AWAL."</option>
-								<option value='2016'>2016</option>
-								<option value='2017'>2017</option>
-								<option value='2018'>2018</option>
+						<div class='col-md-5'>
+							<select name='bln_awal' id='bln_awal' class='form-control'  required>";
+								$bulan_awal = date("m",strtotime($row->AWAL));
+								$format_bulan = $this->bulan_indo($bulan_awal);
+								echo "<option value='".$bulan_awal."'>".$format_bulan."</option>";								
+
+								echo "
+								<option value='01'>Januari</option>
+								<option value='02'>Februari</option>
+								<option value='03'>Maret</option>
+								<option value='04'>April</option>
+								<option value='05'>Mei</option>
+								<option value='06'>Juni</option>
+								<option value='07'>Juli</option>
+								<option value='08'>Agustus</option>
+								<option value='09'>September</option>
+								<option value='10'>Oktober</option>
+								<option value='11'>November</option>
+								<option value='12'>Desember</option>
+							</select>
+						</div>
+						<div class='col-md-4'>
+							<select name='thn_awal' id='thn_awal' class='form-control' onChange='tahun_awal()' required>";
+
+								echo "<option value='".date("Y",strtotime($row->AWAL))."'>".date("Y",strtotime($row->AWAL))."</option>";
+								$tahun_sekarang = date("Y");
+								$n = $tahun_sekarang - 5; //awal tahun yang di tampilkan 5 tahun sebelumnya
+								$tahun_tampil = 10;//menampilkan tahun sebayak 10 kali
+								for ($i=0; $i < $tahun_tampil ; $i++) { 
+									echo "<option value='".$n."'>".$n."</option>";
+									$n++;
+								}
+
+							echo "
 							</select>
 						</div>
 					</div>
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Akhir</label>
-						<div class='col-md-9'>
-							<select name='akhir' id='akhir' class='form-control'>
-								<option value='".$row->AKHIR."'>".$row->AKHIR."</option>
-								<option value='2016'>2016</option>
-								<option value='2017'>2017</option>
-								<option value='2018'>2018</option>
+						<div class='col-md-5'>
+							<select name='bln_akhir' id='bln_akhir' class='form-control' required>";
+								$bulan_akhir = date("m",strtotime($row->AKHIR));
+								$format_bulan = $this->bulan_indo($bulan_akhir);
+								echo "<option value='".$bulan_akhir."'>".$format_bulan."</option>";
+								echo "
+								<option value='01'>Januari</option>
+								<option value='02'>Februari</option>
+								<option value='03'>Maret</option>
+								<option value='04'>April</option>
+								<option value='05'>Mei</option>
+								<option value='06'>Juni</option>
+								<option value='07'>Juli</option>
+								<option value='08'>Agustus</option>
+								<option value='09'>September</option>
+								<option value='10'>Oktober</option>
+								<option value='11'>November</option>
+								<option value='12'>Desember</option>
+							</select>
+						</div>
+						<div class='col-md-4'>
+							<select name='thn_akhir' id='thn_akhir' class='form-control' onChange='tahun_akhir()' required>";
+								echo "<option value='".date("Y",strtotime($row->AKHIR))."'>".date("Y",strtotime($row->AKHIR))."</option>";
+								$n = $tahun_sekarang - 5; //awal tahun yang di tampilkan 5 tahun sebelumnya
+								$tahun_tampil = 10;//menampilkan tahun sebayak 10 kali
+								for ($i=0; $i < $tahun_tampil ; $i++) { 
+									echo "<option value='".$n."'>".$n."</option>";
+									$n++;
+								}
+							echo"
 							</select>
 						</div>
 					</div>
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Keterangan</label>
 						<div class='col-md-9'>
-							<textarea class='form-control' cols='3' rows='7' name='keterangan' id='keterangan'>".$row->KETERANGAN."</textarea>
+							<textarea class='form-control' cols='3' rows='7' name='keterangan' id='keterangan'>".ucfirst(strtolower($row->KETERANGAN))."</textarea>
 						</div>
 					</div>
 				</div>
@@ -903,7 +1086,10 @@ class Master extends CI_Controller {
 	 */
 	public function range_kriteria()
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+		$anti_level = array('5','4','3');
+		$this->m_security->access($anti_level);
+
 
 		$isi['content']		='master/range_kriteria';
 		$isi['judul_menu']	='Maintenance Data';
@@ -917,7 +1103,10 @@ class Master extends CI_Controller {
 
 	public function range_kriteria_act($act)
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+		$anti_level = array('5','4','3');
+		$this->m_security->access($anti_level);
+
 
 		if($act == 'simpan'){
 			$id = $this->input->post('id');
@@ -988,17 +1177,17 @@ class Master extends CI_Controller {
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Nilai Range</label>
 						<div class='col-md-4'>
-							<input type='number' class='form-control col-md-2' id='awal' name='awal' placeholder='Nilai awal'>
+							<input type='number' class='form-control col-md-2' id='awal' name='awal' placeholder='Nilai awal' required>
 						</div>
 						<div class='col-md-4'>
-							<input type='number' class='form-control col-md-2' id='akhir' name='akhir' placeholder='Nilai akhir'>
+							<input type='number' class='form-control col-md-2' id='akhir' name='akhir' placeholder='Nilai akhir' required>
 						</div>
 					</div>
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Deskripsi</label>
 						<div class='col-md-9'>
 							<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
-							<textarea class='form-control' cols='3' rows='7' name='deskripsi' id='deskripsi'></textarea>
+							<textarea class='form-control' cols='3' rows='7' name='deskripsi' id='deskripsi' required></textarea>
 						</div>
 					</div>
 				</div>
@@ -1040,17 +1229,17 @@ class Master extends CI_Controller {
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Nilai Range</label>
 						<div class='col-md-4'>
-							<input type='number' class='form-control col-md-2' id='awal' name='awal' placeholder='Nilai awal' value='".$nilai[0]."'>
+							<input type='number' class='form-control col-md-2' id='awal' name='awal' placeholder='Nilai awal' value='".$nilai[0]."' required>
 						</div>
 						<div class='col-md-4'>
-							<input type='number' class='form-control col-md-2' id='akhir' name='akhir' placeholder='Nilai akhir' value='".$nilai[1]."'>
+							<input type='number' class='form-control col-md-2' id='akhir' name='akhir' placeholder='Nilai akhir' value='".$nilai[1]."' required>
 						</div>
 					</div>
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Deskripsi</label>
 						<div class='col-md-9'>
 							<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
-							<textarea class='form-control' cols='3' rows='7' name='deskripsi' id='deskripsi'>".ucfirst(strtolower($row->DESKRIPSI_KRITERIA))."</textarea>
+							<textarea class='form-control' cols='3' rows='7' name='deskripsi' id='deskripsi' required>".ucfirst(strtolower($row->DESKRIPSI_KRITERIA))."</textarea>
 						</div>
 					</div>
 				</div>
@@ -1072,7 +1261,10 @@ class Master extends CI_Controller {
 	 */
 	public function kriteria()
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+		$anti_level = array('5','4','3');
+		$this->m_security->access($anti_level);
+
 
 		$isi['content']		='master/kriteria';
 		$isi['judul_menu']	='Maintenance Data';
@@ -1086,7 +1278,10 @@ class Master extends CI_Controller {
 
 	public function kriteria_act($act)
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+		$anti_level = array('5','4','3');
+		$this->m_security->access($anti_level);
+
 
 		if($act == 'simpan'){
 			$id = $this->input->post('id');
@@ -1168,13 +1363,13 @@ class Master extends CI_Controller {
 						<label class='col-md-3 control-label'>Nama Kriteria</label>
 						<div class='col-md-9'>
 							<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
-							<input type='text' class='form-control' id='nama' name='nama' placeholder='Nama Kriteria'>
+							<input type='text' class='form-control' id='nama' name='nama' placeholder='Nama Kriteria' required>
 						</div>
 					</div>
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Bobot (%)</label>
 						<div class='col-md-9'>
-							<input type='number' class='form-control' id='bobot' name='bobot' placeholder='Bobot Kriteria'>
+							<input type='number' class='form-control' id='bobot' name='bobot' placeholder='Bobot Kriteria' required>
 							<span>Bobot harus bernilai di antara 1 - ".$max."</span>
 						</div>
 					</div>
@@ -1207,13 +1402,13 @@ class Master extends CI_Controller {
 							<div class='col-md-9'>
 								<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
 								<input type='hidden' class='form-control' placeholder='bobot_awal' id='bobot_awal' name='bobot_awal' value='".$row->BOBOT."' readonly>
-								<input type='text' class='form-control' id='nama' name='nama' placeholder='Nama Kriteria' value='".$row->NAMA_KRITERIA."'>
+								<input type='text' class='form-control' id='nama' name='nama' placeholder='Nama Kriteria' value='".$row->NAMA_KRITERIA."' required>
 							</div>
 						</div>
 						<div class='form-group'>
 							<label class='col-md-3 control-label'>Bobot (%)</label>
 							<div class='col-md-9'>
-								<input type='number' class='form-control' id='bobot' name='bobot' placeholder='Bobot Kriteria' value='".$row->BOBOT."'>
+								<input type='number' class='form-control' id='bobot' name='bobot' placeholder='Bobot Kriteria' value='".$row->BOBOT."' required>
 								<span>Bobot harus bernilai di antara 1 - ".$max."</span>
 							</div>
 						</div>
@@ -1237,7 +1432,10 @@ class Master extends CI_Controller {
 	 */
 	public function kategori_pelatihan()
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+		$anti_level = array('5','4','3');
+		$this->m_security->access($anti_level);
+
 
 		$isi['content']		='master/kategori_pelatihan';
 		$isi['judul_menu']	='Maintenance Data';
@@ -1251,7 +1449,10 @@ class Master extends CI_Controller {
 
 	public function kategori_pelatihan_act($act)
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+		$anti_level = array('5','4','3');
+		$this->m_security->access($anti_level);
+
 
 		if($act == 'simpan'){
 			$id = $this->input->post('id');
@@ -1301,7 +1502,7 @@ class Master extends CI_Controller {
 						<label class='col-md-3 control-label'>Nama Kategori</label>
 						<div class='col-md-9'>
 							<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
-							<input type='text' class='form-control' id='nama' name='nama' placeholder='Nama Kategori'>
+							<input type='text' class='form-control' id='nama' name='nama' placeholder='Nama Kategori' required>
 						</div>
 					</div>
 				</div>
@@ -1328,7 +1529,7 @@ class Master extends CI_Controller {
 							<label class='col-md-3 control-label'>Nama Kategori</label>
 							<div class='col-md-9'>
 								<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
-								<input type='text' class='form-control' id='nama' name='nama' placeholder='Nama Kategori' value='".ucfirst(strtolower($row->NAMA_KATEGORI))."'>
+								<input type='text' class='form-control' id='nama' name='nama' placeholder='Nama Kategori' value='".ucfirst(strtolower($row->NAMA_KATEGORI))."' required>
 							</div>
 						</div>
 					</div>
@@ -1350,7 +1551,10 @@ class Master extends CI_Controller {
 	 */
 	public function pelatihan()
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+		$anti_level = array('5','4','3');
+		$this->m_security->access($anti_level);
+
 
 		$isi['content']		='master/pelatihan';
 		$isi['judul_menu']	='Maintenance Data';
@@ -1364,7 +1568,10 @@ class Master extends CI_Controller {
 
 	public function pelatihan_act($act)
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+		$anti_level = array('5','4','3');
+		$this->m_security->access($anti_level);
+
 
 		if($act == 'simpan'){
 			$id = $this->input->post('id');
@@ -1419,13 +1626,13 @@ class Master extends CI_Controller {
 						<label class='col-md-3 control-label'>Nama Periode</label>
 						<div class='col-md-9'>
 							<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
-							<input type='text' class='form-control' placeholder='Nama Pelatihan' id='nama' name='nama'>
+							<input type='text' class='form-control' placeholder='Nama Pelatihan' id='nama' name='nama' required>
 						</div>
 					</div>
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Awal</label>
 						<div class='col-md-9'>
-							<select name='kategori' id='kategori' class='form-control'>
+							<select name='kategori' id='kategori' class='form-control' required>
 								<option value=''>-- Pilih Kategori --</option>";
 								foreach ($kategori as $kategori) {
 									echo "<option value='".$kategori->ID_KATEGORI."'>".ucfirst(strtolower($kategori->NAMA_KATEGORI))."</option>";
@@ -1465,13 +1672,13 @@ class Master extends CI_Controller {
 							<label class='col-md-3 control-label'>Nama Periode</label>
 							<div class='col-md-9'>
 								<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
-								<input type='text' class='form-control' placeholder='Nama Pelatihan' id='nama' name='nama' value='".ucfirst(strtolower($row->NAMA_PELATIHAN))."'>
+								<input type='text' class='form-control' placeholder='Nama Pelatihan' id='nama' name='nama' value='".ucfirst(strtolower($row->NAMA_PELATIHAN))."' required>
 							</div>
 						</div>
 						<div class='form-group'>
 							<label class='col-md-3 control-label'>Awal</label>
 							<div class='col-md-9'>
-								<select name='kategori' id='kategori' class='form-control'>
+								<select name='kategori' id='kategori' class='form-control' required>
 									<option value='".$row->ID_KATEGORI."'>".ucfirst(strtolower($row->NAMA_KATEGORI))."</option>";
 									foreach ($kategori as $kategori) {
 										echo "<option value='".$kategori->ID_KATEGORI."'>".ucfirst(strtolower($kategori->NAMA_KATEGORI))."</option>";
@@ -1499,6 +1706,54 @@ class Master extends CI_Controller {
 			redirect('master/pelatihan');
 		}
 	}
+
+	public function bulan_indo($bln)
+	{
+		switch ($bln) {
+			case '01':
+				$bulan = 'Januari';
+				break;
+			case '02':
+				$bulan = 'Februari';
+				break;
+			case '03':
+				$bulan = 'Maret';
+				break;
+			case '04':
+				$bulan = 'April';
+				break;
+			case '05':
+				$bulan = 'Mei';
+				break;
+			case '06':
+				$bulan = 'Juni';
+				break;
+			case '07':
+				$bulan = 'Juli';
+				break;
+			case '08':
+				$bulan = 'Agustus';
+				break;
+			case '09':
+				$bulan = 'September';
+				break;
+			case '10':
+				$bulan = 'Oktober';
+				break;
+			case '11':
+				$bulan = 'November';
+				break;
+			case '12':
+				$bulan = 'Desember';
+				break;
+			
+			default:
+				$bulan = 'Januari';
+				break;
+		}
+		return $bulan;
+	}
+
 
 
 }

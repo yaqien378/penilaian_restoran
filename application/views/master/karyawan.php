@@ -27,25 +27,25 @@
 					<th style="width:5%;text-align:center;">
 						No.
 					</th>
-					<th style="width:20%;text-align:center;">
+					<th style="width:15%;text-align:center;">
+						 ID
+					</th>
+					<th style="width:15%;text-align:center;">
 						 Nama
 					</th>
 					<th style="width:10%;text-align:center;">
 						 Status
 					</th>
-					<th style="width:10%;text-align:center;">
+					<th style="width:5%;text-align:center;">
 						 JK
 					</th>
-					<th style="width:15%;text-align:center;">
+					<th style="width:10%;text-align:center;">
 						 Jabatan
 					</th>
 					<th style="width:15%;text-align:center;">
 						 Tempat Kerja
 					</th>
 					<th style="width:15%;text-align:center;">
-						 Username
-					</th>
-					<th style="width:10%;text-align:center;">
 						 Action
 					</th>
 				</tr>
@@ -53,10 +53,13 @@
 				<tbody>
 				<?php 
 				$no = 1;
-				foreach ($karyawan as $karyawan) : ?>
+				foreach ($karyawan->result() as $karyawan) : ?>
 				<tr class="odd gradeX" id="r<?php echo $karyawan->ID_KARYAWAN; ?>">
 					<td style="text-align:center;">
 						<?php echo $no++; ?>
+					</td>
+					<td>
+						<?php echo $karyawan->ID_KARYAWAN; ?>
 					</td>
 					<td>
 						<?php echo ucfirst(strtolower($karyawan->NAMA_KARYAWAN)); ?>
@@ -72,9 +75,6 @@
 					</td>
 					<td style="text-align:center;">
 						<?php echo ucfirst(strtolower($karyawan->NAMA_OUTLET)); ?>
-					</td>
-					<td style="text-align:center;">
-						<?php echo ucfirst(strtolower($karyawan->USERNAME2)); ?>
 					</td>
 					<td style="text-align:center;">
 						<div class="btn-group btn-group-sm btn-group-solid ">
@@ -137,5 +137,16 @@
 				$("#modal-form").html(r);
 			}
 		});
+	}
+
+	function match(){
+		var pass = $("#pass").val();
+		var con_pass = $("#con_pass").val();
+
+		if (pass != con_pass)
+		{
+			alert("Confirmasi password harus sama dengan password !");
+			$("#con_pass").val('');
+		}
 	}
 	</script>

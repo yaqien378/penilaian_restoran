@@ -39,7 +39,7 @@
 <!-- BEGIN LOGO -->
 <div class="logo">
 	<a href="index.html">
-	<img src="<?php echo base_url();?>assets/admin/layout4/img/logo-big.png" alt=""/>
+	<img src="<?php echo base_url();?>assets/admin/layout4/img/logo-pizza-big.png" style="width:14%;" alt=""/>
 	</a>
 </div>
 <!-- END LOGO -->
@@ -73,7 +73,7 @@
 			<label class="control-label visible-ie8 visible-ie9">Username</label>
 			<div class="input-icon">
 				<i class="fa fa-user"></i>
-				<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username" id="username">
+				<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="NIK" name="username" id="username" autofocus>
 			</div>
 		</div>
 		<div class="form-group">
@@ -96,7 +96,7 @@
 <!-- END LOGIN -->
 <!-- BEGIN COPYRIGHT -->
 <div class="copyright">
-	 <?php echo date('Y'); ?> &copy; Munir Agung Wisudawanto.
+	 <?php echo date('Y'); ?> &copy; nama restoran.
 </div>
 <!-- END COPYRIGHT -->
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->

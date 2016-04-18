@@ -4,11 +4,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Penilaian extends CI_Controller {
 
 	/**
-	 * Penilaian
+	 * Penilaian karyawan
 	 */
 	public function penilaian_view()
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+		$anti_level = array('5');
+		$this->m_security->access($anti_level);
+
+		$id = $this->session->userdata('id_karyawan');
 
 		$isi['content']		='penilaian/penilaian';
 		$isi['judul_menu']	='Penilaian';
@@ -16,14 +20,22 @@ class Penilaian extends CI_Controller {
 		$isi['breadcrumb1']	='Penilaian';
 		$isi['breadcrumb2']	='';
 		$isi['periode'] = $this->m_periode->get_all();
-		$isi['outlet'] = $this->m_outlet->get_all();
+
+		$level = $this->session->userdata('level');
+		if ($level == '1') {
+			$isi['outlet'] = $this->m_outlet->get_all();//menampilkan semua outlet untuk level owner
+		}else{
+			$isi['outlet'] = $this->m_karyawan->get_id($id);//mendapatkan nama outlet berdasarkan karyawan
+		}
 
 		$this->load->view('tampilan_utama',$isi);
 	}
 
 	public function proses_penilaian($id_karyawan,$periode)
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+		$anti_level = array('5');
+		$this->m_security->access($anti_level);
 
 		$isi['content']		='penilaian/proses_penilaian';
 		$isi['judul_menu']	='Proses Penilaian';
@@ -43,15 +55,15 @@ class Penilaian extends CI_Controller {
 
 	public function penilaian_act($act)
 	{
-		// $this->m_security->check();
+		$this->m_security->check();
+
+		$anti_level = array('5');
+		$this->m_security->access($anti_level);
 
 		if($act == 'simpan'){
-			// echo "<pre>";
-			// print_r($_POST);
-			// echo "</pre>";
 			$id_penilaian = $this->input->post('id_penilaian');
 			$periode = $this->input->post('periode');
-			$id_karyawan = '1';
+			$id_karyawan = $this->session->userdata('id_karyawan');
 			$kar_id_karyawan = $this->input->post('id_karyawan');
 			$ket = '';
 			$nilai_total = 0;
@@ -90,84 +102,15 @@ class Penilaian extends CI_Controller {
 				$this->session->set_flashdata('pesan','<strong>Gagal!</strong> Data gagal di tambahkan.');
 			}
 			redirect('penilaian/penilaian_view');
-
-		}else if($act == 'ubah'){
-			/*$id = $this->input->post('id');
-			$nama = strtoupper($this->input->post('nama'));
-
-			$query = $this->m_outlet->update($id,$nama);
-
-			if($query > 0){
-				$this->session->set_flashdata('jenis','alert-success');
-				$this->session->set_flashdata('pesan','<strong>Berhasil!</strong> Data berhasil di ubah.');
-			}else{
-				$this->session->set_flashdata('jenis','alert-danger');
-				$this->session->set_flashdata('pesan','<strong>Gagal!</strong> Data gagal di ubah.');
-			}
-			redirect('master/outlet');*/
-
-		}else if($act == 'hapus'){
-			/*$id = $this->input->post('id');
-			$this->m_outlet->delete($id);*/
-
-		}else if($act == 'tambah'){
-			/*$id = $this->m_security->gen_id('outlet','ID_OUTLET');
-			echo "
-			<div class='modal-content'>
-				<div class='modal-header'>
-					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'></button>
-					<h4 class='modal-title'>Tambah Data Outlet</h4>
-				</div>
-			 <form class='form-horizontal' role='form' method='post' action='".base_url()."master/outlet_act/simpan'>
-				<div class='modal-body'>
-					<div class='form-group'>
-						<label class='col-md-3 control-label'>Nama Jabatan</label>
-						<div class='col-md-9'>
-							<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
-							<input type='text' class='form-control' placeholder='Nama Jabatan' id='nama' name='nama'>
-						</div>
-					</div>
-				</div>
-				<div class='modal-footer'>
-					<button type='reset' class='btn default' data-dismiss='modal'>Batal</button>
-					<button type='submit' class='btn blue'>Simpan</button>
-				</div>
-			 </form>
-			</div>";*/
-
-		}else if($act == 'edit'){
-			/*$id = $this->input->post('id');
-			$query = $this->m_outlet->get_id($id);
-			foreach ($query as $row) {
-			echo "
-			<div class='modal-content'>
-				<div class='modal-header'>
-					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'></button>
-					<h4 class='modal-title'>Ubah Data Outlet</h4>
-				</div>
-			 <form class='form-horizontal' role='form' method='post' action='".base_url()."master/outlet_act/ubah'>
-				<div class='modal-body'>
-					<div class='form-group'>
-						<label class='col-md-3 control-label'>Nama Jabatan</label>
-						<div class='col-md-9'>
-							<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
-							<input type='text' class='form-control' placeholder='Nama Jabatan' id='nama' name='nama' value='".$row->NAMA_OUTLET."'>
-						</div>
-					</div>
-				</div>
-				<div class='modal-footer'>
-					<button type='reset' class='btn default' data-dismiss='modal'>Batal</button>
-					<button type='submit' class='btn blue'>Simpan</button>
-				</div>
-			 </form>
-			</div>";
-			}*/
-		
+			
 		}else if($act == 'cek'){
-			$periode = $this->input->post('periode');
-			$outlet = $this->input->post('outlet');
+			$periode 	= $this->input->post('periode');
+			$outlet 	= $this->input->post('outlet');
 
-			$karyawan = $this->m_karyawan->get_by_outlet($outlet);//mendapatkan daftar karyawan
+			$level 		= $this->session->userdata('level'); 
+			$id 		= $this->session->userdata('id_karyawan'); 
+
+			$karyawans = $this->m_karyawan->get_by_outlet_level($outlet,$level);//mendapatkan daftar karyawan
 
 			echo "
 				<br>
@@ -179,10 +122,14 @@ class Penilaian extends CI_Controller {
 							</th>
 							<th style='width:25%;text-align:center;'>
 								 Nama Karyawan
-							</th>
+							</th>";
+							if ($level!='5') {
+							echo "
 							<th style='width:15%;text-align:center;'>
 								 Proses Penilaian
-							</th>
+							</th>";
+							}
+							echo "
 							<th style='width:15%;text-align:center;'>
 								 Nilai
 							</th>
@@ -190,10 +137,13 @@ class Penilaian extends CI_Controller {
 					</thead>
 					<tbody>
 			";
-			$no = 1;
-			foreach ($karyawan->result() as $karyawan) {
 
-				$cek = $this->m_penilaian->cek_penilaian($karyawan->ID_KARYAWAN);//mengecek karyawan sudah pernah di nilai atau belum
+
+			$no = 1;
+
+			foreach ($karyawans->result() as $karyawan) {
+
+				$cek = $this->m_penilaian->cek_penilaian($karyawan->ID_KARYAWAN,$periode);//mengecek karyawan sudah pernah di nilai atau belum
 				if ($cek->num_rows() > 0)
 				{
 					foreach ($cek->result() as $penilaian) {
@@ -205,12 +155,16 @@ class Penilaian extends CI_Controller {
 							</td>
 							<td>
 								".ucfirst(strtolower($penilaian->NAMA_KARYAWAN))."
-							</td>
+							</td>";
+							if ($level!='5') {
+							echo "
 							<td style='text-align:center;'>
 								<div class='btn-group btn-group-sm btn-group-solid '>
 									<a href='".base_url()."penilaian/proses_penilaian/".$karyawan->ID_KARYAWAN."/".$periode."' class='btn green' id='beri' disabled>Beri Nilai</a>
 								</div>
-							</td>
+							</td>";
+							}
+							echo "
 							<td style='text-align:center;'>
 								".$penilaian->PENILAIAN_TOTAL."
 							</td>
@@ -225,12 +179,16 @@ class Penilaian extends CI_Controller {
 							</td>
 							<td>
 								".ucfirst(strtolower($karyawan->NAMA_KARYAWAN))."
-							</td>
+							</td>";
+							if ($level!='5') {
+							echo "
 							<td style='text-align:center;'>
 								<div class='btn-group btn-group-sm btn-group-solid '>
 									<a href='".base_url()."penilaian/proses_penilaian/".$karyawan->ID_KARYAWAN."/".$periode."' class='btn green' id='beri'>Beri Nilai</a>
 								</div>
-							</td>
+							</td>";
+							}
+							echo "
 							<td style='text-align:center;'>
 								
 							</td>
@@ -240,6 +198,7 @@ class Penilaian extends CI_Controller {
 				$no++;
 			}
 
+
 			echo "
 					</tbody>
 				</table>
@@ -248,5 +207,35 @@ class Penilaian extends CI_Controller {
 			redirect('penilaian/penilaian');
 		}
 	}
+
+
+	/**
+	 * Riwayat Penilaian
+	 */
+	public function riwayat_penilaian()
+	{
+		$this->m_security->check();
+
+		$id = $this->session->userdata('id_karyawan');
+
+		$isi['content']		='penilaian/riwayat_penilaian';
+		$isi['judul_menu']	='Riwayat Penilaian';
+		$isi['judul']		='Penilaian';
+		$isi['breadcrumb1']	='Penilaian';
+		$isi['breadcrumb2']	='Riwayat penilaian';
+		$id 				= $this->session->userdata('id_karyawan');
+		$isi['riwayat']		= $this->m_penilaian->cek_riwayat($id);
+
+		$karyawan = $this->m_karyawan->get_id($id);
+		foreach ($karyawan as $karyawan) {
+			$isi['id_karyawan']	= $karyawan->ID_KARYAWAN;
+			$isi['nama']	= $karyawan->NAMA_KARYAWAN;
+			$isi['jabatan']	= $karyawan->NAMA_JABATAN;
+			$isi['outlet']	= $karyawan->NAMA_OUTLET;
+		}
+
+		$this->load->view('tampilan_utama',$isi);
+	}
+
 
 }

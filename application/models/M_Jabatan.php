@@ -2,11 +2,12 @@
 
 class M_Jabatan extends CI_Model {
 
-	public function create($id,$nama,$golongan,$akses,$level){
+	public function create($id,$atasan,$nama,$golongan,$akses,$level){
 		return $this->db->insert(
 			'jabatan',
 			array(
 				'ID_JABATAN' => $id,
+				'ID_JABATAN_ATASAN' => $atasan,
 				'NAMA_JABATAN' => $nama,
 				'GOLONGAN' => $golongan,
 				'AKSES' => $akses,
@@ -29,11 +30,12 @@ class M_Jabatan extends CI_Model {
 
 
 	}
-	public function update($id,$nama,$golongan,$akses,$level){
+	public function update($id,$atasan,$nama,$golongan,$akses,$level){
 		$this->db->where('ID_JABATAN',$id);
 		return $this->db->update(
 			'jabatan',
 			array(
+				'ID_JABATAN_ATASAN' => $atasan,
 				'NAMA_JABATAN' => $nama,
 				'GOLONGAN' => $golongan,
 				'AKSES' => $akses,

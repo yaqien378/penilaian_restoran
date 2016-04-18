@@ -6,8 +6,8 @@ class M_User extends CI_Model {
 		return $this->db->get_where(
 			'karyawan',
 			array(
-				'username2' => $user,
-				'password' => md5($pass)
+				'ID_KARYAWAN' => $user,
+				'PASSWORD' => md5($pass)
 			),
 			1
 		)->result();
@@ -16,6 +16,7 @@ class M_User extends CI_Model {
 	public function get_user($id){
 		$this->db->select('*');
 		$this->db->from('karyawan');
+		$this->db->join('jabatan','jabatan.ID_JABATAN = karyawan.ID_JABATAN');
 		$this->db->where('ID_KARYAWAN', $id);
 		$this->db->limit(1);
 		return $this->db->get()->result();
