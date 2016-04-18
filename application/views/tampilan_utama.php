@@ -370,7 +370,7 @@
 <!-- BEGIN FOOTER -->
 <div class="page-footer">
 	<div class="page-footer-inner">
-		<?php echo date('Y'); ?> &copy; Nama Pembuat.
+		2016&copy; &bull; Developed by Irfan.
 	</div>
 	<div class="scroll-to-top">
 		<i class="icon-arrow-up"></i>

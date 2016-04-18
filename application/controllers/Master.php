@@ -373,8 +373,7 @@ class Master extends CI_Controller {
 			$jabatan = strtoupper($this->input->post('jabatan'));
 			$outlet = strtoupper($this->input->post('outlet'));
 			$jk = strtoupper($this->input->post('jk'));
-			$pass = $this->input->post('pass');
-			$con_pass = $this->input->post('con_pass');
+			$pass = $this->input->post('id');
 
 			$query = $this->m_karyawan->create($id,$nama,$status,$jabatan,$outlet,$jk,$pass);
 
@@ -466,18 +465,6 @@ class Master extends CI_Controller {
 								<label class='radio-inline'>
 								<input type='radio' name='jk' id='wanita' value='wanita'>Wanita</label>
 							</div>
-						</div>
-					</div>
-					<div class='form-group'>
-						<label class='col-md-3 control-label'>Password</label>
-						<div class='col-md-9'>
-							<input type='password' class='form-control' placeholder='Password' id='pass' name='pass' pattern='[a-zA-Z0-9].{8,}' title='Minimal 8 character' required>
-						</div>
-					</div>
-					<div class='form-group'>
-						<label class='col-md-3 control-label'>Confirm Password</label>
-						<div class='col-md-9'>
-							<input type='password' class='form-control' placeholder='Confirm Password' id='con_pass' min-length='8' name='con_pass' onBlur='match()' required>
 						</div>
 					</div>
 					<div class='form-group'>
