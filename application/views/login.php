@@ -39,7 +39,7 @@
 <!-- BEGIN LOGO -->
 <div class="logo">
 	<a href="index.html">
-	<img src="<?php echo base_url();?>assets/admin/layout4/img/logo-big.png" alt=""/>
+	<img src="<?php echo base_url();?>assets/admin/layout4/img/logo-pizza-big.png" style="width:14%;" alt=""/>
 	</a>
 </div>
 <!-- END LOGO -->
@@ -96,7 +96,7 @@
 <!-- END LOGIN -->
 <!-- BEGIN COPYRIGHT -->
 <div class="copyright">
-	 <?php echo date('Y'); ?> &copy; Munir Agung Wisudawanto.
+	 <?php echo date('Y'); ?> &copy; nama restoran.
 </div>
 <!-- END COPYRIGHT -->
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->

@@ -103,7 +103,7 @@
 		<!-- BEGIN LOGO -->
 		<div class="page-logo">
 			<a href="#">
-			<img src="<?php echo base_url(); ?>assets/admin/layout4/img/logo-light.png" alt="logo" class="logo-default"/>
+			<img src="<?php echo base_url(); ?>assets/admin/layout4/img/logo-pizza.png" alt="logo" class="logo-default" style="margin-top: 15px;"/>
 			</a>
 			<div class="menu-toggler sidebar-toggler">
 				<!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
@@ -129,11 +129,11 @@
 						<span class="username username-hide-on-mobile">
 						<?= ucfirst(strtolower($this->session->userdata('nama'))) ?> </span>
 						<!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->
-						<img alt="" class="img-circle" src="<?php echo base_url();?>assets/admin/layout4/img/avatar9.jpg"/>
+						<img alt="" class="img-circle" src="<?php echo base_url();?>assets/admin/layout4/img/avatar8.jpg"/>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-default">
 							<li>
-								<a href="#">
+								<a href="<?php echo base_url(); ?>dashboard/setting_profil">
 								<i class="icon-user"></i> My Profile </a>
 							</li>
 							<!-- <li>

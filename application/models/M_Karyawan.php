@@ -84,6 +84,15 @@ class M_Karyawan extends CI_Model {
 			)
 		);
 	}
+	public function update_pass($id,$pass){
+		$this->db->where('ID_KARYAWAN',$id);
+		return $this->db->update(
+			'karyawan',
+			array(
+				'PASSWORD' => md5($pass)
+			)
+		);
+	}
 	public function delete($id){
 		$this->db->where('ID_KARYAWAN',$id);
 		return $this->db->delete('karyawan');
