@@ -256,6 +256,11 @@
 							Master Periode Penilaian</a>
 						</li>
 						<li>
+							<a href="<?php echo base_url(); ?>master/kriteria_penilaian">
+							<i class="fa fa-calendar"></i>
+							Master Kriteria Penilaian</a>
+						</li>
+						<li>
 							<a href="<?php echo base_url(); ?>master/kriteria">
 							<i class="fa fa-bookmark-o"></i>
 							Master Kriteria</a>

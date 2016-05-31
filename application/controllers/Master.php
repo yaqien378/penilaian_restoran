@@ -1067,6 +1067,200 @@ class Master extends CI_Controller {
 		}
 	}
 	
+	
+	/**
+	 * Master kriteria penilaian
+	 */
+	public function kriteria_penilaian()
+	{
+		$this->m_security->check();
+		$anti_level = array('5','4','3','2');
+		$this->m_security->access($anti_level);
+
+
+		$isi['content']		='master/kriteria_penilaian';
+		$isi['judul_menu']	='Maintenance Data';
+		$isi['judul']		='Maintenance Data <small>Data Kriteria Penilaian</small>';
+		$isi['breadcrumb1']	='Maintenance Data';
+		$isi['breadcrumb2']	='Kriteria Penilaian';
+		$isi['kriteria_penilaian'] 	= $this->m_kriteria_penilaian->get_by_pelatihan_all();
+
+		$this->load->view('tampilan_utama',$isi);
+	}
+
+	/*
+	* action master kriteria penilaian
+	*/
+	public function kriteria_penilaian_act($act)
+	{
+		$this->m_security->check();
+		$anti_level = array('5','4','3');
+		$this->m_security->access($anti_level);
+
+		if($act == 'simpan')
+		{
+			$pelatihan = $this->input->post('pelatihan');
+			$kriteria = $this->input->post('kriteria');
+
+			foreach ($kriteria as $key => $value) {
+				$query = $this->m_kriteria_penilaian->create($pelatihan,$value);
+			}
+
+			if($query > 0){
+				$this->session->set_flashdata('jenis','alert-success');
+				$this->session->set_flashdata('pesan','<strong>Berhasil!</strong> Data berhasil di tambahkan.');
+			}else{
+				$this->session->set_flashdata('jenis','alert-danger');
+				$this->session->set_flashdata('pesan','<strong>Gagal!</strong> Data gagal di tambahkan.');
+			}
+			redirect('master/kriteria_penilaian');
+
+		}else
+		if($act == 'edit')
+		{
+			$id_pelatihan = $this->input->post('id') ;
+
+			echo "
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'></button>
+					<h4 class='modal-title'>Tambah Data Kriteria Penilaian</h4>
+				</div>
+			 <form class='form-horizontal' role='form' method='post' action='".base_url()."master/kriteria_penilaian_act/simpan'>";
+							// $kategori_terpilih = $this->m_kriteria_penilaian->get_by_pelatihan($id_pelatihan);
+							// $id_kategori_terpilih = array();
+							// foreach ($kategori_terpilih as $value) {
+							// 	array_push($id_kategori_terpilih, $value->ID_KRITERIA);
+							// }
+							// print_r($id_kategori_terpilih);
+			 echo "
+				<div class='modal-body'>
+					<div class='form-group'>
+						<label class='col-md-3 control-label'>Pelatihan</label>
+						<div class='col-md-8'>
+							<select name='pelatihan' id='pelatihan' class='form-control' required>";
+								$pelatihan_terpilih = $this->m_pelatihan->get_id($id_pelatihan);
+ 
+								echo "<option value='".$pelatihan_terpilih[0]->ID_PELATIHAN."' selected>".ucfirst(strtolower($pelatihan_terpilih[0]->NAMA_PELATIHAN))."</option>";
+
+							$pelatihan_terinput = $this->m_kriteria_penilaian->get_by_pelatihan_all();
+							$id_terinput = '';
+							foreach ($pelatihan_terinput as $value) {
+								$id_terinput .= $value->ID_PELATIHAN.",";
+							}
+
+							if ($id_terinput != '') {
+								$id_terinput = substr_replace($id_terinput,'',-1,1);
+							}
+
+							$pelatihan = $this->m_pelatihan->get_by_not_list($id_terinput);
+							foreach ($pelatihan as $pelatihan) {
+								echo "<option value='".$pelatihan->ID_PELATIHAN."'>".ucfirst(strtolower($pelatihan->NAMA_PELATIHAN))."</option>";
+								
+							}
+							echo "</select>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-md-3 control-label'>Keterangan</label>
+						<div class='col-md-9'>
+							<div class='checkbox-list'>";
+							$kategori_terpilih = $this->m_kriteria_penilaian->get_by_pelatihan($id_pelatihan);
+							$id_kategori_terpilih = array();
+							foreach ($kategori_terpilih as $value) {
+								array_push($id_kategori_terpilih, $value->ID_KRITERIA);
+							}
+
+							$kriteria = $this->m_kriteria->get_all();
+							foreach ($kriteria as $kriteria) {
+								echo "<label>";
+								echo "<input type='checkbox' name='kriteria[]' value='".$kriteria->ID_KRITERIA."'";
+								if(!in_array($kriteria->ID_KRITERIA, $id_kategori_terpilih)){echo "selected";}
+								echo"> ".ucfirst(strtolower($kriteria->NAMA_KRITERIA))." </label>";
+							}
+							echo "
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class='modal-footer'>
+					<button type='reset' class='btn default' data-dismiss='modal'>Batal</button>
+					<button type='submit' class='btn blue'>Simpan</button>
+				</div>
+			 </form>
+			</div>";			
+		}else
+		if($act == 'hapus')
+		{
+			$id_pelatihan = $this->input->post('id');
+			$this->m_kriteria_penilaian->delete($id_pelatihan);
+		}else
+		if($act == 'tambah')
+		{
+
+			echo "
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'></button>
+					<h4 class='modal-title'>Tambah Data Kriteria Penilaian</h4>
+				</div>
+			 <form class='form-horizontal' role='form' method='post' action='".base_url()."master/kriteria_penilaian_act/simpan'>";
+			 echo "
+				<div class='modal-body'>
+					<div class='form-group'>
+						<label class='col-md-3 control-label'>Pelatihan</label>
+						<div class='col-md-8'>
+							<select name='pelatihan' id='pelatihan' class='form-control' required>
+								<option value=''>-- Pilih Jenis Pelatihan --</option>";
+							$pelatihan_terinput = $this->m_kriteria_penilaian->get_by_pelatihan_all();
+							$id_terinput = '';
+							foreach ($pelatihan_terinput as $value) {
+								$id_terinput .= $value->ID_PELATIHAN.",";
+							}
+							
+							if ($id_terinput != '') {
+								$id_terinput = substr_replace($id_terinput,'',-1,1);
+							}
+
+							$pelatihan = $this->m_pelatihan->get_by_not_list($id_terinput);
+							foreach ($pelatihan as $pelatihan) {
+								echo "<option value='".$pelatihan->ID_PELATIHAN."'>".ucfirst(strtolower($pelatihan->NAMA_PELATIHAN))."</option>";
+								
+							}
+							echo "</select>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-md-3 control-label'>Keterangan</label>
+						<div class='col-md-9'>
+							<div class='checkbox-list'>";
+							$kriteria = $this->m_kriteria->get_all();
+							foreach ($kriteria as $kriteria) {
+								echo "<label>";
+								echo "<input type='checkbox' name='kriteria[]' value='".$kriteria->ID_KRITERIA."'> ".ucfirst(strtolower($kriteria->NAMA_KRITERIA))." </label>";
+							}
+							echo "
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class='modal-footer'>
+					<button type='reset' class='btn default' data-dismiss='modal'>Batal</button>
+					<button type='submit' class='btn blue'>Simpan</button>
+				</div>
+			 </form>
+			</div>";
+
+
+		}else{
+			redirect('master/kriteria_penilaian');
+		}
+
+
+
+	}
+
+
 
 	/**
 	 * Master range kriteria

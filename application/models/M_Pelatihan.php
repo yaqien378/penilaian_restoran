@@ -27,9 +27,13 @@ class M_Pelatihan extends CI_Model {
 		$this->db->where('ID_PELATIHAN',$id);
 		$this->db->limit(1);
 		return $this->db->get()->result();
-
-
 	}
+
+	public function get_by_not_list($id)
+	{
+		return $this->db->query('SELECT * FROM pelatihan WHERE ID_PELATIHAN NOT IN ('.$id.') ')->result();
+	}
+
 	public function update($id,$kategori,$nama,$ket){
 		$this->db->where('ID_PELATIHAN',$id);
 		return $this->db->update(
