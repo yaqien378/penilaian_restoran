@@ -7,7 +7,7 @@
 				</div>
 			</div>
 			<div class="portlet-body">
-				<form action="#" method="post" class="form-horizontal">
+				<form action="<?= base_url() ?>laporan/view_perkaryawan" method="post" class="form-horizontal">
 				<br>
 				<div class="row">
 					<div class="col-md-12">
@@ -15,7 +15,7 @@
 					<div class="form-group">
 						<label for="periode" class="control-label col-md-4">Periode </label>
 						<div class="col-md-4">
-							<select name="periode" id="periode" class="form-control" onchange="set()">
+							<select name="periode" id="periode" class="form-control" required>
 								<option value="">-- Pilih Periode --</option>
 								<?php 
 									foreach ($periode as $periode) {
@@ -26,12 +26,12 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="periode" class="control-label col-md-4">Tempat Kerja </label>
+						<label for="periode" class="control-label col-md-4">Nama karyawan </label>
 						<div class="col-md-4">
-							<select name="karyawan" id="karyawan" class="form-control" onchange="cek()">
+							<select name="karyawan" id="karyawan" class="form-control" required>
 								<option value="">-- Pilih Karyawan --</option>
 								<?php 
-									foreach ($karyawan as $karyawan) {
+									foreach ($karyawan->result() as $karyawan) {
 										echo "<option value='".$karyawan->ID_KARYAWAN."'>".ucfirst(strtolower($karyawan->NAMA_KARYAWAN))."</option>";
 									}
 								?>

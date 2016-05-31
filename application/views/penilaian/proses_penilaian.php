@@ -1,6 +1,6 @@
 
 	<div class="col-md-12 col-sm-12">
-		<!-- BEGIN EXAMPLE TABLE PORTLET-->
+		<!-- BEGIN EXAMLE TABLE PORTLET-->
 		<div class="portlet box blue">
 			<div class="portlet-title">
 				<div class="caption">
@@ -271,7 +271,7 @@
 					<div class="col-md-12">
 						<div class="pull-right">
 							<a href="<?php echo base_url(); ?>penilaian/penilaian_view " class="btn btn-default">Kembali</a>
-							<button type="submit" class="btn blue">Proses Penilaian</button>
+							<button type="submit" class="btn blue">Simpan</button>
 						</div>
 					</div>
 				</div>

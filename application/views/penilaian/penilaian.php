@@ -50,7 +50,7 @@
 				</div>
 				<div id="data-karyawan">
 				
-				</div><!-- end #data-kehadiran -->
+				</div><!-- end #data-karyawan -->
 				<br>
 				</form>
 			</div>

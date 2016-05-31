@@ -70,6 +70,8 @@ class M_Karyawan extends CI_Model {
 		$this->db->where('jabatan.LEVEL',$level);
 		return $this->db->get();
 	}
+
+
 	public function update($id,$nama,$status,$jabatan,$outlet,$jk,$pass){
 		$this->db->where('ID_KARYAWAN',$id);
 		return $this->db->update(

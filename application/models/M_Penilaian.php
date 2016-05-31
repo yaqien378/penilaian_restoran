@@ -2,6 +2,17 @@
 
 class M_Penilaian extends CI_Model {
 
+	public function get_by_id($id)
+	{
+		$this->db->select('*');
+		$this->db->from('penilaian');
+		$this->db->join('karyawan AS dinilai','dinilai.ID_KARYAWAN = penilaian.KAR_ID_KARYAWAN');
+		$this->db->join('jabatan','dinilai.ID_JABATAN = jabatan.ID_JABATAN');
+		$this->db->where('ID_PENILAIAN',$id);
+		return $this->db->get();
+
+	}
+
 	public function cek_penilaian($kar_id_karyawan,$periode){
 /*		$this->db->select('*');
 		$this->db->from('penilaian');
@@ -48,4 +59,35 @@ class M_Penilaian extends CI_Model {
 			)
 		);
 	}
+
+	public function get_by_karyawan_periode($karyawan,$periode)
+	{
+		$this->db->select('*');
+		$this->db->from('penilaian');
+		$this->db->where('KAR_ID_KARYAWAN',$karyawan);
+		$this->db->where('ID_PERIODE2',$periode);
+		return $this->db->get();
+	}
+
+	public function get_id_for_laporan($id)
+	{
+		return $this->db->query('
+			SELECT
+				karyawan.NAMA_KARYAWAN AS KARYAWAN_DINILAI,
+				penilai.NAMA_KARYAWAN AS PENILAI,
+				jabatan.NAMA_JABATAN AS JABATAN,
+				penilaian.KAR_ID_KARYAWAN AS NIK,
+				PENILAIAN_TOTAL,
+				ID_PERIODE2,
+				KAR_ID_KARYAWAN
+			FROM
+				penilaian
+			INNER JOIN karyawan AS penilai ON penilaian.ID_KARYAWAN = penilai.ID_KARYAWAN
+			INNER JOIN karyawan ON penilaian.KAR_ID_KARYAWAN = karyawan.ID_KARYAWAN
+			INNER JOIN jabatan ON karyawan.ID_JABATAN = jabatan.ID_JABATAN
+			WHERE
+				penilaian.ID_PENILAIAN = "'.$id.'"
+		');
+	}
+
 }
