@@ -103,7 +103,7 @@
 		<!-- BEGIN LOGO -->
 		<div class="page-logo">
 			<a href="#">
-			<img src="<?php echo base_url(); ?>assets/admin/layout4/img/logo-pizza.png" alt="logo" class="logo-default" style="margin-top: 15px;"/>
+			<img src="<?php echo base_url(); ?>assets/admin/layout4/img/brand.png" alt="logo" class="logo-default" style="margin-top: 10px;"/>
 			</a>
 			<div class="menu-toggler sidebar-toggler">
 				<!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->

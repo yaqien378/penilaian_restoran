@@ -17,8 +17,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-//$config['base_url'] = 'http://localhost/penilaian_restoran/';//settingan yaqin
-$config['base_url'] = 'http://localhost:8080/penilaian_restoran/';//settingan thony
+$config['base_url'] = 'http://localhost/penilaian_restoran/';//settingan yaqin
+// $config['base_url'] = 'http://localhost:8080/penilaian_restoran/';//settingan thony
 
 /*
 |--------------------------------------------------------------------------
