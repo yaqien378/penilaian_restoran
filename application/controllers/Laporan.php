@@ -27,6 +27,7 @@ class Laporan extends CI_Controller {
 		$id_outlet = $this->session->userdata('outlet');
 		if ($id_outlet == '1') {
 			$isi['karyawan'] = $this->m_karyawan->get_all();
+			$isi['outlet'] = $this->m_outlet->get_all();
 		}else{
 			$isi['karyawan'] = $this->m_karyawan->get_by_outlet($id_outlet);
 		}
@@ -133,6 +134,12 @@ class Laporan extends CI_Controller {
 		$isi['breadcrumb2']	='Rapor Penilaian Keseluruhan';
 		$isi['periode'] = $this->m_periode->get_all();
 
+		$id_outlet = $this->session->userdata('outlet');
+
+		if ($id_outlet == '1') {
+			$isi['outlet'] = $this->m_outlet->get_all();
+		}
+
 		$this->load->view('tampilan_utama',$isi);
 	}
 
@@ -153,43 +160,71 @@ class Laporan extends CI_Controller {
 
 		$periode = $this->input->post('periode');
 		$outlet = $this->session->userdata('outlet');
+		$cek_outlet = $this->session->userdata('outlet');
+		if ($cek_outlet == '1') {
+			$outlet = $this->input->post('outlet');
+			
+		}
+
 		if (!$periode) {
 			redirect('laporan/keseluruhan');
 		}
 
+		$isi['id_outlet'] = $outlet;
 		$isi['periode'] = $this->m_periode->get_id($periode)[0]->NAMA_PERIODE;
 		$isi['id_periode'] = $periode;
-		//mendapatkan data yang akan di tampilkan
 		$penilaian = $this->m_rekomendasi_pelatihan->get_by_outlet_periode($outlet,$periode)->result();
 
 		if ($penilaian) {
 			$isi['penilaian'] = $penilaian;
 		}
 		$this->load->view('tampilan_utama',$isi);
-
-
 	}
 
 
-	public function cetak_keseluruhan($periode)
+	public function cetak_keseluruhan($periode,$outlet='')
 	{
 		$this->m_security->check();
 		$anti_level = array('3,4,5');
 		$this->m_security->access($anti_level);
 
-		$outlet = $this->session->userdata('outlet');
+		if ($outlet == '') {
+			$outlet = $this->session->userdata('outlet');
+		}
 
-		$isi['periode'] = $this->m_periode->get_id($periode)[0]->NAMA_PERIODE;
-		$penilaian = $this->m_rekomendasi_pelatihan->get_by_outlet_periode($outlet,$periode)->result();		
-		
-		$isi['penilaian'] = $penilaian;
+		$penilaian 			= $this->m_rekomendasi_pelatihan->get_by_outlet_periode($outlet,$periode)->result();		
+		$isi['penilaian'] 	= $penilaian;
+		$isi['periode'] 	= $this->m_periode->get_id($periode)[0]->NAMA_PERIODE;
 
-		$fileName = 'Laporan Keseluruhan';
+		$fileName 			= 'Laporan Keseluruhan';
 
 		$this->pdf->load_view('laporan/cetak_keseluruhan',$isi);
 		$this->pdf->render();
 		$this->pdf->stream($fileName);
 	}
 
+	public function get_karyawan()
+	{
+		$id_outlet = $this->input->post('outlet');
+
+		echo '
+			<div class="form-group">
+				<label for="karyawan" class="control-label col-md-4">Nama karyawan </label>
+				<div class="col-md-4">
+					<select name="karyawan" id="karyawan" class="form-control" required>
+						<option value="">-- Pilih Karyawan --</option>';
+							$karyawan = $this->m_karyawan->get_by_outlet($id_outlet);
+							foreach ($karyawan->result() as $karyawan) {
+								echo "<option value='".$karyawan->ID_KARYAWAN."'>".ucfirst(strtolower($karyawan->NAMA_KARYAWAN))."</option>";
+							}
+
+					echo '
+					</select>
+				</div>
+			</div>
+		';
+
+
+	}
 
 }

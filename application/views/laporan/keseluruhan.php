@@ -11,6 +11,22 @@
 				<br>
 				<div class="row">
 					<div class="col-md-12">
+
+					<?php if(isset($outlet)): ?>
+					<div class="form-group">
+						<label for="periode" class="control-label col-md-4">Outlet </label>
+						<div class="col-md-4">
+							<select name="outlet" id="outlet" class="form-control" onchange="pilih_karyawan()" required>
+								<option value="">-- Pilih Outlet --</option>
+								<?php 
+									foreach ($outlet as $outlet) {
+										echo "<option value='".$outlet->ID_OUTLET."'>".ucfirst(strtolower($outlet->NAMA_OUTLET))."</option>";
+									}
+								?>
+							</select>
+						</div>
+					</div>
+					<?php endif; ?>
 						
 					<div class="form-group">
 						<label for="periode" class="control-label col-md-4">Periode </label>
@@ -23,6 +39,7 @@
 									}
 								?>
 							</select>
+
 						</div>
 					</div>
 					<div class="form-group">

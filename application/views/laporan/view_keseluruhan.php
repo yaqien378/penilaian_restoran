@@ -24,30 +24,6 @@
 					</div>
 				</div>
 				<br>
-				<!-- 
-				<div class="row">
-					<div class="col-md-12">
-						<table style="width:100%">
-							<tr>
-								<td style="width:15%"><b>Cabang </b></td>
-								<td style="width:80%">: <?php //ucfirst(strtolower($nama)) ?></td>
-							</tr>
-							<tr>
-								<td style="width:15%"><b>NIK</b></td>
-								<td style="width:80%">: <?php //$nik ?></td>
-							</tr>
-							<tr>
-								<td style="width:15%"><b>Jabatan</b></td>
-								<td style="width:80%">: <?php //ucfirst(strtolower($jabatan)) ?></td>
-							</tr>
-							<tr>
-								<td style="width:15%"><b>Penilai</b></td>
-								<td style="width:80%">: <?php //ucfirst(strtolower($penilai)) ?></td>
-							</tr>
-						</table>
-					</div>
-				</div>
-				<br> -->
 				<div class="table-scrollable">
 					<table class="table table-bordered table-hover">
 						<thead>
@@ -106,7 +82,7 @@
 				<div>
 					<?php if (isset($penilaian)){?>
 					*NB : 
-					<a href="<?php echo base_url(); ?>laporan/cetak_keseluruhan/<?= $id_periode ?>" ><i class="fa fa-file-pdf-o"></i> Cetak ke Pdf</a>
+					<a href="<?php echo base_url(); ?>laporan/cetak_keseluruhan/<?= $id_periode ?>/<?= $id_outlet ?>" ><i class="fa fa-file-pdf-o"></i> Cetak ke Pdf</a>
 					<?php } ?>
 				</div>
 				<div>

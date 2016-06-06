@@ -14,6 +14,7 @@ class M_Outlet extends CI_Model {
 	public function get_all(){
 		$this->db->select('*');
 		$this->db->from('outlet');
+		$this->db->where('ID_OUTLET !=','1');
 		return $this->db->get()->result();
 
 	}
