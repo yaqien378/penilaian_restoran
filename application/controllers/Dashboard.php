@@ -20,6 +20,46 @@ class Dashboard extends CI_Controller {
 		$isi['breadcrumb1']	='Dashboard';
 		$isi['breadcrumb2']	='';
 
+		//mendapatkan periode
+		$periode = $this->m_periode->get_periode(date("Y"));
+
+		$list_periode = '';
+		foreach ($periode as $p)
+		{
+			$list_periode .= $p->ID_PERIODE2.',';
+		}
+		$list_periode 		= substr_replace($list_periode, '',-1,1);
+		$id 				= $_SESSION['id_karyawan'];
+
+		$riwayat_penilai 	= $this->m_penilaian->get_kar_grafik($id,$list_periode);
+		$isi['riwayat_anda']= '';
+		foreach ($riwayat_penilai as $r)
+		{
+			$isi['riwayat_anda'] .= $r->PENILAIAN_TOTAL.',';
+		}
+
+			$data_grafik = '';
+		//mendapatkan id periode bulan terakhir
+		$bulan = $this->m_periode->get_periode(date("Y-m"));
+		if (count($bulan) > 0)
+		{
+			$id_periode_bulan = $bulan[0]->ID_PERIODE2;
+			$riwayat_pegawai = $this->m_penilaian->get_peg_grafik($id,$id_periode_bulan);
+			foreach ($riwayat_pegawai as $rp) {
+				$data_grafik .= "
+						{
+			                name: '".$rp->NAMA_KARYAWAN."',
+			                y: ".$rp->PENILAIAN_TOTAL.",
+			            },
+				";
+			}
+			$isi['data_peg'] = $data_grafik;
+		}else{
+			$isi['data_peg'] = '';
+		}
+
+		$isi['tahun_periode'] = date("Y");
+		$isi['bulan_periode'] = date("M");
 		$this->load->view('tampilan_utama',$isi);
 	}
 

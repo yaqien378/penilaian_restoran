@@ -174,7 +174,7 @@ class Laporan extends CI_Controller {
 		$isi['periode'] = $this->m_periode->get_id($periode)[0]->NAMA_PERIODE;
 		$isi['id_periode'] = $periode;
 		$penilaian = $this->m_rekomendasi_pelatihan->get_by_outlet_periode($outlet,$periode)->result();
-
+		// echo $periode;
 		if ($penilaian) {
 			$isi['penilaian'] = $penilaian;
 		}
@@ -197,7 +197,7 @@ class Laporan extends CI_Controller {
 		$isi['periode'] 	= $this->m_periode->get_id($periode)[0]->NAMA_PERIODE;
 
 		$fileName 			= 'Laporan Keseluruhan';
-
+		// $this->load->view('laporan/cetak_keseluruhan',$isi);
 		$this->pdf->load_view('laporan/cetak_keseluruhan',$isi);
 		$this->pdf->render();
 		$this->pdf->stream($fileName);

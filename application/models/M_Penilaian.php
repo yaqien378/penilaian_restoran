@@ -90,4 +90,29 @@ class M_Penilaian extends CI_Model {
 		');
 	}
 
+	public function get_kar_grafik($id,$periode)
+	{
+		return $this->db->query('
+			SELECT  * FROM penilaian
+			WHERE
+			penilaian.KAR_ID_KARYAWAN= "'.$id.'" AND
+			ID_PERIODE2 IN ('.$periode.')
+			ORDER BY KAR_ID_KARYAWAN ASC,ID_PERIODE2 ASC
+		')->result();
+	}
+
+	public function get_peg_grafik($id,$periode)
+	{
+		return $this->db->query('
+			SELECT  * FROM penilaian
+			INNER JOIN karyawan ON karyawan.ID_KARYAWAN = penilaian.KAR_ID_KARYAWAN
+			WHERE
+			penilaian.ID_KARYAWAN= "'.$id.'" AND
+			ID_PERIODE2 = '.$periode.'
+			ORDER BY KAR_ID_KARYAWAN,ID_PERIODE2
+		')->result();
+	}
+
+
+
 }

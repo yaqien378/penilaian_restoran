@@ -1,10 +1,9 @@
 	<table width="100%" height="102px">
 		<tr>
-			<td width="100%" style="text-align:center; background:url('<?php echo base_url();?>assets/img/logo.png') no-repeat left;">
-				<h4><b>NAMA DAN JUDUL DARI ORGANISASI PIZZA HUT WILAYAH SURABAYA</b>
+			<td width="100%" style="text-align:center; background:url('././assets/admin/layout4/img/logo-pizza-hut.png') no-repeat left;">
+				<h4><b>PT. SARIMELATI KENCANA</b>
 				</h4>
-				Jl. Letjen S. Parman No.55 Waru, Telp. (031)8550222<br>
-				Surabaya 61256
+				Jl. Manyar Kertoarjo NO. 21, Surabaya
 			</td>
 		</tr>
 	</table>
