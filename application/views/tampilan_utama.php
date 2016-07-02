@@ -380,7 +380,7 @@
 	   Layout.init(); // init layout
 	   Demo.init(); // init demo features
 	   QuickSidebar.init(); // init quick sidebar
-	   Index.init(); // init index page
+	   // Index.init(); // init index page
 	   Tasks.initDashboardWidget(); // init tash dashboard widget  
 	   // TableManaged.init();
 	});

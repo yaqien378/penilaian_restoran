@@ -8,6 +8,7 @@
 	        chart: {
 	            type: 'column'
 	        },
+	        credits: false,
 	        title: {
 	            text: 'KINERJA KARYAWAN'
 	        },
@@ -54,6 +55,7 @@
 	        chart: {
 	            type: 'line'
 	        },
+	        credits: false,
 	        title: {
 	            text: 'KINERJA ANDA'
 	        },
