@@ -119,6 +119,10 @@
 			type:'post',
 			success:function(r){
 				$("#modal-form").html(r);
+			},
+			error:function(r)
+			{
+				alert("error "+r);
 			}
 		});
 	}

@@ -1213,19 +1213,26 @@ class Master extends CI_Controller {
 							<select name='pelatihan' id='pelatihan' class='form-control' required>
 								<option value=''>-- Pilih Jenis Pelatihan --</option>";
 							$pelatihan_terinput = $this->m_kriteria_penilaian->get_by_pelatihan_all();
-							$id_terinput = '';
-							foreach ($pelatihan_terinput as $value) {
-								$id_terinput .= $value->ID_PELATIHAN.",";
-							}
-							
-							if ($id_terinput != '') {
-								$id_terinput = substr_replace($id_terinput,'',-1,1);
-							}
-
-							$pelatihan = $this->m_pelatihan->get_by_not_list($id_terinput);
-							foreach ($pelatihan as $pelatihan) {
-								echo "<option value='".$pelatihan->ID_PELATIHAN."'>".ucfirst(strtolower($pelatihan->NAMA_PELATIHAN))."</option>";
+							if (count($pelatihan_terinput)>0)
+							{
+								$id_terinput = '';
+								foreach ($pelatihan_terinput as $value) {
+									$id_terinput .= $value->ID_PELATIHAN.",";
+								}
 								
+								if ($id_terinput != '') {
+									$id_terinput = substr_replace($id_terinput,'',-1,1);
+								}
+
+								$pelatihan = $this->m_pelatihan->get_by_not_list($id_terinput);
+								foreach ($pelatihan as $pelatihan) {
+									echo "<option value='".$pelatihan->ID_PELATIHAN."'>".ucfirst(strtolower($pelatihan->NAMA_PELATIHAN))."</option>";
+								}
+							}else{
+								$pelatihan = $this->m_pelatihan->get_all();
+								foreach ($pelatihan as $pelatihan) {
+									echo "<option value='".$pelatihan->ID_PELATIHAN."'>".ucfirst(strtolower($pelatihan->NAMA_PELATIHAN))."</option>";
+								}
 							}
 							echo "</select>
 						</div>
@@ -1458,16 +1465,17 @@ class Master extends CI_Controller {
 	}
 
 	public function kriteria_act($act)
-	{
+	{	
 		$this->m_security->check();
 		$anti_level = array('5','4','3');
 		$this->m_security->access($anti_level);
 
 
 		if($act == 'simpan'){
-			$id = $this->input->post('id');
-			$nama = strtoupper($this->input->post('nama'));
-			$bobot = $this->input->post('bobot');
+			$id 		= $this->input->post('id');
+			$nama 		= strtoupper($this->input->post('nama'));
+			$bobot 		= $this->input->post('bobot');
+			$min_nilai 	= $this->input->post('min_nilai');
 
 			$cek_bobot = $this->m_kriteria->get_bobot_total()->row();
 			$cek_bobot = $cek_bobot->BOBOT_TOTAL;
@@ -1481,7 +1489,7 @@ class Master extends CI_Controller {
 				$this->session->set_flashdata('jenis','alert-danger');
 				$this->session->set_flashdata('pesan','<strong>kesalahan!</strong> Bobot harus lebih dari 0%.');
 			}else{
-				$query = $this->m_kriteria->create($id,$nama,$bobot);
+				$query = $this->m_kriteria->create($id,$nama,$bobot,$min_nilai);
 				if($query > 0){
 					$this->session->set_flashdata('jenis','alert-success');
 					$this->session->set_flashdata('pesan','<strong>Berhasil!</strong> Data berhasil di tambahkan.');
@@ -1498,6 +1506,7 @@ class Master extends CI_Controller {
 			$nama = strtoupper($this->input->post('nama'));
 			$bobot = $this->input->post('bobot');
 			$bobot_awal = $this->input->post('bobot_awal');
+			$min_nilai 	= $this->input->post('min_nilai');
 
 			$cek_bobot = $this->m_kriteria->get_bobot_total()->row();
 			$cek_bobot = $cek_bobot->BOBOT_TOTAL;
@@ -1511,7 +1520,7 @@ class Master extends CI_Controller {
 				$this->session->set_flashdata('jenis','alert-danger');
 				$this->session->set_flashdata('pesan','<strong>kesalahan!</strong> Bobot harus lebih dari 0%.');
 			}else{
-				$query = $this->m_kriteria->update($id,$nama,$bobot);
+				$query = $this->m_kriteria->update($id,$nama,$bobot,$min_nilai);
 				if($query > 0){
 					$this->session->set_flashdata('jenis','alert-success');
 					$this->session->set_flashdata('pesan','<strong>Berhasil!</strong> Data berhasil di ubah.');
@@ -1554,6 +1563,12 @@ class Master extends CI_Controller {
 							<span>Bobot harus bernilai di antara 1 - ".$max."</span>
 						</div>
 					</div>
+					<div class='form-group'>
+						<label class='col-md-3 control-label'>Nilai Minimum</label>
+						<div class='col-md-9'>
+							<input type='number' class='form-control' id='min_nilai' name='min_nilai' placeholder='Nilai Minimun' required>
+						</div>
+					</div>
 				</div>
 				<div class='modal-footer'>
 					<button type='reset' class='btn default' data-dismiss='modal'>Batal</button>
@@ -1593,6 +1608,12 @@ class Master extends CI_Controller {
 								<span>Bobot harus bernilai di antara 1 - ".$max."</span>
 							</div>
 						</div>
+						<div class='form-group'>
+						<label class='col-md-3 control-label'>Nilai Minimum</label>
+						<div class='col-md-9'>
+							<input type='number' class='form-control' id='min_nilai' name='min_nilai' placeholder='Nilai Minimun' value='".$row->MIN_NILAI."' required>
+						</div>
+					</div>
 					</div>
 					<div class='modal-footer'>
 						<button type='reset' class='btn default' data-dismiss='modal'>Batal</button>

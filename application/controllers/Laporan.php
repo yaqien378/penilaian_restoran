@@ -58,11 +58,13 @@ class Laporan extends CI_Controller {
 			$id_penilaian = $this->m_penilaian->get_by_karyawan_periode($karyawan,$periode)->result()[0]->ID_PENILAIAN;
 			$data = $this->m_penilaian->get_id_for_laporan($id_penilaian)->result();
 			$rekomendasi = $this->m_rekomendasi_pelatihan->cek_rekomendasi_pelatihan($id_penilaian)->result();
-			if ($rekomendasi) {
-				$isi['id_pelatihan'] = $rekomendasi[0]->ID_PELATIHAN;
-				$isi['pelatihan'] = $rekomendasi[0]->NAMA_PELATIHAN;
+			if (count($rekomendasi) > 0) {
+				$isi['pelatihan'] = '';
+				foreach ($rekomendasi as $r) {
+					$isi['pelatihan'] .= $r->NAMA_PELATIHAN.", ";
+				}
+				$isi['pelatihan'] = substr_replace($isi['pelatihan'], '', -2,3);
 			}else{
-				$isi['id_pelatihan'] = '';
 				$isi['pelatihan'] = '';
 			}
 			$isi['id_penilaian'] = $id_penilaian;
@@ -74,7 +76,6 @@ class Laporan extends CI_Controller {
 			$isi['kriteria_penilaian'] = $query->result();
 		}else{
 			$isi['id_penilaian'] = '';
-			$isi['id_pelatihan'] = '';
 			$isi['nama'] = '';
 			$isi['nik'] = '';
 			$isi['jabatan'] = '';
@@ -86,7 +87,7 @@ class Laporan extends CI_Controller {
 		$this->load->view('tampilan_utama',$isi);
 	}
 
-	public function cetak_perkaryawan($id_penilaian,$id_pelatihan='')
+	public function cetak_perkaryawan($id_penilaian)
 	{
 		$this->m_security->check();
 		$anti_level = array('3,4,5');
@@ -95,8 +96,12 @@ class Laporan extends CI_Controller {
 		$data = $this->m_penilaian->get_id_for_laporan($id_penilaian)->result();
 		$rekomendasi = $this->m_rekomendasi_pelatihan->cek_rekomendasi_pelatihan($id_penilaian)->result();
 
-		if ($rekomendasi) {
-			$isi['pelatihan'] = $rekomendasi[0]->NAMA_PELATIHAN;
+		if (count($rekomendasi) > 0) {
+			$isi['pelatihan'] = '';
+			foreach ($rekomendasi as $r) {
+				$isi['pelatihan'] .= $r->NAMA_PELATIHAN.", ";
+			}
+			$isi['pelatihan'] = substr_replace($isi['pelatihan'], '', -2,3);
 		}else{
 			$isi['pelatihan'] = '';
 		}

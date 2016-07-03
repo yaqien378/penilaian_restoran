@@ -1,7 +1,7 @@
 	<script src="<?php echo base_url() ?>assets/global/js/highcharts.js"></script>
 	<script src="<?php echo base_url() ?>assets/global/js/exporting.js"></script>
-	<script src="<?php echo base_url() ?>assets/global/js/data.js.js"></script>
-	<script src="<?php echo base_url() ?>assets/global/js/drilldown.js.js"></script>
+	<script src="<?php echo base_url() ?>assets/global/js/data.js"></script>
+	<script src="<?php echo base_url() ?>assets/global/js/drilldown.js"></script>
 	<script>
 	$(document).ready(function(){
 		$('#container').highcharts({
@@ -13,7 +13,7 @@
 	            text: 'KINERJA KARYAWAN'
 	        },
 	        subtitle: {
-	            text: 'Periode <?php echo $bulan_periode.' '.$tahun_periode ?>'
+	            text: 'Periode <?php echo $nama_periode ?>'
 	        },
 	        xAxis: {
 	            type: 'category'
@@ -60,10 +60,10 @@
 	            text: 'KINERJA ANDA'
 	        },
 	        subtitle: {
-	            text: 'Periode <?php echo $tahun_periode; ?>'
+	            text: 'Periode <?php echo $nama_periode; ?>'
 	        },
 	        xAxis: {
-	            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+	            categories: [<?php echo $list_periode_anda; ?>]
 	        },
 	        yAxis: {
 	            title: {

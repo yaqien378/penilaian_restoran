@@ -60,7 +60,8 @@ class Penilaian extends CI_Controller {
 		$this->m_security->access($anti_level);
 
 		if($act == 'simpan'){
-			$id_penilaian = $this->input->post('id_penilaian');
+			// $id_penilaian = $this->input->post('id_penilaian');
+			$id_penilaian = $this->m_security->gen_id('penilaian','ID_PENILAIAN');
 			$periode = $this->input->post('periode');
 			$id_karyawan = $this->session->userdata('id_karyawan');
 			$kar_id_karyawan = $this->input->post('id_karyawan');
@@ -93,6 +94,24 @@ class Penilaian extends CI_Controller {
 				$this->m_kriteria_penilaian_kar->create($id_kriteria[$i],$id_penilaian,$nilai[$i],$dasar_penilaian[$i]);
 			}
 
+			for ($i=1; $i <= $count_data; $i++)
+			{
+				if ($nilai[$i] < 70)
+				{
+					$pelatihan = $this->m_kriteria_penilaian->get_where(array('ID_KRITERIA'=>$id_kriteria[$i]));
+					if (count($pelatihan)>0)
+					{
+						$id_pelatihan = $pelatihan[0]->ID_PELATIHAN;
+						$rekomendasi = $this->m_rekomendasi_pelatihan->cek($id_penilaian,$id_pelatihan);
+						if (count($rekomendasi) == 0)
+						{
+							$this->m_rekomendasi_pelatihan->create($id_penilaian,$id_pelatihan);
+						}
+					}
+				}
+			}
+
+			// menyimpan ke tabel rekomendasi pelatihan
 			if($query > 0){
 				$this->session->set_flashdata('jenis','alert-success');
 				$this->session->set_flashdata('pesan','<strong>Berhasil!</strong> Data berhasil di tambahkan.');
@@ -242,7 +261,7 @@ class Penilaian extends CI_Controller {
 	public function rekomendasi()
 	{
 		$this->m_security->check();
-		$anti_level = array('1,3,4,5');
+		$anti_level = array('1','2','3','4','5','6');
 		$this->m_security->access($anti_level);
 
 		$id = $this->session->userdata('id_karyawan');
@@ -260,7 +279,7 @@ class Penilaian extends CI_Controller {
 	public function rekomendasi_act($act)
 	{
 		$this->m_security->check();
-		$anti_level = array('5');
+		$anti_level = array('1','2','3','4','5','6');
 		$this->m_security->access($anti_level);
 
 		if ($act == 'cek') {

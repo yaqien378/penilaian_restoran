@@ -2,13 +2,14 @@
 
 class M_Kriteria extends CI_Model {
 
-	public function create($id,$nama,$bobot){
+	public function create($id,$nama,$bobot,$min_nilai){
 		return $this->db->insert(
 			'kriteria',
 			array(
 				'ID_KRITERIA' => $id,
 				'NAMA_KRITERIA' => $nama,
-				'BOBOT' => $bobot
+				'BOBOT' => $bobot,
+				'MIN_NILAI' => $min_nilai
 			)
 		);
 	}
@@ -30,13 +31,14 @@ class M_Kriteria extends CI_Model {
 		$this->db->from('kriteria');
 		return $this->db->get();
 	}
-	public function update($id,$nama,$bobot){		
+	public function update($id,$nama,$bobot,$min_nilai){		
 		$this->db->where('ID_KRITERIA',$id);
 		return $this->db->update(
 			'kriteria',
 			array(
 				'NAMA_KRITERIA' => $nama,
-				'BOBOT' => $bobot
+				'BOBOT' => $bobot,
+				'MIN_NILAI' => $min_nilai
 			)
 		);
 	}

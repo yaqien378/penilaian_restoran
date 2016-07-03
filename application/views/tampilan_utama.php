@@ -283,13 +283,13 @@
 							History Penilaian</a>
 						</li>
 						<?php endif; ?>
-						<?php if ($level == '2'): ?>
-						<li>
-							<a href="<?php echo base_url(); ?>penilaian/rekomendasi">
+						<?php //if ($level == '2'): ?>
+						<!-- <li>
+							<a href="<?php //echo base_url(); ?>penilaian/rekomendasi">
 							<i class="fa fa-bookmark-o"></i>
 							Rekomendasi Pelatihan</a>
-						</li>
-						<?php endif; ?>
+						</li> -->
+						<?php //endif; ?>
 					</ul>
 				</li>
 				<?php endif; ?>

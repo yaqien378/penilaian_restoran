@@ -45,4 +45,13 @@ class M_Rekomendasi_Pelatihan extends CI_Model {
 				penilaian.ID_PERIODE2 = "'.$periode.'"			
 		');
 	}
+
+	public function cek($id_penilaian,$id_pelatihan)
+	{
+		$this->db->select('*');
+		$this->db->from('rekomendasi_pelatihan');
+		$this->db->where('ID_PENILAIAN',$id_penilaian);
+		$this->db->where('ID_PELATIHAN',$id_pelatihan);
+		return $this->db->get()->result();
+	}
 }

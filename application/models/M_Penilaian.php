@@ -94,10 +94,11 @@ class M_Penilaian extends CI_Model {
 	{
 		return $this->db->query('
 			SELECT  * FROM penilaian
+			INNER JOIN periode_kehadiran_dan_penilaian ON periode_kehadiran_dan_penilaian.ID_PERIODE2 = penilaian.ID_PERIODE2
 			WHERE
 			penilaian.KAR_ID_KARYAWAN= "'.$id.'" AND
-			ID_PERIODE2 IN ('.$periode.')
-			ORDER BY KAR_ID_KARYAWAN ASC,ID_PERIODE2 ASC
+			penilaian.ID_PERIODE2 IN ('.$periode.')
+			ORDER BY penilaian.KAR_ID_KARYAWAN ASC,penilaian.ID_PERIODE2 ASC
 		')->result();
 	}
 

@@ -11,27 +11,7 @@ class M_Kriteria_Penilaian extends CI_Model {
 			)
 		);
 	}
-
-	// public function get_all(){
-	// 	$this->db->select('*');
-	// 	$this->db->from('kriteria_penilaian');
-	// 	$this->db->join('kriteria','kriteria.ID_KRITERIA = kriteria_penilaian.ID_KRITERIA');
-	// 	$this->db->join('pelatihan','pelatihan.ID_PELATIHAN = kriteria_penilaian.ID_PELATIHAN');
-	// 	$this->db->where('kriteria_penilaian.ID_PELATIHAN',$id);
-	// 	return $this->db->get()->result();
-
-	// }
-	
-	// public function get_id($id){
-	// 	$this->db->select('*');
-	// 	$this->db->from('kriteria_penilaian');
-	// 	$this->db->join('kriteria','kriteria.ID_KRITERIA = kriteria_penilaian.ID_KRITERIA');
-	// 	$this->db->join('pelatihan','pelatihan.ID_PELATIHAN = kriteria_penilaian.ID_PELATIHAN');
-	// 	$this->db->where('kriteria_penilaian.ID_PELATIHAN',$id);
-	// 	$this->db->limit(1);
-	// 	return $this->db->get()->result();
-	// }
-	
+		
 	public function get_by_pelatihan($id){
 		$this->db->select('*');
 		$this->db->from('kriteria_penilaian');
@@ -46,6 +26,15 @@ class M_Kriteria_Penilaian extends CI_Model {
 		$this->db->select('NAMA_PELATIHAN');
 		$this->db->from('kriteria_penilaian');
 		$this->db->join('pelatihan','pelatihan.ID_PELATIHAN = kriteria_penilaian.ID_PELATIHAN');
+		return $this->db->get()->result();
+	}
+
+	public function get_where(array $cond = null)
+	{
+		$this->db->select('*');
+		$this->db->from('kriteria_penilaian');
+		if (count($cond) > 0)
+			$this->db->where($cond);
 		return $this->db->get()->result();
 	}
 	
