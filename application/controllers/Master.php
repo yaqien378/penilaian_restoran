@@ -1825,14 +1825,14 @@ class Master extends CI_Controller {
 			 <form class='form-horizontal' role='form' method='post' action='".base_url()."master/pelatihan_act/simpan'>
 				<div class='modal-body'>
 					<div class='form-group'>
-						<label class='col-md-3 control-label'>Nama Periode</label>
+						<label class='col-md-3 control-label'>Nama Pelatihan</label>
 						<div class='col-md-9'>
 							<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
 							<input type='text' class='form-control' placeholder='Nama Pelatihan' id='nama' name='nama' required>
 						</div>
 					</div>
 					<div class='form-group'>
-						<label class='col-md-3 control-label'>Awal</label>
+						<label class='col-md-3 control-label'>Nama Kategori</label>
 						<div class='col-md-9'>
 							<select name='kategori' id='kategori' class='form-control' required>
 								<option value=''>-- Pilih Kategori --</option>";
