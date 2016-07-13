@@ -19,8 +19,8 @@ class M_Karyawan extends CI_Model {
 	public function get_all(){
 		$this->db->select('*');
 		$this->db->from('karyawan');
-		$this->db->join('jabatan','jabatan.ID_JABATAN = karyawan.ID_JABATAN');
-		$this->db->join('outlet','outlet.ID_OUTLET = karyawan.ID_OUTLET');
+		$this->db->join('jabatan', 'jabatan.ID_JABATAN = karyawan.ID_JABATAN', 'right');
+		$this->db->join('outlet', 'outlet.ID_OUTLET = karyawan.ID_OUTLET', 'right');
 		return $this->db->get();
 
 	}

@@ -349,7 +349,7 @@ class Master extends CI_Controller {
 		$isi['breadcrumb1']	='Maintenance Master';
 		$isi['breadcrumb2']	='Karyawan';
 
-		if ($level == '1') {
+		if ($level == '1' || $level == '6') {
 			$isi['karyawan'] = $this->m_karyawan->get_all();
 		}else{
 			$outlet = $this->session->userdata('outlet');
