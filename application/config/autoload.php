@@ -139,7 +139,19 @@ $autoload['language'] = array();
 */
 
 $autoload['model'] = array(
-	'm_user','m_security','m_karyawan','m_kehadiran','m_jabatan','m_outlet','m_periode',
-	'm_range_kriteria','m_kriteria','m_kategori_pelatihan','m_pelatihan','m_penilaian','m_kriteria_penilaian_kar',
-	'm_rekomendasi_pelatihan','m_kriteria_penilaian'
+	'm_user',
+	'm_security',
+	'm_karyawan',
+	'm_kehadiran',
+	'm_jabatan',
+	'm_outlet',
+	'm_periode',
+	'm_range_kriteria',
+	'm_kriteria',
+	'm_kategori_pelatihan',
+	'm_pelatihan',
+	'm_penilaian',
+	'm_kriteria_penilaian_kar',
+	'm_rekomendasi_pelatihan',
+	'm_kriteria_penilaian'
 );

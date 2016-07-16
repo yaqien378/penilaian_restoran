@@ -14,15 +14,6 @@ class M_Penilaian extends CI_Model {
 	}
 
 	public function cek_penilaian($kar_id_karyawan,$periode){
-/*		$this->db->select('*');
-		$this->db->from('penilaian');
-		$this->db->join('periode_kehadiran_dan_penilaian','penilaian.ID_PERIODE2 = periode_kehadiran_dan_penilaian.ID_PERIODE2','inner');
-		$this->db->join('karyawan','penilaian.KAR_ID_KARYAWAN = karyawan.ID_KARYAWAN','inner');
-		$this->db->where('ID_PERIODE2',$periode);
-		$this->db->where('KAR_ID_KARYAWAN',$kar_id_karyawan);
-		$this->db->limit(1);
-		return $this->db->get();
-*/
 		$query = $this->db->query("
 			SELECT
 				*
@@ -114,6 +105,16 @@ class M_Penilaian extends CI_Model {
 		')->result();
 	}
 
+	public function join_all(array $cond = null)
+	{
+		return $this->db->select('*')
+				->from('penilaian')
+				->join('karyawan','penilaian.KAR_ID_KARYAWAN = karyawan.ID_KARYAWAN')
+				->join('jabatan','karyawan.ID_JABATAN = jabatan.ID_JABATAN')
+				->where($cond)
+				->get()
+				->result();
+	}
 
 
 }

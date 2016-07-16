@@ -40,7 +40,18 @@
 				<td> <?= ucfirst(strtolower($value->NAMA_KARYAWAN)) ?> </td>
 				<td style="text-align:center;"> <?= ucfirst(strtolower($value->NAMA_JABATAN)) ?> </td>
 				<td style="text-align:center;"> <?= $value->PENILAIAN_TOTAL ?> </td>
-				<td> <?= ucfirst(strtolower($value->NAMA_PELATIHAN)) ?> </td>
+				<td>
+				 <?php
+			 		$pelatihan = $this->m_rekomendasi_pelatihan->join_all(array('rekomendasi_pelatihan.ID_PENILAIAN'=>$value->ID_PENILAIAN));
+			 		if (count($pelatihan) > 0)
+			 		{
+			 			foreach ($pelatihan as $p)
+			 			{
+			 				echo ucfirst(strtolower($p->NAMA_PELATIHAN)).", ";
+			 			}
+			 		}
+			 	?> 
+				 </td>
 			</tr>
 			<?php endforeach; ?>
 		</tbody>

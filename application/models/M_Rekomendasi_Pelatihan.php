@@ -54,4 +54,14 @@ class M_Rekomendasi_Pelatihan extends CI_Model {
 		$this->db->where('ID_PELATIHAN',$id_pelatihan);
 		return $this->db->get()->result();
 	}
+
+	public function join_all(array $cond = null)
+	{
+		return $this->db->select('*')
+				->from('rekomendasi_pelatihan')
+				->join('pelatihan','pelatihan.ID_PELATIHAN = rekomendasi_pelatihan.ID_PELATIHAN')
+				->where($cond)
+				->get()
+				->result();
+	}	
 }

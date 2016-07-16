@@ -9,6 +9,10 @@ class Laporan extends CI_Controller {
         $this->load->library('pdf');
     }
 
+    public function index()
+    {
+    	redirect('laporan/perkaryawan');
+    }
 	/**
 	 * laporan perkaryawan
 	 */
@@ -119,7 +123,7 @@ class Laporan extends CI_Controller {
 
 		$this->pdf->load_view('laporan/cetak_perkaryawan',$isi);
 		$this->pdf->render();
-		$this->pdf->stream($fileName);
+		$this->pdf->stream($fileName, array('Attachment'=>0));
 	}
 
 	/**
@@ -175,8 +179,7 @@ class Laporan extends CI_Controller {
 		$isi['id_outlet'] = $outlet;
 		$isi['periode'] = $this->m_periode->get_id($periode)[0]->NAMA_PERIODE;
 		$isi['id_periode'] = $periode;
-		$penilaian = $this->m_rekomendasi_pelatihan->get_by_outlet_periode($outlet,$periode)->result();
-		// echo $periode;
+		$penilaian = $this->m_penilaian->join_all(array('penilaian.ID_PERIODE2'=>$periode, 'karyawan.ID_OUTLET'=>$outlet));
 		if ($penilaian) {
 			$isi['penilaian'] = $penilaian;
 		}
@@ -194,15 +197,14 @@ class Laporan extends CI_Controller {
 			$outlet = $this->session->userdata('outlet');
 		}
 
-		$penilaian 			= $this->m_rekomendasi_pelatihan->get_by_outlet_periode($outlet,$periode)->result();		
+		$penilaian = $this->m_penilaian->join_all(array('penilaian.ID_PERIODE2'=>$periode, 'karyawan.ID_OUTLET'=>$outlet));		
 		$isi['penilaian'] 	= $penilaian;
 		$isi['periode'] 	= $this->m_periode->get_id($periode)[0]->NAMA_PERIODE;
 
 		$fileName 			= 'Laporan Keseluruhan';
-		// $this->load->view('laporan/cetak_keseluruhan',$isi);
 		$this->pdf->load_view('laporan/cetak_keseluruhan',$isi);
 		$this->pdf->render();
-		$this->pdf->stream($fileName);
+		$this->pdf->stream($fileName,array('Attachment'=>0));
 	}
 
 	public function get_karyawan()

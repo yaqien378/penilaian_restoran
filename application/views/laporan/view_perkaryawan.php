@@ -114,7 +114,7 @@
 				<div>
 					<?php if (isset($kriteria_penilaian)){?>
 					*NB : 
-					<a href="<?php echo base_url(); ?>laporan/cetak_perkaryawan/<?= $id_penilaian ?>" ><i class="fa fa-file-pdf-o"></i> Cetak ke Pdf</a>
+					<a href="<?php echo base_url(); ?>laporan/cetak_perkaryawan/<?= $id_penilaian ?>" target="_blank"><i class="fa fa-file-pdf-o"></i> Cetak ke Pdf</a>
 					<?php } ?>
 				</div>
 				<div>
