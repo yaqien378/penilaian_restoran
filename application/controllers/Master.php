@@ -1832,7 +1832,7 @@ class Master extends CI_Controller {
 						</div>
 					</div>
 					<div class='form-group'>
-						<label class='col-md-3 control-label'>Nama Kategori</label>
+						<label class='col-md-3 control-label'>Kategori</label>
 						<div class='col-md-9'>
 							<select name='kategori' id='kategori' class='form-control' required>
 								<option value=''>-- Pilih Kategori --</option>";
@@ -1871,19 +1871,19 @@ class Master extends CI_Controller {
 				 <form class='form-horizontal' role='form' method='post' action='".base_url()."master/pelatihan_act/ubah'>
 					<div class='modal-body'>
 						<div class='form-group'>
-							<label class='col-md-3 control-label'>Nama Periode</label>
+							<label class='col-md-3 control-label'>Nama Pelatihan</label>
 							<div class='col-md-9'>
 								<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
 								<input type='text' class='form-control' placeholder='Nama Pelatihan' id='nama' name='nama' value='".ucfirst(strtolower($row->NAMA_PELATIHAN))."' required>
 							</div>
 						</div>
 						<div class='form-group'>
-							<label class='col-md-3 control-label'>Awal</label>
+							<label class='col-md-3 control-label'>Kategori</label>
 							<div class='col-md-9'>
 								<select name='kategori' id='kategori' class='form-control' required>
-									<option value='".$row->ID_KATEGORI."'>".ucfirst(strtolower($row->NAMA_KATEGORI))."</option>";
+									<option value='".$row->ID_KATEGORI."'>".ucwords(strtolower($row->NAMA_KATEGORI))."</option>";
 									foreach ($kategori as $kategori) {
-										echo "<option value='".$kategori->ID_KATEGORI."'>".ucfirst(strtolower($kategori->NAMA_KATEGORI))."</option>";
+										echo "<option value='".$kategori->ID_KATEGORI."'>".ucwords(strtolower($kategori->NAMA_KATEGORI))."</option>";
 									}
 								echo
 								"</select>

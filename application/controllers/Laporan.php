@@ -154,7 +154,6 @@ class Laporan extends CI_Controller {
 		$anti_level = array('3,4,5');
 		$this->m_security->access($anti_level);
 
-
 		$isi['content']		='laporan/view_keseluruhan';
 		$isi['judul_menu']	='Laporan';
 		$isi['judul']		='Laporan <small> Rapor Penilaian Keseluruhan</small>';
@@ -162,13 +161,11 @@ class Laporan extends CI_Controller {
 		$isi['breadcrumb2']	='Rapor Penilaian Keseluruhan';
 		$isi['breadcrumb3']	='view';
 
-
 		$periode = $this->input->post('periode');
 		$outlet = $this->session->userdata('outlet');
 		$cek_outlet = $this->session->userdata('outlet');
 		if ($cek_outlet == '1') {
 			$outlet = $this->input->post('outlet');
-			
 		}
 
 		if (!$periode) {

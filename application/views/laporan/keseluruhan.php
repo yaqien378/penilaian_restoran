@@ -16,7 +16,7 @@
 					<div class="form-group">
 						<label for="periode" class="control-label col-md-4">Outlet </label>
 						<div class="col-md-4">
-							<select name="outlet" id="outlet" class="form-control" onchange="pilih_karyawan()" required>
+							<select name="outlet" id="outlet" class="form-control" required>
 								<option value="">-- Pilih Outlet --</option>
 								<?php 
 									foreach ($outlet as $outlet) {

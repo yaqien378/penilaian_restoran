@@ -41,7 +41,7 @@ class M_Rekomendasi_Pelatihan extends CI_Model {
 			INNER JOIN karyawan AS dinilai ON dinilai.ID_KARYAWAN = penilaian.KAR_ID_KARYAWAN
 			INNER JOIN jabatan ON jabatan.ID_JABATAN = dinilai.ID_JABATAN
 			WHERE
-				dinilai.ID_OUTLET = "'.$id_outlet.'"AND
+				dinilai.ID_OUTLET = "'.$id_outlet.'" AND
 				penilaian.ID_PERIODE2 = "'.$periode.'"			
 		');
 	}
