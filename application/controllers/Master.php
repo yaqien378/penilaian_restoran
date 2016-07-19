@@ -349,7 +349,7 @@ class Master extends CI_Controller {
 		$isi['breadcrumb1']	='Maintenance Master';
 		$isi['breadcrumb2']	='Karyawan';
 
-		if ($level == '1') {
+		if ($level == '1' || $level == '6') {
 			$isi['karyawan'] = $this->m_karyawan->get_all();
 		}else{
 			$outlet = $this->session->userdata('outlet');
@@ -373,8 +373,7 @@ class Master extends CI_Controller {
 			$jabatan = strtoupper($this->input->post('jabatan'));
 			$outlet = strtoupper($this->input->post('outlet'));
 			$jk = strtoupper($this->input->post('jk'));
-			$pass = $this->input->post('pass');
-			$con_pass = $this->input->post('con_pass');
+			$pass = $this->input->post('id');
 
 			$query = $this->m_karyawan->create($id,$nama,$status,$jabatan,$outlet,$jk,$pass);
 
@@ -466,18 +465,6 @@ class Master extends CI_Controller {
 								<label class='radio-inline'>
 								<input type='radio' name='jk' id='wanita' value='wanita'>Wanita</label>
 							</div>
-						</div>
-					</div>
-					<div class='form-group'>
-						<label class='col-md-3 control-label'>Password</label>
-						<div class='col-md-9'>
-							<input type='password' class='form-control' placeholder='Password' id='pass' name='pass' pattern='[a-zA-Z0-9].{8,}' title='Minimal 8 character' required>
-						</div>
-					</div>
-					<div class='form-group'>
-						<label class='col-md-3 control-label'>Confirm Password</label>
-						<div class='col-md-9'>
-							<input type='password' class='form-control' placeholder='Confirm Password' id='con_pass' min-length='8' name='con_pass' onBlur='match()' required>
 						</div>
 					</div>
 					<div class='form-group'>
@@ -1080,6 +1067,207 @@ class Master extends CI_Controller {
 		}
 	}
 	
+	
+	/**
+	 * Master kriteria penilaian
+	 */
+	public function kriteria_penilaian()
+	{
+		$this->m_security->check();
+		$anti_level = array('5','4','3','2');
+		$this->m_security->access($anti_level);
+
+
+		$isi['content']		='master/kriteria_penilaian';
+		$isi['judul_menu']	='Maintenance Data';
+		$isi['judul']		='Maintenance Data <small>Data Kriteria Penilaian</small>';
+		$isi['breadcrumb1']	='Maintenance Data';
+		$isi['breadcrumb2']	='Kriteria Penilaian';
+		$isi['kriteria_penilaian'] 	= $this->m_kriteria_penilaian->get_by_pelatihan_all();
+
+		$this->load->view('tampilan_utama',$isi);
+	}
+
+	/*
+	* action master kriteria penilaian
+	*/
+	public function kriteria_penilaian_act($act)
+	{
+		$this->m_security->check();
+		$anti_level = array('5','4','3');
+		$this->m_security->access($anti_level);
+
+		if($act == 'simpan')
+		{
+			$pelatihan = $this->input->post('pelatihan');
+			$kriteria = $this->input->post('kriteria');
+
+			foreach ($kriteria as $key => $value) {
+				$query = $this->m_kriteria_penilaian->create($pelatihan,$value);
+			}
+
+			if($query > 0){
+				$this->session->set_flashdata('jenis','alert-success');
+				$this->session->set_flashdata('pesan','<strong>Berhasil!</strong> Data berhasil di tambahkan.');
+			}else{
+				$this->session->set_flashdata('jenis','alert-danger');
+				$this->session->set_flashdata('pesan','<strong>Gagal!</strong> Data gagal di tambahkan.');
+			}
+			redirect('master/kriteria_penilaian');
+
+		}else
+		if($act == 'edit')
+		{
+			$id_pelatihan = $this->input->post('id') ;
+
+			echo "
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'></button>
+					<h4 class='modal-title'>Tambah Data Kriteria Penilaian</h4>
+				</div>
+			 <form class='form-horizontal' role='form' method='post' action='".base_url()."master/kriteria_penilaian_act/simpan'>";
+							// $kategori_terpilih = $this->m_kriteria_penilaian->get_by_pelatihan($id_pelatihan);
+							// $id_kategori_terpilih = array();
+							// foreach ($kategori_terpilih as $value) {
+							// 	array_push($id_kategori_terpilih, $value->ID_KRITERIA);
+							// }
+							// print_r($id_kategori_terpilih);
+			 echo "
+				<div class='modal-body'>
+					<div class='form-group'>
+						<label class='col-md-3 control-label'>Pelatihan</label>
+						<div class='col-md-8'>
+							<select name='pelatihan' id='pelatihan' class='form-control' required>";
+								$pelatihan_terpilih = $this->m_pelatihan->get_id($id_pelatihan);
+ 
+								echo "<option value='".$pelatihan_terpilih[0]->ID_PELATIHAN."' selected>".ucfirst(strtolower($pelatihan_terpilih[0]->NAMA_PELATIHAN))."</option>";
+
+							$pelatihan_terinput = $this->m_kriteria_penilaian->get_by_pelatihan_all();
+							$id_terinput = '';
+							foreach ($pelatihan_terinput as $value) {
+								$id_terinput .= $value->ID_PELATIHAN.",";
+							}
+
+							if ($id_terinput != '') {
+								$id_terinput = substr_replace($id_terinput,'',-1,1);
+							}
+
+							$pelatihan = $this->m_pelatihan->get_by_not_list($id_terinput);
+							foreach ($pelatihan as $pelatihan) {
+								echo "<option value='".$pelatihan->ID_PELATIHAN."'>".ucfirst(strtolower($pelatihan->NAMA_PELATIHAN))."</option>";
+								
+							}
+							echo "</select>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-md-3 control-label'>Keterangan</label>
+						<div class='col-md-9'>
+							<div class='checkbox-list'>";
+							$kategori_terpilih = $this->m_kriteria_penilaian->get_by_pelatihan($id_pelatihan);
+							$id_kategori_terpilih = array();
+							foreach ($kategori_terpilih as $value) {
+								array_push($id_kategori_terpilih, $value->ID_KRITERIA);
+							}
+
+							$kriteria = $this->m_kriteria->get_all();
+							foreach ($kriteria as $kriteria) {
+								echo "<label>";
+								echo "<input type='checkbox' name='kriteria[]' value='".$kriteria->ID_KRITERIA."'";
+								if(!in_array($kriteria->ID_KRITERIA, $id_kategori_terpilih)){echo "selected";}
+								echo"> ".ucfirst(strtolower($kriteria->NAMA_KRITERIA))." </label>";
+							}
+							echo "
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class='modal-footer'>
+					<button type='reset' class='btn default' data-dismiss='modal'>Batal</button>
+					<button type='submit' class='btn blue'>Simpan</button>
+				</div>
+			 </form>
+			</div>";			
+		}else
+		if($act == 'hapus')
+		{
+			$id_pelatihan = $this->input->post('id');
+			$this->m_kriteria_penilaian->delete($id_pelatihan);
+		}else
+		if($act == 'tambah')
+		{
+
+			echo "
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'></button>
+					<h4 class='modal-title'>Tambah Data Kriteria Penilaian</h4>
+				</div>
+			 <form class='form-horizontal' role='form' method='post' action='".base_url()."master/kriteria_penilaian_act/simpan'>";
+			 echo "
+				<div class='modal-body'>
+					<div class='form-group'>
+						<label class='col-md-3 control-label'>Pelatihan</label>
+						<div class='col-md-8'>
+							<select name='pelatihan' id='pelatihan' class='form-control' required>
+								<option value=''>-- Pilih Jenis Pelatihan --</option>";
+							$pelatihan_terinput = $this->m_kriteria_penilaian->get_by_pelatihan_all();
+							if (count($pelatihan_terinput)>0)
+							{
+								$id_terinput = '';
+								foreach ($pelatihan_terinput as $value) {
+									$id_terinput .= $value->ID_PELATIHAN.",";
+								}
+								
+								if ($id_terinput != '') {
+									$id_terinput = substr_replace($id_terinput,'',-1,1);
+								}
+
+								$pelatihan = $this->m_pelatihan->get_by_not_list($id_terinput);
+								foreach ($pelatihan as $pelatihan) {
+									echo "<option value='".$pelatihan->ID_PELATIHAN."'>".ucfirst(strtolower($pelatihan->NAMA_PELATIHAN))."</option>";
+								}
+							}else{
+								$pelatihan = $this->m_pelatihan->get_all();
+								foreach ($pelatihan as $pelatihan) {
+									echo "<option value='".$pelatihan->ID_PELATIHAN."'>".ucfirst(strtolower($pelatihan->NAMA_PELATIHAN))."</option>";
+								}
+							}
+							echo "</select>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label class='col-md-3 control-label'>Keterangan</label>
+						<div class='col-md-9'>
+							<div class='checkbox-list'>";
+							$kriteria = $this->m_kriteria->get_all();
+							foreach ($kriteria as $kriteria) {
+								echo "<label>";
+								echo "<input type='checkbox' name='kriteria[]' value='".$kriteria->ID_KRITERIA."'> ".ucfirst(strtolower($kriteria->NAMA_KRITERIA))." </label>";
+							}
+							echo "
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class='modal-footer'>
+					<button type='reset' class='btn default' data-dismiss='modal'>Batal</button>
+					<button type='submit' class='btn blue'>Simpan</button>
+				</div>
+			 </form>
+			</div>";
+
+
+		}else{
+			redirect('master/kriteria_penilaian');
+		}
+
+
+
+	}
+
+
 
 	/**
 	 * Master range kriteria
@@ -1277,16 +1465,17 @@ class Master extends CI_Controller {
 	}
 
 	public function kriteria_act($act)
-	{
+	{	
 		$this->m_security->check();
 		$anti_level = array('5','4','3');
 		$this->m_security->access($anti_level);
 
 
 		if($act == 'simpan'){
-			$id = $this->input->post('id');
-			$nama = strtoupper($this->input->post('nama'));
-			$bobot = $this->input->post('bobot');
+			$id 		= $this->input->post('id');
+			$nama 		= strtoupper($this->input->post('nama'));
+			$bobot 		= $this->input->post('bobot');
+			$min_nilai 	= $this->input->post('min_nilai');
 
 			$cek_bobot = $this->m_kriteria->get_bobot_total()->row();
 			$cek_bobot = $cek_bobot->BOBOT_TOTAL;
@@ -1300,7 +1489,7 @@ class Master extends CI_Controller {
 				$this->session->set_flashdata('jenis','alert-danger');
 				$this->session->set_flashdata('pesan','<strong>kesalahan!</strong> Bobot harus lebih dari 0%.');
 			}else{
-				$query = $this->m_kriteria->create($id,$nama,$bobot);
+				$query = $this->m_kriteria->create($id,$nama,$bobot,$min_nilai);
 				if($query > 0){
 					$this->session->set_flashdata('jenis','alert-success');
 					$this->session->set_flashdata('pesan','<strong>Berhasil!</strong> Data berhasil di tambahkan.');
@@ -1317,6 +1506,7 @@ class Master extends CI_Controller {
 			$nama = strtoupper($this->input->post('nama'));
 			$bobot = $this->input->post('bobot');
 			$bobot_awal = $this->input->post('bobot_awal');
+			$min_nilai 	= $this->input->post('min_nilai');
 
 			$cek_bobot = $this->m_kriteria->get_bobot_total()->row();
 			$cek_bobot = $cek_bobot->BOBOT_TOTAL;
@@ -1330,7 +1520,7 @@ class Master extends CI_Controller {
 				$this->session->set_flashdata('jenis','alert-danger');
 				$this->session->set_flashdata('pesan','<strong>kesalahan!</strong> Bobot harus lebih dari 0%.');
 			}else{
-				$query = $this->m_kriteria->update($id,$nama,$bobot);
+				$query = $this->m_kriteria->update($id,$nama,$bobot,$min_nilai);
 				if($query > 0){
 					$this->session->set_flashdata('jenis','alert-success');
 					$this->session->set_flashdata('pesan','<strong>Berhasil!</strong> Data berhasil di ubah.');
@@ -1373,6 +1563,12 @@ class Master extends CI_Controller {
 							<span>Bobot harus bernilai di antara 1 - ".$max."</span>
 						</div>
 					</div>
+					<div class='form-group'>
+						<label class='col-md-3 control-label'>Nilai Minimum</label>
+						<div class='col-md-9'>
+							<input type='number' class='form-control' id='min_nilai' name='min_nilai' placeholder='Nilai Minimun' required>
+						</div>
+					</div>
 				</div>
 				<div class='modal-footer'>
 					<button type='reset' class='btn default' data-dismiss='modal'>Batal</button>
@@ -1412,6 +1608,12 @@ class Master extends CI_Controller {
 								<span>Bobot harus bernilai di antara 1 - ".$max."</span>
 							</div>
 						</div>
+						<div class='form-group'>
+						<label class='col-md-3 control-label'>Nilai Minimum</label>
+						<div class='col-md-9'>
+							<input type='number' class='form-control' id='min_nilai' name='min_nilai' placeholder='Nilai Minimun' value='".$row->MIN_NILAI."' required>
+						</div>
+					</div>
 					</div>
 					<div class='modal-footer'>
 						<button type='reset' class='btn default' data-dismiss='modal'>Batal</button>
@@ -1576,10 +1778,14 @@ class Master extends CI_Controller {
 		if($act == 'simpan'){
 			$id = $this->input->post('id');
 			$kategori = $this->input->post('kategori');
-			$nama = strtoupper($this->input->post('nama'));
+			// $nama = strtoupper($this->input->post('nama'));
+			$id_kriteria = strtoupper($this->input->post('nama'));
+			$nama = $this->m_kriteria->get_id($id_kriteria)[0]->NAMA_KRITERIA;
 			$ket = strtoupper($this->input->post('ket'));
 
 			$query = $this->m_pelatihan->create($id,$kategori,$nama,$ket);
+
+			$this->m_kriteria_penilaian->create($id,$id_kriteria);
 
 			if($query > 0){
 				$this->session->set_flashdata('jenis','alert-success');
@@ -1609,7 +1815,20 @@ class Master extends CI_Controller {
 
 		}else if($act == 'hapus'){
 			$id = $this->input->post('id');
-			$this->m_pelatihan->delete($id);
+
+			$nama_pelatihan = $this->m_pelatihan->get_id($id)[0]->NAMA_PELATIHAN;
+			$id_kriteria = $this->m_kriteria->get_by_nama($nama_pelatihan)[0]->ID_KRITERIA;
+
+			$cek = $this->m_rekomendasi_pelatihan->join_all(array('rekomendasi_pelatihan.ID_PELATIHAN'=>$id));
+			if (count($cek) > 0)
+			{
+				$this->m_kriteria_penilaian->delete($id);
+				$this->m_pelatihan->delete($id);
+				echo "data berhasil di hapus";
+			}else{
+				echo "data gagal di hapus";
+			}
+			
 
 		}else if($act == 'tambah'){
 			$id = $this->m_security->gen_id('pelatihan','ID_PELATIHAN');
@@ -1623,14 +1842,38 @@ class Master extends CI_Controller {
 			 <form class='form-horizontal' role='form' method='post' action='".base_url()."master/pelatihan_act/simpan'>
 				<div class='modal-body'>
 					<div class='form-group'>
-						<label class='col-md-3 control-label'>Nama Periode</label>
+						<label class='col-md-3 control-label'>Nama Pelatihan</label>
 						<div class='col-md-9'>
-							<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
-							<input type='text' class='form-control' placeholder='Nama Pelatihan' id='nama' name='nama' required>
+							<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>";
+							echo "<select id='nama' name='nama' class='form-control' required>
+								<option value=''>-- Pilih --</option>";
+								$kp = $this->m_kriteria_penilaian->get_all();
+								$list = array();
+								if (count($kp) > 0)
+								{	
+									$i = 0;
+									foreach ($kp as $kp)
+									{
+										$list[$i] = $kp->ID_KRITERIA ;
+										$i++;
+									}
+									$kriteria = $this->m_kriteria->get_kriteria($list);
+								}else{
+									
+									$kriteria = $this->m_kriteria->get_all();
+								}
+
+								foreach ($kriteria as $k)
+								{
+									echo "<option value='".$k->ID_KRITERIA."'>".ucfirst(strtolower($k->NAMA_KRITERIA))."</option>";
+								}
+							echo
+							"</select>";
+							echo "
 						</div>
 					</div>
 					<div class='form-group'>
-						<label class='col-md-3 control-label'>Awal</label>
+						<label class='col-md-3 control-label'>Kategori</label>
 						<div class='col-md-9'>
 							<select name='kategori' id='kategori' class='form-control' required>
 								<option value=''>-- Pilih Kategori --</option>";
@@ -1669,19 +1912,19 @@ class Master extends CI_Controller {
 				 <form class='form-horizontal' role='form' method='post' action='".base_url()."master/pelatihan_act/ubah'>
 					<div class='modal-body'>
 						<div class='form-group'>
-							<label class='col-md-3 control-label'>Nama Periode</label>
+							<label class='col-md-3 control-label'>Nama Pelatihan</label>
 							<div class='col-md-9'>
 								<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
-								<input type='text' class='form-control' placeholder='Nama Pelatihan' id='nama' name='nama' value='".ucfirst(strtolower($row->NAMA_PELATIHAN))."' required>
+								<input type='text' class='form-control' placeholder='Nama Pelatihan' id='nama' name='nama' value='".ucfirst(strtolower($row->NAMA_PELATIHAN))."' readonly='true' required>
 							</div>
 						</div>
 						<div class='form-group'>
-							<label class='col-md-3 control-label'>Awal</label>
+							<label class='col-md-3 control-label'>Kategori</label>
 							<div class='col-md-9'>
 								<select name='kategori' id='kategori' class='form-control' required>
-									<option value='".$row->ID_KATEGORI."'>".ucfirst(strtolower($row->NAMA_KATEGORI))."</option>";
+									<option value='".$row->ID_KATEGORI."'>".ucwords(strtolower($row->NAMA_KATEGORI))."</option>";
 									foreach ($kategori as $kategori) {
-										echo "<option value='".$kategori->ID_KATEGORI."'>".ucfirst(strtolower($kategori->NAMA_KATEGORI))."</option>";
+										echo "<option value='".$kategori->ID_KATEGORI."'>".ucwords(strtolower($kategori->NAMA_KATEGORI))."</option>";
 									}
 								echo
 								"</select>

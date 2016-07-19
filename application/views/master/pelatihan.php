@@ -105,8 +105,13 @@
 		 		url: '<?php echo base_url(); ?>master/pelatihan_act/hapus',
 		 		type : 'post',
 		 		data : {'id':id},
-		 		success : function (){
+		 		success : function (data){
+		 			alert(data);
 		 			$('#r'+id).hide();
+		 		},
+		 		error : function()
+		 		{
+		 			alert('maaf data ini tidak dapat di hapus , cek transaksi yang terkait.')
 		 		}
 		 	});
 		 }

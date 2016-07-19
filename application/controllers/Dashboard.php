@@ -20,6 +20,54 @@ class Dashboard extends CI_Controller {
 		$isi['breadcrumb1']	='Dashboard';
 		$isi['breadcrumb2']	='';
 
+		//mendapatkan periode
+		$isi['riwayat_anda']= '';
+		$isi['list_periode_anda']= '';
+		$list_periode = '';
+		
+		// $periode = $this->m_periode->get_periode(date("Y"));
+		$periode = $this->m_periode->get_all();
+		if (count($periode)>0)
+		{
+			foreach ($periode as $p)
+			{
+				$list_periode .= $p->ID_PERIODE2.',';
+				// $isi['list_periode_anda'] .= "'".$p->NAMA_PERIODE."',";
+			}
+			$list_periode 		= substr_replace($list_periode, '',-1,1);
+			$id 				= $_SESSION['id_karyawan'];
+
+			$riwayat_penilai 	= $this->m_penilaian->get_kar_grafik($id,$list_periode);
+			foreach ($riwayat_penilai as $r)
+			{
+				$isi['riwayat_anda'] .= $r->PENILAIAN_TOTAL.',';
+				$isi['list_periode_anda'] .= "'".$r->NAMA_PERIODE."',";
+			}
+		}
+
+		$data_grafik = '';
+		//mendapatkan id periode bulan terakhir
+		$thn_kemarin = date("Y") - 1;
+		$prd = $this->m_periode->get_periode($thn_kemarin);
+		if (count($prd) > 0)
+		{
+			$id_periode_thn = $prd[0]->ID_PERIODE2;
+			$riwayat_pegawai = $this->m_penilaian->get_peg_grafik($id,$id_periode_thn);
+			foreach ($riwayat_pegawai as $rp) {
+				$data_grafik .= "
+						{
+			                name: '".$rp->NAMA_KARYAWAN."',
+			                y: ".$rp->PENILAIAN_TOTAL.",
+			            },
+				";
+			}
+			$isi['data_peg'] = $data_grafik;
+		}else{
+			$isi['data_peg'] = '';
+		}
+
+		$isi['nama_periode'] = date("Y") - 1;
+		// $isi['bulan_periode'] = date("M");
 		$this->load->view('tampilan_utama',$isi);
 	}
 

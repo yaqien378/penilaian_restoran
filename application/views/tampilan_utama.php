@@ -103,7 +103,7 @@
 		<!-- BEGIN LOGO -->
 		<div class="page-logo">
 			<a href="#">
-			<img src="<?php echo base_url(); ?>assets/admin/layout4/img/logo-pizza.png" alt="logo" class="logo-default" style="margin-top: 15px;"/>
+			<img src="<?php echo base_url(); ?>assets/admin/layout4/img/brand.png" alt="logo" class="logo-default" style="margin-top: 10px;"/>
 			</a>
 			<div class="menu-toggler sidebar-toggler">
 				<!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
@@ -129,35 +129,13 @@
 						<span class="username username-hide-on-mobile">
 						<?= ucfirst(strtolower($this->session->userdata('nama'))) ?> </span>
 						<!-- DOC: Do not remove below empty space(&nbsp;) as its purposely used -->
-						<img alt="" class="img-circle" src="<?php echo base_url();?>assets/admin/layout4/img/avatar8.jpg"/>
+						<img alt="" class="img-circle" src="<?php echo base_url();?>assets/admin/layout4/img/avatar.png"/>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-default">
 							<li>
 								<a href="<?php echo base_url(); ?>dashboard/setting_profil">
 								<i class="icon-user"></i> My Profile </a>
 							</li>
-							<!-- <li>
-								<a href="page_calendar.html">
-								<i class="icon-calendar"></i> My Calendar </a>
-							</li>
-							<li>
-								<a href="inbox.html">
-								<i class="icon-envelope-open"></i> My Inbox <span class="badge badge-danger">
-								3 </span>
-								</a>
-							</li>
-							<li>
-								<a href="page_todo.html">
-								<i class="icon-rocket"></i> My Tasks <span class="badge badge-success">
-								7 </span>
-								</a>
-							</li>
-							<li class="divider">
-							</li>
-							<li>
-								<a href="extra_lock.html">
-								<i class="icon-lock"></i> Lock Screen </a>
-							</li> -->
 							<li>
 								<a href="<?php echo base_url(); ?>login/logout">
 								<i class="icon-key"></i> Log Out </a>
@@ -195,7 +173,7 @@
 				$level = $this->session->userdata('level');
 			?>
 			<ul class="page-sidebar-menu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
-				<?php if ($level == '1' || $level == '2' ||$level == '3' ||$level == '4' ||$level == '5'): ?>
+				<?php if ($level == '1' || $level == '2' ||$level == '3' ||$level == '4' ||$level == '5' ||$level == '6'): ?>
 				<li class="start active ">
 					<a href="<?php echo base_url(); ?>dashboard">
 					<i class="fa fa-dashboard"></i>
@@ -203,7 +181,7 @@
 					</a>
 				</li>
 				<?php endif; ?>
-				<?php if ($level == '1' || $level == '2'): ?>
+				<?php if ( $level == '2' || $level == '6'): ?>
 				<li>
 					<a href="javascript:;">
 					<i class="fa fa-bank"></i>
@@ -211,21 +189,21 @@
 					<span class="arrow "></span>
 					</a>
 					<ul class="sub-menu">
-						<?php if ($level == '1'): ?>
+						<?php if ($level == '6'): ?>
 						<li>
 							<a href="<?php echo base_url(); ?>master/outlet">
 							<i class="icon-home"></i>
 							Master Outlet</a>
 						</li>
 						<?php endif; ?>
-						<?php if ($level == '1'): ?>
+						<?php if ($level == '6'): ?>
 						<li>
 							<a href="<?php echo base_url(); ?>master/jabatan">
 							<i class="fa fa-bookmark-o"></i>
 							Master Jabatan</a>
 						</li>
 						<?php endif; ?>
-						<?php if ($level == '1' || $level == '2'): ?>
+						<?php if ($level == '6'): ?>
 						<li>
 							<a href="<?php echo base_url(); ?>master/karyawan">
 							<i class="icon-users"></i>
@@ -242,7 +220,7 @@
 					</ul>
 				</li>
 				<?php endif; ?>
-				<?php if ($level == '1'): ?>
+				<?php if ($level == '6'): ?>
 				<li>
 					<a href="javascript:;">
 					<i class="fa fa-database"></i>
@@ -255,6 +233,13 @@
 							<i class="fa fa-calendar"></i>
 							Master Periode Penilaian</a>
 						</li>
+						<?php  
+						/*<li>
+							<a href=" echo base_url(); master/kriteria_penilaian">
+							<i class="fa fa-calendar"></i>
+							Master Kriteria Penilaian</a>
+						</li>*/
+						?>
 						<li>
 							<a href="<?php echo base_url(); ?>master/kriteria">
 							<i class="fa fa-bookmark-o"></i>
@@ -300,10 +285,17 @@
 							History Penilaian</a>
 						</li>
 						<?php endif; ?>
+						<?php //if ($level == '2'): ?>
+						<!-- <li>
+							<a href="<?php //echo base_url(); ?>penilaian/rekomendasi">
+							<i class="fa fa-bookmark-o"></i>
+							Rekomendasi Pelatihan</a>
+						</li> -->
+						<?php //endif; ?>
 					</ul>
 				</li>
 				<?php endif; ?>
-				<?php if ($level == '1' || $level == '2' ||$level == '3' ||$level == '4' ||$level == '5'): ?>
+				<?php if ($level == '1' || $level == '2'): ?>
 				<li>
 					<a href="javascript:;">
 					<i class="fa fa-clipboard"></i>
@@ -346,7 +338,7 @@
 			<!-- BEGIN PAGE BREADCRUMB -->
 			<ul class="page-breadcrumb breadcrumb">
 				<li>
-					<a href="index.html">Home</a>
+					<a href="<?php echo base_url('dashboard') ?>">Home</a>
 					<i class="fa fa-circle"></i>
 				</li>
 				<li>
@@ -370,7 +362,7 @@
 <!-- BEGIN FOOTER -->
 <div class="page-footer">
 	<div class="page-footer-inner">
-		<?php echo date('Y'); ?> &copy; Nama Pembuat.
+		2016&copy; &bull; Developed by Irfan.
 	</div>
 	<div class="scroll-to-top">
 		<i class="icon-arrow-up"></i>
@@ -390,7 +382,7 @@
 	   Layout.init(); // init layout
 	   Demo.init(); // init demo features
 	   QuickSidebar.init(); // init quick sidebar
-	   Index.init(); // init index page
+	   // Index.init(); // init index page
 	   Tasks.initDashboardWidget(); // init tash dashboard widget  
 	   // TableManaged.init();
 	});

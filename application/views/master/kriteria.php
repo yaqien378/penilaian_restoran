@@ -34,6 +34,9 @@
 						 Bobot
 					</th>
 					<th style="width:15%;text-align:center;">
+						 Nilai Minimum
+					</th>
+					<th style="width:15%;text-align:center;">
 						 Action
 					</th>
 				</tr>
@@ -51,6 +54,9 @@
 					</td>
 					<td style="text-align:center;">
 						<?php echo ucfirst(strtolower($kriteria->BOBOT)); ?> %
+					</td>
+					<td style="text-align:center;">
+						<?php echo $kriteria->MIN_NILAI; ?>
 					</td>
 					<td style="text-align:center;"> 
 						<div class="btn-group btn-group-sm btn-group-solid ">

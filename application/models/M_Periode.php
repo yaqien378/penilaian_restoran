@@ -45,4 +45,12 @@ class M_Periode extends CI_Model {
 		$this->db->where('ID_PERIODE2',$id);
 		return $this->db->delete('periode_kehadiran_dan_penilaian');
 	}
+
+	public function get_periode($tahun)
+	{
+		$this->db->select('*');
+		$this->db->from('periode_kehadiran_dan_penilaian');
+		$this->db->like('AWAL',$tahun,'after');
+		return $this->db->get()->result();
+	}
 }

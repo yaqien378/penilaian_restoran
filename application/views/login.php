@@ -37,9 +37,9 @@
 <!-- BEGIN BODY -->
 <body class="login">
 <!-- BEGIN LOGO -->
-<div class="logo">
+<div class="logo" style="margin-top:10px;">
 	<a href="index.html">
-	<img src="<?php echo base_url();?>assets/admin/layout4/img/logo-pizza-big.png" style="width:14%;" alt=""/>
+	<img src="<?php echo base_url();?>assets/admin/layout4/img/login.png"  alt=""/>
 	</a>
 </div>
 <!-- END LOGO -->
@@ -96,7 +96,7 @@
 <!-- END LOGIN -->
 <!-- BEGIN COPYRIGHT -->
 <div class="copyright">
-	 <?php echo date('Y'); ?> &copy; nama restoran.
+	 2016&copy; &bull; Developed by Irfan.
 </div>
 <!-- END COPYRIGHT -->
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
