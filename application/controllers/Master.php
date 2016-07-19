@@ -1857,9 +1857,12 @@ class Master extends CI_Controller {
 										$list[$i] = $kp->ID_KRITERIA ;
 										$i++;
 									}
+									$kriteria = $this->m_kriteria->get_kriteria($list);
+								}else{
+									
+									$kriteria = $this->m_kriteria->get_all();
 								}
 
-								$kriteria = $this->m_kriteria->get_kriteria($list);
 								foreach ($kriteria as $k)
 								{
 									echo "<option value='".$k->ID_KRITERIA."'>".ucfirst(strtolower($k->NAMA_KRITERIA))."</option>";
