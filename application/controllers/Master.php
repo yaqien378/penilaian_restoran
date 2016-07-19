@@ -1912,7 +1912,7 @@ class Master extends CI_Controller {
 							<label class='col-md-3 control-label'>Nama Pelatihan</label>
 							<div class='col-md-9'>
 								<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
-								<input type='text' class='form-control' placeholder='Nama Pelatihan' id='nama' name='nama' value='".ucfirst(strtolower($row->NAMA_PELATIHAN))."' required>
+								<input type='text' class='form-control' placeholder='Nama Pelatihan' id='nama' name='nama' value='".ucfirst(strtolower($row->NAMA_PELATIHAN))."' readonly='true' required>
 							</div>
 						</div>
 						<div class='form-group'>
