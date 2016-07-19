@@ -1778,10 +1778,14 @@ class Master extends CI_Controller {
 		if($act == 'simpan'){
 			$id = $this->input->post('id');
 			$kategori = $this->input->post('kategori');
-			$nama = strtoupper($this->input->post('nama'));
+			// $nama = strtoupper($this->input->post('nama'));
+			$id_kriteria = strtoupper($this->input->post('nama'));
+			$nama = $this->m_kriteria->get_id($id_kriteria)[0]->NAMA_KRITERIA;
 			$ket = strtoupper($this->input->post('ket'));
 
 			$query = $this->m_pelatihan->create($id,$kategori,$nama,$ket);
+
+			$this->m_kriteria_penilaian->create($id,$id_kriteria);
 
 			if($query > 0){
 				$this->session->set_flashdata('jenis','alert-success');
@@ -1811,7 +1815,20 @@ class Master extends CI_Controller {
 
 		}else if($act == 'hapus'){
 			$id = $this->input->post('id');
-			$this->m_pelatihan->delete($id);
+
+			$nama_pelatihan = $this->m_pelatihan->get_id($id)[0]->NAMA_PELATIHAN;
+			$id_kriteria = $this->m_kriteria->get_by_nama($nama_pelatihan)[0]->ID_KRITERIA;
+
+			$cek = $this->m_rekomendasi_pelatihan->join_all(array('rekomendasi_pelatihan.ID_PELATIHAN'=>$id));
+			if (count($cek) > 0)
+			{
+				$this->m_kriteria_penilaian->delete($id);
+				$this->m_pelatihan->delete($id);
+				echo "data berhasil di hapus";
+			}else{
+				echo "data gagal di hapus";
+			}
+			
 
 		}else if($act == 'tambah'){
 			$id = $this->m_security->gen_id('pelatihan','ID_PELATIHAN');
@@ -1827,8 +1844,29 @@ class Master extends CI_Controller {
 					<div class='form-group'>
 						<label class='col-md-3 control-label'>Nama Pelatihan</label>
 						<div class='col-md-9'>
-							<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>
-							<input type='text' class='form-control' placeholder='Nama Pelatihan' id='nama' name='nama' required>
+							<input type='hidden' class='form-control' placeholder='ID' id='id' name='id' value='".$id."' readonly>";
+							echo "<select id='nama' name='nama' class='form-control' required>
+								<option value=''>-- Pilih --</option>";
+								$kp = $this->m_kriteria_penilaian->get_all();
+								$list = array();
+								if (count($kp) > 0)
+								{	
+									$i = 0;
+									foreach ($kp as $kp)
+									{
+										$list[$i] = $kp->ID_KRITERIA ;
+										$i++;
+									}
+								}
+
+								$kriteria = $this->m_kriteria->get_kriteria($list);
+								foreach ($kriteria as $k)
+								{
+									echo "<option value='".$k->ID_KRITERIA."'>".ucfirst(strtolower($k->NAMA_KRITERIA))."</option>";
+								}
+							echo
+							"</select>";
+							echo "
 						</div>
 					</div>
 					<div class='form-group'>

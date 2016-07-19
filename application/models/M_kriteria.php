@@ -46,4 +46,21 @@ class M_Kriteria extends CI_Model {
 		$this->db->where('ID_KRITERIA',$id);
 		return $this->db->delete('kriteria');
 	}
+
+	public function get_kriteria($id)
+	{
+		$this->db->select('*');
+		$this->db->from('kriteria');
+		$this->db->where_not_in('kriteria.ID_KRITERIA',$id);
+		return $this->db->get()->result();
+	}
+
+	public function get_by_nama($nama)
+	{
+		$this->db->select('*');
+		$this->db->from('kriteria');
+		$this->db->where('kriteria.NAMA_KRITERIA',$nama);
+		$this->db->limit(1);
+		return $this->db->get()->result();
+	}
 }

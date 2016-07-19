@@ -64,6 +64,7 @@ class M_Penilaian extends CI_Model {
 	{
 		return $this->db->query('
 			SELECT
+				karyawan.ID_KARYAWAN AS ID_KARYAWAN,
 				karyawan.NAMA_KARYAWAN AS KARYAWAN_DINILAI,
 				penilai.NAMA_KARYAWAN AS PENILAI,
 				jabatan.NAMA_JABATAN AS JABATAN,

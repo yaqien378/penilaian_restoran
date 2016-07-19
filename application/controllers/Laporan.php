@@ -41,6 +41,11 @@ class Laporan extends CI_Controller {
 
 	public function view_perkaryawan()
 	{
+		if (!$this->input->post('periode'))
+		{
+			redirect('laporan/perkaryawan');
+		}
+
 		$this->m_security->check();
 		$anti_level = array('3,4,5');
 		$this->m_security->access($anti_level);
@@ -58,19 +63,47 @@ class Laporan extends CI_Controller {
 
 		$isi['periode'] = $this->m_periode->get_id($periode)[0]->NAMA_PERIODE;
 
+		$kehadiran = $this->m_kehadiran->cek_kehadiran($karyawan,$periode)->result();		
+		if (count($kehadiran) > 0)
+		{
+			$isi['kehadiran']['terlambat'] = $kehadiran[0]->TERLAMBAT;
+			$isi['kehadiran']['absen'] = $kehadiran[0]->ABSEN;
+			$isi['kehadiran']['sakit'] = $kehadiran[0]->SAKIT;
+		}else{
+			$isi['kehadiran']['terlambat'] = 'belum di isi';
+			$isi['kehadiran']['absen'] = 'belum di isi';
+			$isi['kehadiran']['sakit'] = 'belum di isi';
+		}
+
 		if (isset($query)) {
 			$id_penilaian = $this->m_penilaian->get_by_karyawan_periode($karyawan,$periode)->result()[0]->ID_PENILAIAN;
 			$data = $this->m_penilaian->get_id_for_laporan($id_penilaian)->result();
+
 			$rekomendasi = $this->m_rekomendasi_pelatihan->cek_rekomendasi_pelatihan($id_penilaian)->result();
-			if (count($rekomendasi) > 0) {
+			if (count($rekomendasi) > 0)
+			{
 				$isi['pelatihan'] = '';
-				foreach ($rekomendasi as $r) {
-					$isi['pelatihan'] .= $r->NAMA_PELATIHAN.", ";
+				$id_kategori = $this->m_rekomendasi_pelatihan->distinc_kategori($id_penilaian)->result();
+				foreach ($id_kategori as $k)
+				{
+					$nama_kategori = $this->m_kategori_pelatihan->get_id($k->ID_KATEGORI)[0]->NAMA_KATEGORI;
+					$isi['pelatihan'] .= $nama_kategori."( ";
+						$pelatihan = $this->m_rekomendasi_pelatihan->pelatihan_by_kategori($id_penilaian,$k->ID_KATEGORI);
+						if (count($pelatihan) > 0)
+						{
+							foreach ($pelatihan->result() as $p)
+							{
+								$isi['pelatihan'] .= $p->NAMA_PELATIHAN.", ";
+							}
+							$isi['pelatihan'] = substr_replace($isi['pelatihan'], '', -2,1);
+						}
+					$isi['pelatihan'] .= " ), ";
 				}
-				$isi['pelatihan'] = substr_replace($isi['pelatihan'], '', -2,3);
+				$isi['pelatihan'] = substr_replace($isi['pelatihan'], '', -2,1);
 			}else{
 				$isi['pelatihan'] = '';
 			}
+
 			$isi['id_penilaian'] = $id_penilaian;
 			$isi['nama'] = $data[0]->KARYAWAN_DINILAI;
 			$isi['nik'] = $data[0]->NIK;
@@ -99,22 +132,48 @@ class Laporan extends CI_Controller {
 
 		$data = $this->m_penilaian->get_id_for_laporan($id_penilaian)->result();
 		$rekomendasi = $this->m_rekomendasi_pelatihan->cek_rekomendasi_pelatihan($id_penilaian)->result();
-
-		if (count($rekomendasi) > 0) {
+		if (count($rekomendasi) > 0)
+		{
 			$isi['pelatihan'] = '';
-			foreach ($rekomendasi as $r) {
-				$isi['pelatihan'] .= $r->NAMA_PELATIHAN.", ";
+			$id_kategori = $this->m_rekomendasi_pelatihan->distinc_kategori($id_penilaian)->result();
+			foreach ($id_kategori as $k)
+			{
+				$nama_kategori = $this->m_kategori_pelatihan->get_id($k->ID_KATEGORI)[0]->NAMA_KATEGORI;
+				$isi['pelatihan'] .= $nama_kategori."( ";
+					$pelatihan = $this->m_rekomendasi_pelatihan->pelatihan_by_kategori($id_penilaian,$k->ID_KATEGORI);
+					if (count($pelatihan) > 0)
+					{
+						foreach ($pelatihan->result() as $p)
+						{
+							$isi['pelatihan'] .= $p->NAMA_PELATIHAN.", ";
+						}
+						$isi['pelatihan'] = substr_replace($isi['pelatihan'], '', -2,1);
+					}
+				$isi['pelatihan'] .= " ), ";
 			}
-			$isi['pelatihan'] = substr_replace($isi['pelatihan'], '', -2,3);
+			$isi['pelatihan'] = substr_replace($isi['pelatihan'], '', -2,1);
 		}else{
 			$isi['pelatihan'] = '';
 		}
+
 		$isi['nama'] = $data[0]->KARYAWAN_DINILAI;
 		$isi['nik'] = $data[0]->NIK;
 		$isi['jabatan'] = $data[0]->JABATAN;
 		$isi['penilai'] = $data[0]->PENILAI;
 		$isi['nilai_total'] = $data[0]->PENILAIAN_TOTAL;
 		$isi['periode'] = $this->m_periode->get_id($data[0]->ID_PERIODE2)[0]->NAMA_PERIODE;
+
+		$kehadiran = $this->m_kehadiran->cek_kehadiran($data[0]->ID_KARYAWAN,$data[0]->ID_PERIODE2)->result();		
+		if (count($kehadiran) > 0)
+		{
+			$isi['kehadiran']['terlambat'] = $kehadiran[0]->TERLAMBAT;
+			$isi['kehadiran']['absen'] = $kehadiran[0]->ABSEN;
+			$isi['kehadiran']['sakit'] = $kehadiran[0]->SAKIT;
+		}else{
+			$isi['kehadiran']['terlambat'] = 'belum di isi';
+			$isi['kehadiran']['absen'] = 'belum di isi';
+			$isi['kehadiran']['sakit'] = 'belum di isi';
+		}
 
 		$query = $this->m_kriteria_penilaian_kar->get_by_karyawan_and_periode($data[0]->KAR_ID_KARYAWAN,$data[0]->ID_PERIODE2);
 		$isi['kriteria_penilaian'] = $query->result();

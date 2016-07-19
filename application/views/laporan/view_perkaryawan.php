@@ -88,7 +88,24 @@
 				</div>
 				<br>
 					<?php if($pelatihan != '') {?>
-					<p>Sesuai dengan nilai di atas saudara <?= ucfirst(strtolower($nama)) ?> di rekomendasikan untuk mengikuti pelatihan <i><?= ucfirst(strtolower($pelatihan)) ?></i>.</p>
+					<p>Sesuai dengan nilai di atas saudara <?= ucfirst(strtolower($nama)) ?> di rekomendasikan untuk mengikuti pelatihan <i><?= ucfirst(strtolower($pelatihan)) ?></i>. Berikut kami sertakan catatan presensi Anda pada <?php echo ucfirst(strtolower($periode)); ?> :</p>
+					<table width="100px" style="margin-left:30px;"> 
+						<tr>
+							<td width="50px">1. Alpha</td>
+							<td> : </td>
+							<td><?php echo $kehadiran['terlambat']; ?></td>
+						</tr>
+						<tr>
+							<td>2. Izin</td>
+							<td> : </td>
+							<td><?php echo $kehadiran['absen']; ?></td>
+						</tr>
+						<tr>
+							<td>3. Hadir</td>
+							<td> : </td>
+							<td><?php echo $kehadiran['sakit']; ?></td>
+						</tr>
+					</table>
 					<?php } ?>
 				<br>
 				<br>

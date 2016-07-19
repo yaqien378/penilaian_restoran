@@ -203,7 +203,7 @@
 							Master Jabatan</a>
 						</li>
 						<?php endif; ?>
-						<?php if ($level == '6' || $level == '2'): ?>
+						<?php if ($level == '6'): ?>
 						<li>
 							<a href="<?php echo base_url(); ?>master/karyawan">
 							<i class="icon-users"></i>
@@ -233,11 +233,13 @@
 							<i class="fa fa-calendar"></i>
 							Master Periode Penilaian</a>
 						</li>
-						<li>
-							<a href="<?php echo base_url(); ?>master/kriteria_penilaian">
+						<?php  
+						/*<li>
+							<a href=" echo base_url(); master/kriteria_penilaian">
 							<i class="fa fa-calendar"></i>
 							Master Kriteria Penilaian</a>
-						</li>
+						</li>*/
+						?>
 						<li>
 							<a href="<?php echo base_url(); ?>master/kriteria">
 							<i class="fa fa-bookmark-o"></i>
@@ -336,7 +338,7 @@
 			<!-- BEGIN PAGE BREADCRUMB -->
 			<ul class="page-breadcrumb breadcrumb">
 				<li>
-					<a href="index.html">Home</a>
+					<a href="<?php echo base_url('dashboard') ?>">Home</a>
 					<i class="fa fa-circle"></i>
 				</li>
 				<li>

@@ -11,7 +11,11 @@ class M_Kriteria_Penilaian extends CI_Model {
 			)
 		);
 	}
-		
+	public function get_all()		
+	{
+		return $this->db->get('kriteria_penilaian')->result();
+	}
+
 	public function get_by_pelatihan($id){
 		$this->db->select('*');
 		$this->db->from('kriteria_penilaian');
@@ -38,19 +42,15 @@ class M_Kriteria_Penilaian extends CI_Model {
 		return $this->db->get()->result();
 	}
 	
-	/*public function update($id,$nama,$awal,$akhir,$keterangan){		
-		$this->db->where('ID_PERIODE2',$id);
-		return $this->db->update(
-			'periode_kehadiran_dan_penilaian',
-			array(
-				'NAMA_PERIODE' => $nama,
-				'AWAL' => $awal,
-				'AKHIR' => $akhir,
-				'KETERANGAN' => $keterangan
-			)
-		);
+	public function get_kriteria($id)
+	{
+		$this->db->select('*');
+		$this->db->from('kriteria_penilaian');
+		$this->db->join('kriteria','kriteria.ID_KRITERIA = kriteria_penilaian.ID_KRITERIA');
+		$this->db->where_not_in('kriteria_penilaian.ID_KRITERIA',$id);
+		return $this->db->get()->result();
 	}
-	*/
+
 	public function delete($id){
 		$this->db->where('ID_PELATIHAN',$id);
 		return $this->db->delete('kriteria_penilaian');
